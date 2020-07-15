@@ -8,6 +8,9 @@ import com.mobileisaccframework.GameView;
 import com.mobileisaccframework.State.GameState;
 
 public class AppManager {
+    public static int WIDTH = 2440;
+    public static int HEIGHT = 1440;
+
     private GameView m_gameView;
     private Resources m_resources;
     private GameState m_curGameState; // 현재 게임 State

@@ -32,8 +32,8 @@ public class GameObject {
 
     // 이미지만 넣을 때
     public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight) {
-        m_imgWidth =_imgWidth * 3;
-        m_imgHeight = _imgHeight * 3;
+        m_imgWidth =_imgWidth * 4;
+        m_imgHeight = _imgHeight * 4;
 
         m_vecPos = new Vector2D(0,0);
         m_vecDir = new Vector2D(0, 0);
@@ -46,8 +46,8 @@ public class GameObject {
 
     // 이미지 + 위치
     public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY) {
-        m_imgWidth =_imgWidth * 3;
-        m_imgHeight = _imgHeight * 3;
+        m_imgWidth =_imgWidth * 4;
+        m_imgHeight = _imgHeight * 4;
 
         m_vecPos = new Vector2D(_posX,_posY);
         m_vecDir = new Vector2D(0, 0);
@@ -60,8 +60,8 @@ public class GameObject {
 
     // 애니메이션
     public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
-        m_imgWidth = (_imgWidth / _frameCnt) * 3;
-        m_imgHeight = _imgHeight * 3;
+        m_imgWidth = (_imgWidth / _frameCnt) * 4;
+        m_imgHeight = _imgHeight * 4;
 
         m_vecPos = new Vector2D(0,0);
         m_vecDir = new Vector2D(0, 0);
@@ -74,8 +74,8 @@ public class GameObject {
 
     // 애니메이션 + 위치
     public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
-        m_imgWidth = (_imgWidth / _frameCnt) * 3;
-        m_imgHeight = _imgHeight * 3;
+        m_imgWidth = (_imgWidth / _frameCnt) * 4;
+        m_imgHeight = _imgHeight * 4;
 
         m_vecPos = new Vector2D(_posX,_posY);
         m_vecDir = new Vector2D(0, 0);

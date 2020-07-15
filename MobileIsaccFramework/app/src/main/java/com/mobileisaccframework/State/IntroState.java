@@ -20,7 +20,7 @@ public class IntroState extends GameState {
         m_introUI = new GameObject(AppManager.getInstance().getBitmap(R.drawable.title),
                 AppManager.getInstance().getBitmapWidth(R.drawable.title),
                 AppManager.getInstance().getBitmapHeight(R.drawable.title),
-                480, 300, 5, 2, true);
+                (AppManager.WIDTH / 2) - 300, (AppManager.HEIGHT / 2) - 150, 5, 2, true);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class IntroState extends GameState {
 
         if(canvas == null)
             return;
-        
+
         m_backGround.Render(canvas);
         m_introUI.Render(canvas);
     }
