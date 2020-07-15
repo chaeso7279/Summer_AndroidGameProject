@@ -7,14 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Vector2D;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class GameObject {
-    protected Bitmap m_bitmap;
-
     // 위치 좌표
     protected Vector2D m_vecPos;
     // 방향
@@ -26,22 +25,63 @@ public class GameObject {
     protected int m_imgWidth;
     protected int m_imgHeight;
 
-    // 각 오브젝트 상태 (Idle, Attack, ... )
-    protected int[] m_frameCnt;
-    protected int m_state = 0;
+    GameObjectState m_objectState;
 
-    public GameObject(Bitmap bitmap) {
-        m_bitmap = bitmap;
+    protected int[] m_frameCnt; // 각 State마다의 이미지 프레임 개수
+    protected int m_state = 0; // 각 오브젝트 상태 (Idle, Attack, ... )
+
+    // 이미지만 넣을 때
+    public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight) {
+        m_imgWidth =_imgWidth * 3;
+        m_imgHeight = _imgHeight * 3;
+
         m_vecPos = new Vector2D(0,0);
         m_vecDir = new Vector2D(0, 0);
+
+        // No Animation
+        m_objectState = new GameObjectState(this, bitmap, m_imgWidth, m_imgHeight, 1, 1, false);
 
         Initialize();
     }
 
-    public GameObject(Bitmap bitmap, int _posX, int _posY) {
-        m_bitmap = bitmap;
+    // 이미지 + 위치
+    public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY) {
+        m_imgWidth =_imgWidth * 3;
+        m_imgHeight = _imgHeight * 3;
+
         m_vecPos = new Vector2D(_posX,_posY);
         m_vecDir = new Vector2D(0, 0);
+
+        // No Animation
+        m_objectState = new GameObjectState(this, bitmap, m_imgWidth, m_imgHeight,1, 1, false);
+
+        Initialize();
+    }
+
+    // 애니메이션
+    public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
+        m_imgWidth = (_imgWidth / _frameCnt) * 3;
+        m_imgHeight = _imgHeight * 3;
+
+        m_vecPos = new Vector2D(0,0);
+        m_vecDir = new Vector2D(0, 0);
+
+        // Animation 있을 때
+        m_objectState = new GameObjectState(this, bitmap, m_imgWidth, m_imgHeight,_fps, _frameCnt, _isLoop);
+
+        Initialize();
+    }
+
+    // 애니메이션 + 위치
+    public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
+        m_imgWidth = (_imgWidth / _frameCnt) * 3;
+        m_imgHeight = _imgHeight * 3;
+
+        m_vecPos = new Vector2D(_posX,_posY);
+        m_vecDir = new Vector2D(0, 0);
+
+        // Animation 있을 때
+        m_objectState = new GameObjectState(this, bitmap, m_imgWidth, m_imgHeight, _fps, _frameCnt, _isLoop);
 
         Initialize();
     }
@@ -60,15 +100,15 @@ public class GameObject {
     public void Initialize() {
         m_boundBox = new Rect();
 
-        m_imgWidth = m_bitmap.getWidth() * 3;
-        m_imgHeight = m_bitmap.getHeight() * 3;
-
         // bondBox 위치 업데이트
         m_boundBox.set(m_vecPos.x, m_vecPos.y, m_vecPos.x + m_imgWidth, m_vecPos.y + m_imgHeight);
     }
 
     // 매 프레임 실행
     public void Update(long _gameTime) {
+        // GameObjectState 업데이트
+        m_objectState.Update(_gameTime);
+
         // bondBox 위치 업데이트
         m_boundBox.set(m_vecPos.x, m_vecPos.y, m_vecPos.x + m_imgWidth, m_vecPos.y + m_imgHeight);
     }
@@ -79,7 +119,9 @@ public class GameObject {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.GREEN);
 
-        canvas.drawRect(m_boundBox, paint);
-        canvas.drawBitmap(m_bitmap, m_vecPos.x, m_vecPos.y, null);
+        if(AppManager.getInstance().m_bRenderRect)
+            canvas.drawRect(m_boundBox, paint);
+
+        m_objectState.Render(canvas);
     }
 }

@@ -8,8 +8,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.State.GameState;
+import com.mobileisaccframework.State.IntroState;
+
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameViewThread m_thread;
+    private GameState m_state;
 
     public GameView(Context context){
         super(context);
@@ -24,35 +29,48 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     void Initialize() {
         // 각 매니저 초기화
+        AppManager.getInstance().setGameView(this);
+        AppManager.getInstance().setResources(getResources());
 
         // 스테이트 설정
-
+        changeGameState(new IntroState());
     }
 
     public void Update() {
         long gameTime = System.currentTimeMillis();
 
         // State Update
+        m_state.Update(gameTime);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.BLACK);
-
         // State Render
+        m_state.Render(canvas);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //return m_scene.onKeyDown(keyCode, event);
-        return true;
+        // 충돌 박스 출력 끄고 킬 수 있게
+        if(keyCode == KeyEvent.KEYCODE_F1)
+            AppManager.getInstance().m_bRenderRect = !AppManager.getInstance().m_bRenderRect;
+
+        return m_state.onKeyDown(keyCode, event);
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //return m_scene.onTouchEvent(event);
-        return true;
+        return m_state.onTouchEvent(event);
     }
 
+    // State 변경 함수
+    public void changeGameState(GameState _state) {
+        if(m_state != null)
+            m_state.Destroy();
+        _state.Initialize();
+        m_state = _state;
+
+        AppManager.getInstance().setCurGameState(m_state);
+    }
 
     // Surface 관련 함수
     @Override

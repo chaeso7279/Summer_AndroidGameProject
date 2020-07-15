@@ -1,11 +1,13 @@
 package com.mobileisaccframework.GameObject;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 
 public class GameObjectState {
@@ -21,16 +23,18 @@ public class GameObjectState {
     private long m_frameTime;
     private int m_fps;          // 초당 프레임
     private int m_frameCnt;     // 프레임 개수(iFrames)
-    private int m_curFrame;     // 현재 프레임
+    private int m_curFrame = 0;     // 현재 프레임
 
     private boolean m_isLoop;   // 반복 재생 애니메이션 유무
     private boolean m_isPlay = true;   // 재생
 
-    public GameObjectState(GameObject _target, Bitmap bitmap, int _fps, int _frameCnt, boolean _isLoop) {
+
+    public GameObjectState(GameObject _target, Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         m_targetObject = _target;
         m_bitmap = bitmap;
-        m_imgWidth = (m_bitmap.getWidth() / _frameCnt) * 3;
-        m_imgHeight = (m_bitmap.getHeight()) * 3;
+
+        m_imgWidth = _imgWidth;
+        m_imgHeight = _imgHeight;
 
         m_imgRect = new Rect(0, 0, m_imgWidth, m_imgHeight);
 
