@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-public abstract class GameState {
+public abstract class GameState {       // 교수님 코드에서의 IState
 
     public abstract void Initialize();
     public abstract void Update(long _gameTime);

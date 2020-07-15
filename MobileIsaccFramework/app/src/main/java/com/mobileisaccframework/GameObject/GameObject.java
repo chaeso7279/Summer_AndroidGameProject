@@ -13,7 +13,7 @@ import com.mobileisaccframework.Vector2D;
 import java.io.File;
 import java.util.ArrayList;
 
-public class GameObject {
+public class GameObject {       // 교수님 코드에서의 GraphicObject (조금 차이 있음)
     // 위치 좌표
     protected Vector2D m_vecPos;
     // 방향
