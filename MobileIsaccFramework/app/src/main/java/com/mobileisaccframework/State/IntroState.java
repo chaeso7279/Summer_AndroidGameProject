@@ -33,6 +33,9 @@ public class IntroState extends GameState {
     public void Render(Canvas canvas) {
         super.Render(canvas);
 
+        if(canvas == null)
+            return;
+        
         m_backGround.Render(canvas);
         m_introUI.Render(canvas);
     }

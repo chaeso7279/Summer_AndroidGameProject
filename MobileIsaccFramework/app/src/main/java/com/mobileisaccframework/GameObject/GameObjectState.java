@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
@@ -75,6 +76,8 @@ public class GameObjectState {
     // 이미지 출력
     public void Render(Canvas canvas) {
         if(m_targetObject == null)
+            return;
+        if(canvas == null)
             return;
 
         int x = m_targetObject.getPos().x;

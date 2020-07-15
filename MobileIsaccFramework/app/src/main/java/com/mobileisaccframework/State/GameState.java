@@ -10,6 +10,8 @@ public abstract class GameState {
     public abstract void Initialize();
     public abstract void Update(long _gameTime);
     public void Render(Canvas canvas) {
+        if(canvas == null)
+            return;
         canvas.drawColor(Color.BLACK);
     }
 
