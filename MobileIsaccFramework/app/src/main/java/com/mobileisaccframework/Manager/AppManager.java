@@ -3,6 +3,8 @@ package com.mobileisaccframework.Manager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.view.View;
 
 import com.mobileisaccframework.GameView;
 import com.mobileisaccframework.State.GameState;
