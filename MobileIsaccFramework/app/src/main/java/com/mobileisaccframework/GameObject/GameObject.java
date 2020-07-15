@@ -27,6 +27,7 @@ public class GameObject {
     protected int m_imgHeight;
 
     // 각 오브젝트 상태 (Idle, Attack, ... )
+    protected int[] m_frameCnt;
     protected int m_state = 0;
 
     public GameObject(Bitmap bitmap) {
