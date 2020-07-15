@@ -1,5 +1,6 @@
 package com.mobileisaccframework;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -19,6 +20,7 @@ public class GameViewThread extends Thread{
         m_run = run;
     }
 
+    @SuppressLint("WrongCall")
     @Override
     public void run() {
         Canvas canvas;

@@ -10,7 +10,7 @@ public abstract class GameState {
     public abstract void Initialize();
     public abstract void Update(long _gameTime);
     public void Render(Canvas canvas) {
-        //canvas.drawColor(Color.BLACK);
+        canvas.drawColor(Color.BLACK);
     }
 
     public abstract boolean onKeyDown(int _keyCode, KeyEvent _event);

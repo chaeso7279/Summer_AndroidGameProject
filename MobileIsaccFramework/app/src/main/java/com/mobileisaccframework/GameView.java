@@ -21,10 +21,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         setFocusable(true);
 
+        Initialize();
+
         getHolder().addCallback(this);
         m_thread = new GameViewThread(getHolder(), this);
-
-        Initialize();
     }
 
     void Initialize() {
