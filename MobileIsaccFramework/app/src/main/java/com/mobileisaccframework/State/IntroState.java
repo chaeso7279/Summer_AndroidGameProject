@@ -20,7 +20,7 @@ public class IntroState extends GameState {
         m_introUI = new GameObject(AppManager.getInstance().getBitmap(R.drawable.title),
                 AppManager.getInstance().getBitmapWidth(R.drawable.title),
                 AppManager.getInstance().getBitmapHeight(R.drawable.title),
-                100, 100, 5, 2, true);
+                480, 300, 5, 2, true);
     }
 
     @Override

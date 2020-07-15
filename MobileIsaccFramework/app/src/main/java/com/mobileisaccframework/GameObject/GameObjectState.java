@@ -27,7 +27,7 @@ public class GameObjectState {
 
     private boolean m_isLoop;   // 반복 재생 애니메이션 유무
     private boolean m_isPlay = true;   // 재생
-
+    private boolean m_isAnimation = true;
 
     public GameObjectState(GameObject _target, Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         m_targetObject = _target;
@@ -41,6 +41,9 @@ public class GameObjectState {
         m_fps = 1000/_fps;
         m_frameCnt = _frameCnt;
 
+        if(m_frameCnt <= 1)
+            m_isAnimation = false;
+
         m_isLoop = _isLoop;
     }
 
@@ -49,16 +52,18 @@ public class GameObjectState {
         if(m_targetObject == null)
             return;
 
-        if(m_isPlay){
+        if(m_isAnimation && m_isPlay){ // 애니메이션 재생 중이며, 해당 이미지가 애니메이션일때
             if(_gameTime > m_frameTime + m_fps) {
                 m_frameTime = _gameTime;
-                m_curFrame += 1;
+                ++m_curFrame;
 
                     if(m_curFrame >= m_frameCnt) {
-                        if (m_isLoop)
+                        if (m_isLoop)       // 반복재생일 경우 0부터 다시 재생
                             m_curFrame = 0;
-                        else
+                        else {              // 반복 재생 아니면 재생을 멈춤
                             m_isPlay = false;
+                            --m_curFrame; // 가장 마지막 프레임으로 돌려둠
+                        }
                     }
             }
         }
@@ -71,10 +76,16 @@ public class GameObjectState {
     public void Render(Canvas canvas) {
         if(m_targetObject == null)
             return;
+
         int x = m_targetObject.getPos().x;
         int y = m_targetObject.getPos().y;
 
-        Rect dest = new Rect(x, y, x + m_imgWidth, y + m_imgHeight);
-        canvas.drawBitmap(m_bitmap, m_imgRect, dest , null);
+        if(m_isAnimation){      // 애니메이션 일 때
+            Rect dest = new Rect(x, y, x + m_imgWidth, y + m_imgHeight);
+            canvas.drawBitmap(m_bitmap, m_imgRect, dest , null);
+        }
+        else {
+            canvas.drawBitmap(m_bitmap, x, y, null);
+        }
     }
 }
