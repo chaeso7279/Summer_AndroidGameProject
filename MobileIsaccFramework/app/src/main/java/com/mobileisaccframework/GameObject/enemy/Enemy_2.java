@@ -6,6 +6,7 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
+import com.mobileisaccframework.Vector2D;
 
 public class Enemy_2 extends GameObject {
 
@@ -14,6 +15,8 @@ public class Enemy_2 extends GameObject {
     public static final int IDLE_RIGHT = 2;
     public static final int IDLE_BACK = 3;
     public static final int STATE_END = 4;
+
+    protected int m_hp;
 
     public Enemy_2(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
@@ -28,6 +31,16 @@ public class Enemy_2 extends GameObject {
     public void Initialize(){
         super.Initialize();
 
+        //초기 state 설정
+        m_curState = IDLE_FRONT;
+
+        //프레임 개수 설정
+        m_arrFrameCnt = new int[STATE_END];
+
+        //모두 2임
+        for(int i = IDLE_FRONT; i < STATE_END; ++i)
+            m_arrFrameCnt[i] = 2;
+
 
     }
 
@@ -35,6 +48,8 @@ public class Enemy_2 extends GameObject {
     @Override
     public void Update(long _gameTime){
         super.Update(_gameTime);
+
+        move();
     }
 
     @Override
@@ -85,5 +100,35 @@ public class Enemy_2 extends GameObject {
 
         // 이건 단순히 오브젝트 스테이트를 숫자로 쓰는 용도
         m_curState = _state;
+    }
+    public void move(){
+        Vector2D enemyPos = new Vector2D(this.getPosition());
+        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        Vector2D dir = enemyPos.getDirection(playerPos);
+
+        int dist = enemyPos.getDistance(playerPos);
+        if(dist< 300 ){
+            //플레이어와 일정 거리만큼 가까워지면 멈춤
+            ChangeState(IDLE_FRONT);
+            return;
+        }
+        if(dir.x>0){
+            //오른쪽으로 이동
+            ChangeState(IDLE_RIGHT);
+        }
+        else if(dir.x<0){
+            //왼쪽으로 이동
+            ChangeState(IDLE_LEFT);
+        }
+        else if(dir.x == 0){
+            if(dir.y<0){
+                //위로 이동
+                ChangeState(IDLE_BACK);
+            }
+            else if(dir.y>0){
+                //아래로 이동
+                ChangeState(IDLE_FRONT);
+            }
+        }
     }
 }
