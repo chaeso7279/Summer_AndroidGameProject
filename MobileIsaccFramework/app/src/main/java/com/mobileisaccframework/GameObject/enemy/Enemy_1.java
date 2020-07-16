@@ -6,6 +6,7 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
+import com.mobileisaccframework.Vector2D;
 
 public class Enemy_1 extends GameObject {
     public static final int IDLE_FRONT = 0;
@@ -14,6 +15,9 @@ public class Enemy_1 extends GameObject {
     public static final int WALK_RIGHT = 3;
     public static final int WALK_BACK = 4;
     public static final int STATE_END = 5;
+
+    protected float speed;
+    protected int hp;
 
     public Enemy_1(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
@@ -43,6 +47,7 @@ public class Enemy_1 extends GameObject {
     @Override
     public void Update(long _gameTime){
         super.Update(_gameTime);
+        move();
     }
 
     @Override
@@ -94,6 +99,14 @@ public class Enemy_1 extends GameObject {
 
         // 이건 단순히 오브젝트 스테이트를 숫자로 쓰는 용도
         m_curState = _state;
+    }
+
+    public void move(){
+        Vector2D enemyPos = new Vector2D(this.getPos().x,this.getPos().y);
+        Vector2D playerPos = new Vector2D(400,200);
+        Vector2D direction = enemyPos.getDirection(playerPos);
+
+        
     }
 
 }
