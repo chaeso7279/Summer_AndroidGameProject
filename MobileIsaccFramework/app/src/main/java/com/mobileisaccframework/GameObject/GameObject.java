@@ -92,7 +92,7 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     public void setBondBox(Rect _rect) { m_boundBox = _rect; }
 
     // Getter
-    public Vector2D getPos() { return m_vecPos; }
+    public Vector2D getPosition() { return m_vecPos; }
     public Vector2D getDirection() { return m_vecDir; }
     public Rect getBoundBox() { return m_boundBox; }
 

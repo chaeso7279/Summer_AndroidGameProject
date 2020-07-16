@@ -16,8 +16,8 @@ public class Enemy_1 extends GameObject {
     public static final int WALK_BACK = 4;
     public static final int STATE_END = 5;
 
-    protected float speed;
-    protected int hp;
+    protected int m_speed;
+    protected int m_hp;
 
     public Enemy_1(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
@@ -41,6 +41,9 @@ public class Enemy_1 extends GameObject {
         //모두 4임
         for(int i = IDLE_FRONT; i < STATE_END; ++i)
             m_arrFrameCnt[i] = 4;
+
+        //이동 속도 설정
+        m_speed = 2;
     }
 
     //매 프레임 실행
@@ -102,11 +105,34 @@ public class Enemy_1 extends GameObject {
     }
 
     public void move(){
-        Vector2D enemyPos = new Vector2D(this.getPos().x,this.getPos().y);
+        Vector2D enemyPos = new Vector2D(this.getPosition().x,this.getPosition().y);
         Vector2D playerPos = new Vector2D(400,200);
-        Vector2D direction = enemyPos.getDirection(playerPos);
+        Vector2D dir = enemyPos.getDirection(playerPos);
 
-        
+        int dist = enemyPos.getDistance(playerPos);
+        if(dist< 100 ){
+            //플레이어와 일정 거리만큼 가까워지면 멈춤
+            return;
+        }
+        if(dir.x>0){
+            //오른쪽으로 이동
+            ChangeState(WALK_RIGHT);
+        }
+        else if(dir.x<0){
+            //왼쪽으로 이동
+            ChangeState(WALK_LEFT);
+        }
+        else if(dir.x == 0){
+             if(dir.y>0){
+                 //위로 이동
+                 ChangeState(WALK_BACK);
+             }
+             else{
+                 //아래로 이동
+                 ChangeState(WALK_FRONT);
+             }
+         }
+        this.setPosition(this.getPosition().x + dir.x * m_speed,this.getPosition().y + dir.y * m_speed);
     }
 
 }

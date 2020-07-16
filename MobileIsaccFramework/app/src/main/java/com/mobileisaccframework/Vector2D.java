@@ -11,11 +11,15 @@ public class Vector2D {
         int tempX = _dst.x - this.x;
         int tempY = _dst.y - this.y;
 
-        return new Vector2D(tempX, tempY);
+        double vectorSize = Math.sqrt(tempX*tempX + tempY*tempY);
+        double unitX = tempX/vectorSize;
+        double unitY = tempY/vectorSize;
+
+        return new Vector2D((int)unitX, (int)unitY);
     }
 
     public int getDistance(Vector2D _dst) {
-        double temp = (int) (Math.pow((_dst.x - this.x), 2) * Math.pow((_dst.y - this.y), 2));
+        double temp = (int) (Math.pow((_dst.x - this.x), 2) + Math.pow((_dst.y - this.y), 2));
         int distance = (int) Math.sqrt(temp);
 
         return distance;
