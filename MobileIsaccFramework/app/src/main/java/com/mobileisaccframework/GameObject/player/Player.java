@@ -71,27 +71,35 @@ public class Player extends GameObject {
         switch (_state) {
             case IDLE_FRONT:
                 rID = R.drawable.player_idle_front;
-                fps = 5;
+                fps = 2;
                 break;
             case IDLE_BACK:
                 rID = R.drawable.player_idle_back;
-                fps = 5;
+                fps = 2;
                 break;
             case IDLE_LEFT:
                 rID = R.drawable.player_idle_left;
-                fps = 5;
+                fps = 2;
                 break;
             case IDLE_RIGHT:
                 rID = R.drawable.player_idle_right;
-                fps = 5;
+                fps = 2;
                 break;
             case WALK_FRONT:
                 rID = R.drawable.player_walk_front;
-                fps = 10;
+                fps = 15;
+                break;
+            case WALK_BACK:
+                rID = R.drawable.player_walk_back;
+                fps = 15;
+                break;
+            case WALK_LEFT:
+                rID = R.drawable.player_walk_left;
+                fps = 15;
                 break;
             case WALK_RIGHT:
                 rID = R.drawable.player_walk_right;
-                fps = 10;
+                fps = 15;
                 break;
         }
 
