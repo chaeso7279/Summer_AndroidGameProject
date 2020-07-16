@@ -11,15 +11,15 @@ import com.mobileisaccframework.R;
 enum PLAYER_STATE { }
 
 public class Player extends GameObject {
-    static final int IDLE_FRONT = 0;
-    static final int IDLE_BACK = 1;
-    static final int IDLE_LEFT = 2;
-    static final int IDLE_RIGHT = 3;
-    static final int WALK_FRONT = 4;
-    static final int WALK_BACK = 5;
-    static final int WALK_LEFT = 6;
-    static final int WALK_RIGHT = 7;
-    static final int STATE_END = 8;
+    public static final int IDLE_FRONT = 0;
+    public static final int IDLE_BACK = 1;
+    public static final int IDLE_LEFT = 2;
+    public static final int IDLE_RIGHT = 3;
+    public static final int WALK_FRONT = 4;
+    public static final int WALK_BACK = 5;
+    public static final int WALK_LEFT = 6;
+    public static final int WALK_RIGHT = 7;
+    public static final int STATE_END = 8;
 
     public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
@@ -42,6 +42,9 @@ public class Player extends GameObject {
        // IDLE 은 모두 프레임 개수가 2라서 이렇게 처리함
        for(int i = IDLE_FRONT; i <= IDLE_RIGHT; ++i)
            m_arrFrameCnt[i] = 2;
+
+        for(int i = WALK_FRONT; i <= WALK_RIGHT; ++i)
+            m_arrFrameCnt[i] = 10;
     }
 
     // 매 프레임 실행
@@ -68,18 +71,26 @@ public class Player extends GameObject {
         switch (_state) {
             case IDLE_FRONT:
                 rID = R.drawable.player_idle_front;
-                fps = 10;
+                fps = 5;
                 break;
             case IDLE_BACK:
                 rID = R.drawable.player_idle_back;
-                fps = 10;
+                fps = 5;
                 break;
             case IDLE_LEFT:
                 rID = R.drawable.player_idle_left;
-                fps = 10;
+                fps = 5;
                 break;
             case IDLE_RIGHT:
                 rID = R.drawable.player_idle_right;
+                fps = 5;
+                break;
+            case WALK_FRONT:
+                rID = R.drawable.player_walk_front;
+                fps = 10;
+                break;
+            case WALK_RIGHT:
+                rID = R.drawable.player_walk_right;
                 fps = 10;
                 break;
         }
