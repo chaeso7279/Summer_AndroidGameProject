@@ -34,13 +34,16 @@ public class Player extends GameObject {
     public void Initialize() {
        super.Initialize();
 
+       // 앱 매니저에 넣어줌
+        AppManager.getInstance().m_player = this;
+
         m_curState = IDLE_FRONT;
 
-       // 각 state 마다 프레임 개수가 다름 -> int 배열로 처리
-       m_arrFrameCnt = new int[STATE_END];
+        // 각 state 마다 프레임 개수가 다름 -> int 배열로 처리
+        m_arrFrameCnt = new int[STATE_END];
 
-       // IDLE 은 모두 프레임 개수가 2라서 이렇게 처리함
-       for(int i = IDLE_FRONT; i <= IDLE_RIGHT; ++i)
+        // IDLE 은 모두 프레임 개수가 2라서 이렇게 처리함
+        for(int i = IDLE_FRONT; i <= IDLE_RIGHT; ++i)
            m_arrFrameCnt[i] = 2;
 
         for(int i = WALK_FRONT; i <= WALK_RIGHT; ++i)
