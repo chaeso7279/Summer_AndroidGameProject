@@ -14,13 +14,7 @@ public class IntroState extends GameState {
 
     @Override
     public void Initialize() {
-        m_backGround = new GameObject(AppManager.getInstance().getBitmap(R.drawable.title_background),
-                AppManager.getInstance().getBitmapWidth(R.drawable.title_background),
-                AppManager.getInstance().getBitmapHeight(R.drawable.title_background));
-        m_introUI = new GameObject(AppManager.getInstance().getBitmap(R.drawable.title),
-                AppManager.getInstance().getBitmapWidth(R.drawable.title),
-                AppManager.getInstance().getBitmapHeight(R.drawable.title),
-                (AppManager.WIDTH / 2) - 300, (AppManager.HEIGHT / 2) - 150, 5, 2, true);
+        AddObject();
     }
 
     @Override
@@ -41,13 +35,26 @@ public class IntroState extends GameState {
     }
 
     @Override
+    public void AddObject() {
+        // iterator 패턴 사용 안한 버전
+        m_backGround = new GameObject(AppManager.getInstance().getBitmap(R.drawable.title_background),
+                AppManager.getInstance().getBitmapWidth(R.drawable.title_background),
+                AppManager.getInstance().getBitmapHeight(R.drawable.title_background));
+        m_introUI = new GameObject(AppManager.getInstance().getBitmap(R.drawable.title),
+                AppManager.getInstance().getBitmapWidth(R.drawable.title),
+                AppManager.getInstance().getBitmapHeight(R.drawable.title),
+                (AppManager.WIDTH / 2) - 300, (AppManager.HEIGHT / 2) - 150, 5, 2, true);
+    }
+
+    @Override
     public boolean onKeyDown(int _keyCode, KeyEvent _event) {
         return false;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return false;
+        AppManager.getInstance().getGameView().changeGameState(new StageTestState());
+        return true;
     }
 
     @Override

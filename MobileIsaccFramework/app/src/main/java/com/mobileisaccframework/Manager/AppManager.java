@@ -23,7 +23,7 @@ public class AppManager {
     public void setResources(Resources _resources) { m_resources = _resources; }
     public void setCurGameState(GameState _state) { m_curGameState = _state; }
 
-    public GameView getMainGameView() { return m_gameView; }
+    public GameView getGameView() { return m_gameView; }
     public Resources getResources() { return m_resources; }
     public GameState getCurGameState() { return m_curGameState; }
     public Bitmap getBitmap(int r) {

@@ -129,4 +129,9 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     public void ChangeState(int _state) {
         // GameObjectState 변경하는 부분(플레이어 쪽 참고해서 코딩해주시면 됩니다)
     }
+
+    // 충돌 시 호출 되는 함수. 인자인 obj는 자신과 충돌한 오브젝트임!
+    public void OnCollision(GameObject obj, int objID) {
+
+    }
 }
