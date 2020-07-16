@@ -71,7 +71,7 @@ public class Stage1 extends GameState {
         object = new Enemy_1(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
-                800,200,5,4,true);
+                1000,700,5,4,true);
 
         m_lstObject[OBJ_ENEMY].add(object);
 

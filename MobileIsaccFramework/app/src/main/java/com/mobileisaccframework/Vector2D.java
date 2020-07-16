@@ -8,14 +8,25 @@ public class Vector2D {
     public Vector2D(int _x, int _y) { x = _x; y = _y;}
 
     public Vector2D getDirection (Vector2D _dst) {
-        int tempX = _dst.x - this.x;
-        int tempY = _dst.y - this.y;
+        double tempX = _dst.x - this.x;
+        double tempY = _dst.y - this.y;
 
         double vectorSize = Math.sqrt(tempX*tempX + tempY*tempY);
-        double unitX = tempX/vectorSize;
-        double unitY = tempY/vectorSize;
+        tempX = tempX/vectorSize;
+        tempY = tempY/vectorSize;
 
-        return new Vector2D((int)unitX, (int)unitY);
+        int unitX;
+        int unitY;
+
+        if(tempX>0) unitX = 1;
+        else if(tempX<0) unitX = -1;
+        else    unitX = 0;
+
+        if(tempY>0) unitY = 1;
+        else if(tempY<0) unitY = -1;
+        else    unitY = 0;
+
+        return new Vector2D(unitX, unitY);
     }
 
     public int getDistance(Vector2D _dst) {

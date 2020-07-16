@@ -110,8 +110,9 @@ public class Enemy_1 extends GameObject {
         Vector2D dir = enemyPos.getDirection(playerPos);
 
         int dist = enemyPos.getDistance(playerPos);
-        if(dist< 100 ){
+        if(dist< 300 ){
             //플레이어와 일정 거리만큼 가까워지면 멈춤
+            ChangeState(IDLE_FRONT);
             return;
         }
         if(dir.x>0){
@@ -123,11 +124,11 @@ public class Enemy_1 extends GameObject {
             ChangeState(WALK_LEFT);
         }
         else if(dir.x == 0){
-             if(dir.y>0){
+             if(dir.y<0){
                  //위로 이동
                  ChangeState(WALK_BACK);
              }
-             else{
+             else if(dir.y>0){
                  //아래로 이동
                  ChangeState(WALK_FRONT);
              }
