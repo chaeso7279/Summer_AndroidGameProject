@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.view.View;
 
+import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameView;
 import com.mobileisaccframework.State.GameState;
 
@@ -16,6 +17,8 @@ public class AppManager {
     private GameView m_gameView;
     private Resources m_resources;
     private GameState m_curGameState; // 현재 게임 State
+
+    public GameObject m_player;
 
     public boolean m_bRenderRect = false; // 충돌 박스 그릴 여부
 

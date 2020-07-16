@@ -91,13 +91,23 @@ public class StageTestState extends GameState {
 
     @Override
     public boolean onKeyDown(int _keyCode, KeyEvent _event) {
+        if(_event.getAction() != KeyEvent.ACTION_DOWN)
+            return true;
+
+        if(_keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
+            m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_FRONT);
+        if(_keyCode == KeyEvent.KEYCODE_DPAD_UP)
+            m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_BACK);
+        if(_keyCode == KeyEvent.KEYCODE_DPAD_LEFT)
+            m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_LEFT);
+        if(_keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)
+            m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_RIGHT);
 
         return true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_RIGHT);
         return true;
     }
 

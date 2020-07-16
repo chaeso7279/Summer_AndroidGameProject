@@ -34,13 +34,16 @@ public class Player extends GameObject {
     public void Initialize() {
        super.Initialize();
 
+       // 앱 매니저에 넣어줌
+        AppManager.getInstance().m_player = this;
+
         m_curState = IDLE_FRONT;
 
-       // 각 state 마다 프레임 개수가 다름 -> int 배열로 처리
-       m_arrFrameCnt = new int[STATE_END];
+        // 각 state 마다 프레임 개수가 다름 -> int 배열로 처리
+        m_arrFrameCnt = new int[STATE_END];
 
-       // IDLE 은 모두 프레임 개수가 2라서 이렇게 처리함
-       for(int i = IDLE_FRONT; i <= IDLE_RIGHT; ++i)
+        // IDLE 은 모두 프레임 개수가 2라서 이렇게 처리함
+        for(int i = IDLE_FRONT; i <= IDLE_RIGHT; ++i)
            m_arrFrameCnt[i] = 2;
 
         for(int i = WALK_FRONT; i <= WALK_RIGHT; ++i)
@@ -71,27 +74,35 @@ public class Player extends GameObject {
         switch (_state) {
             case IDLE_FRONT:
                 rID = R.drawable.player_idle_front;
-                fps = 5;
+                fps = 2;
                 break;
             case IDLE_BACK:
                 rID = R.drawable.player_idle_back;
-                fps = 5;
+                fps = 2;
                 break;
             case IDLE_LEFT:
                 rID = R.drawable.player_idle_left;
-                fps = 5;
+                fps = 2;
                 break;
             case IDLE_RIGHT:
                 rID = R.drawable.player_idle_right;
-                fps = 5;
+                fps = 2;
                 break;
             case WALK_FRONT:
                 rID = R.drawable.player_walk_front;
-                fps = 10;
+                fps = 15;
+                break;
+            case WALK_BACK:
+                rID = R.drawable.player_walk_back;
+                fps = 15;
+                break;
+            case WALK_LEFT:
+                rID = R.drawable.player_walk_left;
+                fps = 15;
                 break;
             case WALK_RIGHT:
                 rID = R.drawable.player_walk_right;
-                fps = 10;
+                fps = 15;
                 break;
         }
 
