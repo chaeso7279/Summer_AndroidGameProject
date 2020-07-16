@@ -47,6 +47,10 @@ public class GameObjectState {
         m_isLoop = _isLoop;
     }
 
+    public void Initialize() {
+
+    }
+
     // 매 프레임 실행
     public void Update(long _gameTime) {
         if(m_targetObject == null)
@@ -84,5 +88,9 @@ public class GameObjectState {
 
         Rect dest = new Rect(x, y, x + m_imgWidth, y + m_imgHeight);
         canvas.drawBitmap(m_bitmap, m_imgRect, dest , null);
+    }
+
+    public void Destroy() {
+
     }
 }

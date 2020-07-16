@@ -25,9 +25,9 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     protected int m_imgWidth;
     protected int m_imgHeight;
 
-    GameObjectState m_objectState;
+    protected GameObjectState m_objectState;
 
-    protected int[] m_frameCnt; // 각 State마다의 이미지 프레임 개수
+    protected int[] m_arrFrameCnt; // 각 State마다의 이미지 프레임 개수
     protected int m_state = 0; // 각 오브젝트 상태 (Idle, Attack, ... )
 
     // 이미지만 넣을 때
@@ -107,7 +107,8 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     // 매 프레임 실행
     public void Update(long _gameTime) {
         // GameObjectState 업데이트
-        m_objectState.Update(_gameTime);
+        if(m_objectState != null)
+         m_objectState.Update(_gameTime);
 
         // bondBox 위치 업데이트
         m_boundBox.set(m_vecPos.x, m_vecPos.y, m_vecPos.x + m_imgWidth, m_vecPos.y + m_imgHeight);
@@ -121,7 +122,11 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
 
         if(AppManager.getInstance().m_bRenderRect)
             canvas.drawRect(m_boundBox, paint);
+        if(m_objectState != null)
+            m_objectState.Render(canvas);
+    }
 
-        m_objectState.Render(canvas);
+    public void ChangeState(int _state) {
+        // GameObjectState 변경하는 부분(플레이어 쪽 참고해서 코딩해주시면 됩니다)
     }
 }
