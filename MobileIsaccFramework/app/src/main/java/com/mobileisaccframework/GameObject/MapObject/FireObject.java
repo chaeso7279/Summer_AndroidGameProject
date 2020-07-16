@@ -7,14 +7,15 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
+import com.mobileisaccframework.State.GameState;
 
 public class FireObject extends GameObject {
     protected int fire_hp;   // 불꽃 체력(bollet 세 번 맞아야 불이 꺼짐)
 
-    public static final int FIRE_ON = 0;
-    public static final int FIRE_OFF = 1;
-    public static final int STATE_START = 3;
-    public static final int STATE_END = 4;
+    public static final int STATE_START = 0;
+    public static final int FIRE_ON = 1;
+    public static final int FIRE_OFF = 2;
+    public static final int STATE_END = 3;
     public int firestate = FIRE_ON;
 
     public Rect m_BoundBox = new Rect();
@@ -40,6 +41,7 @@ public class FireObject extends GameObject {
 
         //모두 5
         for(int i=STATE_START; i<STATE_END;i++){
+
             m_arrFrameCnt[i]=5;
         }
     }
@@ -81,8 +83,8 @@ public class FireObject extends GameObject {
         Bitmap bitmap = AppManager.getInstance().getBitmap(rID);
 
         //이미지크기
-        int width = (AppManager.getInstance().getBitmapWidth(rID)*5)/m_arrFrameCnt[_state];
-        int height = AppManager.getInstance().getBitmapHeight(rID)*5;
+        int width = (AppManager.getInstance().getBitmapWidth(rID)*4)/m_arrFrameCnt[_state];
+        int height = AppManager.getInstance().getBitmapHeight(rID)*4;
 
         //오브젝트 스테이지 지정
         m_objectState = new GameObjectState(this, bitmap, width, height, fps, m_arrFrameCnt[_state], isLoop);
@@ -90,6 +92,12 @@ public class FireObject extends GameObject {
 
         //오브젝트 스테이트를 숫자로 쓰는 용도
         m_curState=_state;
+
+    }
+
+    // 충돌 시 호출 되는 함수. 인자인 obj는 자신과 충돌한 오브젝트임!
+    public void OnCollision(GameObject obj, int objID) {
+
 
     }
 

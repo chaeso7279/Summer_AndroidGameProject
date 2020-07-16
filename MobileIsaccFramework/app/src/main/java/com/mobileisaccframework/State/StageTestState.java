@@ -5,6 +5,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.MapObject.FireObject;
+import com.mobileisaccframework.GameObject.MapObject.MapObject;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
@@ -67,13 +69,19 @@ public class StageTestState extends GameState {
                 AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
                 400, 230, 2, 2, true);
 
+        // 불꽃
+        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                 770, 307, 5, 5, true);
+
         m_lstObject[OBJ_PLAYER].add(object);
 
         // 만약 몬스터면
         // m_lstObject[OBJ_ENEMY].add(object) 하면 됩니다
 
         // 맵 오브젝트면
-        // m_lstObject[OBJ_MAP].add(object) 하면 됩니다
+         m_lstObject[OBJ_MAP].add(object); // 하면 됩니다
     }
 
     @Override
@@ -98,6 +106,7 @@ public class StageTestState extends GameState {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_RIGHT);
+       // m_lstObject[OBJ_MAP].get(0).ChangeState(FireObject.STATE_START);
         return true;
     }
 
