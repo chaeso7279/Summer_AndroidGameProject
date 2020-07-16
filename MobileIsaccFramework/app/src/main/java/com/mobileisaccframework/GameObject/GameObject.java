@@ -28,7 +28,7 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     protected GameObjectState m_objectState;
 
     protected int[] m_arrFrameCnt; // 각 State마다의 이미지 프레임 개수
-    protected int m_state = 0; // 각 오브젝트 상태 (Idle, Attack, ... )
+    protected int m_curState = 0; // 각 오브젝트 상태 (Idle, Attack, ... )
 
     // 이미지만 넣을 때
     public GameObject(Bitmap bitmap, int _imgWidth, int _imgHeight) {

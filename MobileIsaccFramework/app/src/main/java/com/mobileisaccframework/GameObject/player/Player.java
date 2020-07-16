@@ -34,9 +34,12 @@ public class Player extends GameObject {
     public void Initialize() {
        super.Initialize();
 
-       m_state = IDLE_FRONT;
+        m_curState = IDLE_FRONT;
+
+       // 각 state 마다 프레임 개수가 다름 -> int 배열로 처리
        m_arrFrameCnt = new int[STATE_END];
 
+       // IDLE 은 모두 프레임 개수가 2라서 이렇게 처리함
        for(int i = IDLE_FRONT; i <= IDLE_RIGHT; ++i)
            m_arrFrameCnt[i] = 2;
     }
@@ -50,7 +53,8 @@ public class Player extends GameObject {
 
     @Override
     public void ChangeState(int _state) {
-        if(m_state == _state)
+        // 이전 state와 변경할 state 같으면 변경 필요X 그래서 return 함
+        if(m_curState == _state)
             return;
 
         if(m_objectState != null)
@@ -60,6 +64,7 @@ public class Player extends GameObject {
         int fps = 0;
         boolean isLoop = true;
 
+        // state에 따라 사용할 비트맵(리소스 아이디), fps, 반복유무(isLoop) 지정
         switch (_state) {
             case IDLE_FRONT:
                 rID = R.drawable.player_idle_front;
@@ -79,15 +84,20 @@ public class Player extends GameObject {
                 break;
         }
 
+        // AppManager 로부터 비트맵 가져옴
         Bitmap bitmap = AppManager.getInstance().getBitmap(rID);
 
+        // m_arrFrameCnt가 각 상태마다의 프레임 개수니까
+        // 다음 코드는 (이미지 크기 / 프레임 개수) 와 같음
         int width = (AppManager.getInstance().getBitmapWidth(rID) * 4) / m_arrFrameCnt[_state];
         int height = AppManager.getInstance().getBitmapHeight(rID) * 4;
 
+        // 오브젝트 스테이트 지정
         m_objectState = new GameObjectState(this,bitmap, width, height,
                 fps, m_arrFrameCnt[_state], isLoop);
         m_objectState.Initialize();
 
-        m_state = _state;
+        // 이건 단순히 오브젝트 스테이트를 숫자로 쓰는 용도
+        m_curState = _state;
     }
 }
