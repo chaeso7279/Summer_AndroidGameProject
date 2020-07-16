@@ -13,6 +13,8 @@ import com.mobileisaccframework.R;
 import java.util.ArrayList;
 
 public class StageTestState extends GameState {
+    GameObject m_backGround;
+
     @Override
     public void Initialize() {
         super.Initialize();
@@ -22,6 +24,9 @@ public class StageTestState extends GameState {
 
     @Override
     public void Update(long _gameTime) {
+        // 배경 업데이트
+        m_backGround.Update(_gameTime);
+
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for(GameObject obj : m_lstObject[i])
                 obj.Update(_gameTime);
@@ -35,6 +40,9 @@ public class StageTestState extends GameState {
         if(canvas == null)
             return;
 
+        // 배경 출력
+        m_backGround.Render(canvas);
+
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for(GameObject obj : m_lstObject[i])
                 obj.Render(canvas);
@@ -46,11 +54,18 @@ public class StageTestState extends GameState {
     public void AddObject() {
         GameObject object = null;
 
+        // 백그라운드
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.stage_background),
+                AppManager.getInstance().getBitmapWidth(R.drawable.stage_background),
+                AppManager.getInstance().getBitmapHeight(R.drawable.stage_background), 166, 26);
+
+        m_backGround = object;
+
         // 플레이어
         object = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
-                100, 100, 2, 2, true);
+                400, 230, 2, 2, true);
 
         m_lstObject[OBJ_PLAYER].add(object);
 
@@ -76,12 +91,14 @@ public class StageTestState extends GameState {
 
     @Override
     public boolean onKeyDown(int _keyCode, KeyEvent _event) {
-        return false;
+
+        return true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return false;
+        m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_RIGHT);
+        return true;
     }
 
     @Override
