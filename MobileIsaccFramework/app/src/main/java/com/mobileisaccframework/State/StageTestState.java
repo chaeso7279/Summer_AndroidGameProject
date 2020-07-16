@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.Pad;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 
 public class StageTestState extends GameState {
     GameObject m_backGround;
+
+    // 방향키 패드
+    Pad m_pad;
 
     @Override
     public void Initialize() {
@@ -47,6 +51,9 @@ public class StageTestState extends GameState {
             for(GameObject obj : m_lstObject[i])
                 obj.Render(canvas);
         }
+
+        // Pad 출력
+        m_pad.Render(canvas);
     }
 
     // 오브젝트 추가 함수
@@ -74,6 +81,9 @@ public class StageTestState extends GameState {
 
         // 맵 오브젝트면
         // m_lstObject[OBJ_MAP].add(object) 하면 됩니다
+
+        // 패드
+        m_pad = new Pad(85, AppManager.HEIGHT - 500);
     }
 
     @Override
@@ -94,6 +104,9 @@ public class StageTestState extends GameState {
         if(_event.getAction() != KeyEvent.ACTION_DOWN)
             return true;
 
+        if(_keyCode == KeyEvent.KEYCODE_F1)
+            AppManager.getInstance().m_bRenderRect = !AppManager.getInstance().m_bRenderRect;
+
         if(_keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
             m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_FRONT);
         if(_keyCode == KeyEvent.KEYCODE_DPAD_UP)
@@ -108,6 +121,7 @@ public class StageTestState extends GameState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        m_pad.OnTouchEvent(event);
         return true;
     }
 

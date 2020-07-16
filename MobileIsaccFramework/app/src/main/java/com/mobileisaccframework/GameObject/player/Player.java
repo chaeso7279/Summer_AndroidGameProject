@@ -2,6 +2,7 @@ package com.mobileisaccframework.GameObject.player;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
@@ -122,4 +123,5 @@ public class Player extends GameObject {
         // 이건 단순히 오브젝트 스테이트를 숫자로 쓰는 용도
         m_curState = _state;
     }
+
 }
