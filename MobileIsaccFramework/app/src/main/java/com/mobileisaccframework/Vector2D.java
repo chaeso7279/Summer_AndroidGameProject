@@ -6,6 +6,7 @@ public class Vector2D {
 
     Vector2D() { x = 0; y = 0; }
     public Vector2D(int _x, int _y) { x = _x; y = _y;}
+    public Vector2D(Vector2D _pos)   {x = _pos.x; y = _pos.y;}
 
     public Vector2D getDirection (Vector2D _dst) {
         double tempX = _dst.x - this.x;

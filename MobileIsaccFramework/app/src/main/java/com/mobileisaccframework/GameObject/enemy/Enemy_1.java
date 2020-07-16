@@ -105,8 +105,8 @@ public class Enemy_1 extends GameObject {
     }
 
     public void move(){
-        Vector2D enemyPos = new Vector2D(this.getPosition().x,this.getPosition().y);
-        Vector2D playerPos = new Vector2D(400,200);
+        Vector2D enemyPos = new Vector2D(this.getPosition());
+        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
         Vector2D dir = enemyPos.getDirection(playerPos);
 
         int dist = enemyPos.getDistance(playerPos);
