@@ -31,9 +31,12 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     public static int OBJ_END = 7;
 
     // 배경
-    GameObject m_backGround;
+    protected GameObject m_backGround;
     // 방향키 패드
     Pad m_pad;
+
+    // 초기화 실행 여부
+    protected boolean m_isInit = false;
 
     public ArrayList<GameObject>[] m_lstObject;
 
@@ -49,6 +52,9 @@ public abstract class GameState {       // 교수님 코드에서의 IState
         m_lstObject = new ArrayList[OBJ_END];
         for(int i = 0; i < OBJ_END; ++i)
             m_lstObject[i] = new ArrayList<GameObject>();
+
+        AddObject();
+        m_isInit = true;
     }
 
     public abstract void Update(long _gameTime);

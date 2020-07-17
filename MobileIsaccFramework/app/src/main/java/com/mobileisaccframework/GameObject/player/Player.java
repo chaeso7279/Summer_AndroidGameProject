@@ -71,6 +71,8 @@ public class Player extends GameObject {
     // 매 프레임 실행
     @Override
     public int Update(long _gameTime) {
+        // 움직일 수 있는 곳 인지 체크
+        MoveCheck();
 
         // 일정 시간마다만 공격되도록 함
         if(m_isAttack) {

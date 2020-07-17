@@ -13,21 +13,17 @@ import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
 
-public class Stage_Boss extends GameState{
-    GameObject m_background;
-
-    // 방향키 패드
-    Pad m_pad;
-
+public class Stage_Boss extends GameState {
     @Override
     public void Initialize() {
         super.Initialize();
-
-        AddObject();
     }
     @Override
     public void Update(long _gameTime) {
-        m_background.Update(_gameTime);
+        if(!m_isInit) // 아직 Initialize 가 진행되지 않았다면 더 이상 진행 X
+            return;
+
+        m_backGround.Update(_gameTime);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for (int j = 0; j < m_lstObject[i].size(); ++j) {
@@ -45,11 +41,13 @@ public class Stage_Boss extends GameState{
     public void Render(Canvas canvas) {
         super.Render(canvas);
 
+        if(!m_isInit) // 아직 Initialize 가 진행되지 않았다면 더 이상 진행 X
+            return;
         if(canvas == null)
             return;
 
         // 배경 출력
-        m_background.Render(canvas);
+        m_backGround.Render(canvas);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for(GameObject obj : m_lstObject[i])

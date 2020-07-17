@@ -42,7 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //changeGameState(new IntroState());
         //changeGameState(new Stage1());
         //changeGameState(new Stage2());
-        changeGameState(new Stage_Boss());
+        //changeGameState(new Stage_Boss());
     }
 
     public void Update() {
