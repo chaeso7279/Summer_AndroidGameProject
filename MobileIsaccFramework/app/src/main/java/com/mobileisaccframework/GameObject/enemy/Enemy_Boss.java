@@ -12,8 +12,7 @@ public class Enemy_Boss extends GameObject {
     public static final int STATE_IDLE = 0;
     public static final int STATE_ATTACK = 1;
     public static final int STATE_JUMP = 2;
-    public static final int STATE_JUMP_END = 3;
-    public static final int STATE_END = 4;
+    public static final int STATE_END = 3;
 
     protected int m_speedX;
     protected int m_speedY;
