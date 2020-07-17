@@ -17,6 +17,9 @@ public class Bullet extends GameObject {
 
     int m_speed = 20;
 
+    //Player: true, Enemy: false
+    boolean m_isPlayer = true;
+
     public Bullet(boolean _isPlayer, int _posX, int _posY, Vector2D _vecDir) {
         Bitmap bitmap;
         if(_isPlayer)
@@ -27,6 +30,7 @@ public class Bullet extends GameObject {
         m_imgWidth =  AppManager.getInstance().getBitmapWidth(R.drawable.bullet_player) * 4;
         m_imgHeight =  AppManager.getInstance().getBitmapWidth(R.drawable.bullet_player) * 4;
 
+        m_isPlayer = _isPlayer;
         m_vecPos = new Vector2D(_posX,_posY);
         m_vecDir = _vecDir;
 
@@ -52,8 +56,11 @@ public class Bullet extends GameObject {
     public int Update(long _gameTime) {
         if(m_isDead) {
             // 파괴 될 때 파괴이펙트 생성하고 삭제
-            GameObject obj = new BulletEffect(true, m_vecPos.x, m_vecPos.y);
-
+            GameObject obj;
+            if(m_isPlayer)
+                obj = new BulletEffect(true, m_vecPos.x, m_vecPos.y);
+            else
+                obj = new BulletEffect(false, m_vecPos.x, m_vecPos.y);
             // 스테이지에 추가 해줌
             if(obj != null)
                 AppManager.getInstance().getCurGameState().
