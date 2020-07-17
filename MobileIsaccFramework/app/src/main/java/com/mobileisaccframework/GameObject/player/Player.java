@@ -70,8 +70,13 @@ public class Player extends GameObject {
     @Override
     public int Update(long _gameTime) {
         if(m_isMove){       // 이동 버튼이 눌리고 있을 때만 좌표 변경
-            m_vecPos.x += m_vecDir.x * m_moveSpeed;
-            m_vecPos.y += m_vecDir.y * m_moveSpeed;
+            // 이동한 위치가 벽을 넘어가지 않을 때만 이동 적용
+            int posX = m_vecPos.x + m_vecDir.x * m_moveSpeed;
+            int posY = m_vecPos.y + m_vecDir.y * m_moveSpeed;
+            if(posX > AppManager.MIN_X + 40 && posX < AppManager.MAX_X)
+                m_vecPos.x += m_vecDir.x * m_moveSpeed;
+            if(posY > AppManager.MIN_Y && posY < AppManager.MAX_Y)
+                m_vecPos.y += m_vecDir.y * m_moveSpeed;
         }
         // 일정 시간마다만 공격되도록 함
         if(m_isAttack) {
