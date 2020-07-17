@@ -6,6 +6,13 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.MapObject.BlockObject;
+import com.mobileisaccframework.GameObject.MapObject.FireObject;
+import com.mobileisaccframework.GameObject.enemy.Enemy_1;
+import com.mobileisaccframework.GameObject.enemy.Enemy_2;
+import com.mobileisaccframework.GameObject.player.Player;
+import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.R;
 
 import java.util.ArrayList;
 
@@ -44,4 +51,71 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     public abstract boolean onTouchEvent(MotionEvent event);
 
     public abstract void Destroy();
+
+    //객체생성메소드
+    //배경
+    public GameObject CreateBackground(int _x, int _y){
+        GameObject backgroundObject = new GameObject(AppManager.getInstance().getBitmap(R.drawable.stage_background),
+                AppManager.getInstance().getBitmapWidth(R.drawable.stage_background),
+                AppManager.getInstance().getBitmapHeight(R.drawable.stage_background),
+                _x, _y);
+        return backgroundObject;
+    }
+
+    //플레이어
+    public GameObject CreatePlayer(int _x, int _y){
+        GameObject playerObject = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
+                AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
+                AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
+                _x, _y, 2, 1, true);
+        return playerObject;
+    }
+    //몬스터
+    public GameObject CreateEnemy_1(int _x, int _y){
+        GameObject enemyObject = new Enemy_1(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
+                _x,_y,5,4,true);
+        return enemyObject;
+    }
+    public GameObject CreateEnemy_2(int _x, int _y){
+        GameObject enemyObject = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
+                _x,_y,5,4,true);
+        return enemyObject;
+    }
+    public GameObject CreateBoss(int _x, int _y){
+        GameObject enemyObject = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
+                _x,_y,5,4,true);
+        return enemyObject;
+    }
+
+
+    //문
+    public GameObject CreateDoor(int _x, int _y){
+        GameObject doorObject = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_right),
+                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_right),
+                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_right),
+                _x, _y, 1, 2, true);
+        return doorObject;
+    }
+    //불꽃
+    public GameObject CreateFire(int _x, int _y){
+        GameObject fireObject = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                _x, _y, 20, 6, true);
+        return fireObject;
+    }
+    //블록
+    public GameObject CreateBlock(int _x, int _y){
+        GameObject blockObject = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
+                _x, _y);
+        return blockObject;
+    }
 }
