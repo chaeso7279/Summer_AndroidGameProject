@@ -83,8 +83,8 @@ public class GameObjectState {
         if(canvas == null)
             return;
 
-        int x = m_targetObject.getPos().x;
-        int y = m_targetObject.getPos().y;
+        int x = m_targetObject.getPosition().x;
+        int y = m_targetObject.getPosition().y;
 
         Rect dest = new Rect(x, y, x + m_imgWidth, y + m_imgHeight);
         canvas.drawBitmap(m_bitmap, m_imgRect, dest , null);

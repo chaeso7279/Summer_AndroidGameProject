@@ -6,6 +6,9 @@ import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Pad;
+import com.mobileisaccframework.GameObject.MapObject.BlockObject;
+import com.mobileisaccframework.GameObject.MapObject.FireObject;
+import com.mobileisaccframework.GameObject.MapObject.MapObject;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
@@ -74,11 +77,21 @@ public class StageTestState extends GameState {
 
         m_lstObject[OBJ_PLAYER].add(object);
 
-        // 만약 몬스터면
-        // m_lstObject[OBJ_ENEMY].add(object) 하면 됩니다
+        // 불꽃
+        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                 770, 307, 5, 5, true);
 
-        // 맵 오브젝트면
-        // m_lstObject[OBJ_MAP].add(object) 하면 됩니다
+        m_lstObject[OBJ_MAP].add(object);
+
+        // 블록
+        object = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
+                1145, 532);
+        
+        m_lstObject[OBJ_MAP].add(object);
 
         // 패드
         m_pad = new Pad(85, AppManager.HEIGHT - 500);
@@ -120,6 +133,7 @@ public class StageTestState extends GameState {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         m_pad.OnTouchEvent(event);
+       // m_lstObject[OBJ_MAP].get(0).ChangeState(FireObject.STATE_START);
         return true;
     }
 

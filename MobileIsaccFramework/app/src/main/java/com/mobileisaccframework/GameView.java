@@ -11,6 +11,9 @@ import android.view.SurfaceView;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.State.IntroState;
+import com.mobileisaccframework.State.Stage1;
+import com.mobileisaccframework.State.Stage2;
+import com.mobileisaccframework.State.Stage_Boss;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameViewThread m_thread;
@@ -33,7 +36,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         AppManager.getInstance().setResources(getResources());
 
         // 스테이트 설정
-        changeGameState(new IntroState());
+        //changeGameState(new IntroState());
+//        changeGameState(new Stage1());
+        //changeGameState(new Stage2());
+        changeGameState(new Stage_Boss());
     }
 
     public void Update() {
