@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
+import com.mobileisaccframework.GameObject.bullet.Bomb;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
@@ -28,7 +29,7 @@ public class Player extends GameObject {
     static final int ATT_BOMB = 1;
 
     private int m_moveSpeed;
-    private long m_attackTimer = 0;
+    private long m_attackTimer = System.currentTimeMillis();
 
     boolean m_isMove = false;
     boolean m_isAttack = false;
@@ -141,7 +142,7 @@ public class Player extends GameObject {
         int height = AppManager.getInstance().getBitmapHeight(rID) * 4;
 
         // 오브젝트 스테이트 지정
-        m_objectState = new GameObjectState(this,bitmap, width, height,
+        m_objectState = new GameObjectState(this, bitmap, width, height,
                 fps, m_arrFrameCnt[_state], isLoop);
         m_objectState.Initialize();
 
@@ -214,9 +215,13 @@ public class Player extends GameObject {
                 AppManager.getInstance().getCurGameState().
                         m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
         }
-//        else if(iType == ATT_BOMB){
-//
-//        }
+        else if(iType == ATT_BOMB){     // 폭탄일때
+            obj = new Bomb(m_vecPos.x + 20, m_vecPos.y + 50);
+            // 스테이지에 추가 해줌
+            if(obj != null)
+                AppManager.getInstance().getCurGameState().
+                        m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
+        }
 
         m_isAttack = true;
     }
