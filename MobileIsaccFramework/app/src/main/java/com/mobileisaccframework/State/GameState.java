@@ -80,9 +80,9 @@ public abstract class GameState {       // 교수님 코드에서의 IState
         return enemyObject;
     }
     public GameObject CreateEnemy_2(int _x, int _y){
-        GameObject enemyObject = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
+        GameObject enemyObject = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy2_front),
+                AppManager.getInstance().getBitmapWidth(R.drawable.enemy2_front),
+                AppManager.getInstance().getBitmapHeight(R.drawable.enemy2_front),
                 _x,_y,5,4,true);
         return enemyObject;
     }
