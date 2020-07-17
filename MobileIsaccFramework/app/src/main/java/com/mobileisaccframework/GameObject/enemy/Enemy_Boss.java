@@ -12,11 +12,16 @@ public class Enemy_Boss extends GameObject {
     public static final int STATE_IDLE = 0;
     public static final int STATE_ATTACK = 1;
     public static final int STATE_JUMP = 2;
-    public static final int STATE_END = 3;
+    public static final int STATE_JUMP_END = 3;
+    public static final int STATE_END = 4;
 
     protected int m_speedX;
     protected int m_speedY;
     protected int hp;
+
+    protected Vector2D jumpDest;
+    Vector2D jumpDir;
+    protected boolean isJump = false;
 
     public Enemy_Boss(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
@@ -42,7 +47,7 @@ public class Enemy_Boss extends GameObject {
             m_arrFrameCnt[i] = 3;
 
         //이동 속도 설정
-        m_speedX = 5;
+        m_speedX = 20;
         m_speedY = -20;
     }
 
@@ -50,18 +55,21 @@ public class Enemy_Boss extends GameObject {
     @Override
     public void Update(long _gameTime){
         super.Update(_gameTime);
-
-        if(m_curState == STATE_JUMP)
-            move();
+        if(m_curState == STATE_JUMP ) {
+            if (isJump == false) {
+                JumpStart();
+            }
+            Move();
+        }
     }
 
     @Override
-    public void ChangeState(int _state){
+    public void ChangeState(int _state) {
         // 이전 state와 변경할 state 같으면 변경 필요X 그래서 return 함
-        if(m_curState == _state)
+        if (m_curState == _state)
             return;
 
-        if(m_objectState != null)
+        if (m_objectState != null)
             m_objectState.Destroy();
 
         int rID = 0;
@@ -92,11 +100,11 @@ public class Enemy_Boss extends GameObject {
 
         // m_arrFrameCnt가 각 상태마다의 프레임 개수니까
         // 다음 코드는 (이미지 크기 / 프레임 개수) 와 같음
-        int width = (AppManager.getInstance().getBitmapWidth(rID)*4) / m_arrFrameCnt[_state];
-        int height = AppManager.getInstance().getBitmapHeight(rID)*4;
+        int width = (AppManager.getInstance().getBitmapWidth(rID) * 4) / m_arrFrameCnt[_state];
+        int height = AppManager.getInstance().getBitmapHeight(rID) * 4;
 
         // 오브젝트 스테이트 지정
-        m_objectState = new GameObjectState(this,bitmap, width, height,
+        m_objectState = new GameObjectState(this, bitmap, width, height,
                 fps, m_arrFrameCnt[_state], isLoop);
 
 
@@ -105,37 +113,38 @@ public class Enemy_Boss extends GameObject {
         // 이건 단순히 오브젝트 스테이트를 숫자로 쓰는 용도
         m_curState = _state;
     }
-    public void move(){
 
-        setPosition(1200,500);
-        ChangeState(STATE_IDLE);
-//        Vector2D enemyPos = new Vector2D(getPosition());
-//        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
-//        Vector2D dir = enemyPos.getDirection(playerPos);
-//
-//        int dist = enemyPos.getDistance(playerPos);
-//
-//        int afterX = enemyPos.x;
-//        int afterY = enemyPos.y;
-//
-//        if(Math.abs(enemyPos.y - playerPos.y) < 10){
-//            ChangeState(STATE_IDLE);
-//
-//        }
-//
-//        afterX+=m_speedX*dir.x;
-//        afterY+=m_speedY;
-//
-//        ++m_speedY;
-//        setPosition(afterX, afterY);
-
+    public void JumpStart(){
+        isJump = true;
+        Vector2D enemyPos = new Vector2D(getPosition());
+        jumpDest = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        jumpDir = enemyPos.getDirection(jumpDest);
     }
 
-    public void jumpStart(){
+    public void Move(){
 
+        Vector2D enemyPos = new Vector2D(getPosition());
+
+
+        int afterX = enemyPos.x;
+        int afterY = enemyPos.y;
+
+        if(Math.abs(enemyPos.y - jumpDest.y) < 50 && m_speedY > 0){
+            ChangeState(STATE_IDLE);
+            isJump = false;
+        }
+
+        if(afterY < 0){
+            m_speedY = 0;
+        }
+
+        afterX+=m_speedX*jumpDir.x;
+        afterY+=m_speedY;
+
+
+        ++m_speedY;
+        setPosition(afterX, afterY);
     }
 
-    public void jumpEnd(){
 
-    }
 }
