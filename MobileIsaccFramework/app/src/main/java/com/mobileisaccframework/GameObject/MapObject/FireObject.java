@@ -75,7 +75,7 @@ public class FireObject extends GameObject {
                 fps = 5;
                 break;
             case FIRE_OFF:
-                System.out.println("파이어 죽음");
+                System.out.println("파이어 소멸");
                 break;
         }
 

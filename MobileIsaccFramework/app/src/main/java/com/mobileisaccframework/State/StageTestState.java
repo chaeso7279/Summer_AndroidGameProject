@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.MapObject.BlockObject;
 import com.mobileisaccframework.GameObject.MapObject.FireObject;
 import com.mobileisaccframework.GameObject.MapObject.MapObject;
 import com.mobileisaccframework.GameObject.player.Player;
@@ -74,6 +75,10 @@ public class StageTestState extends GameState {
                 AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
                  770, 307, 5, 5, true);
+
+        object = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+                AppManager.getInstance().getB
+                )
 
         m_lstObject[OBJ_PLAYER].add(object);
 
