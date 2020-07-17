@@ -114,7 +114,7 @@ public class Enemy_Boss extends GameObject {
         int afterX = enemyPos.x;
         int afterY = enemyPos.y;
 
-        if(enemyPos.y - playerPos.y > 10){
+        if(Math.abs(enemyPos.y - playerPos.y) > 10){
             afterX+=m_speedX*dir.x;
             afterY+=m_speedY*dir.y;
 
