@@ -47,6 +47,8 @@ public class GameObjectState {
         m_isLoop = _isLoop;
     }
 
+    public boolean IsPlay() { return m_isPlay; }
+
     public void Initialize() {
 
     }

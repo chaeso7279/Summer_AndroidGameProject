@@ -62,13 +62,13 @@ public class Player extends GameObject {
             m_arrFrameCnt[i] = 10;
 
         // Speed 설정
-        m_moveSpeed = 5;
+        m_moveSpeed = 10;
     }
 
     // 매 프레임 실행
     @Override
     public int Update(long _gameTime) {
-        if(m_isMove){
+        if(m_isMove){       // 이동 버튼이 눌리고 있을 때만 좌표 변경
             m_vecPos.x += m_vecDir.x * m_moveSpeed;
             m_vecPos.y += m_vecDir.y * m_moveSpeed;
         }
@@ -161,6 +161,7 @@ public class Player extends GameObject {
 
         m_isMove = false;
 
+        // 현재 걷는 방향에 따라 대기모션 방향도 정해줌
         switch (m_curState) {
             case WALK_BACK:
                 ChangeState(IDLE_BACK);
@@ -181,19 +182,41 @@ public class Player extends GameObject {
         if(m_isAttack)
             return;
 
-        GameObject obj;
-        switch (iType) {
-            case ATT_BULLET:
-                obj = new Bullet(true, m_vecPos.x, m_vecPos.y,
-                        new Vector2D(0, 1));
+        GameObject obj = null;
+        Vector2D vecDir;
+        // 총알일 때
+        if(iType == ATT_BULLET) {
+            switch (m_curState){
+                case IDLE_BACK:
+                case WALK_BACK:
+                    obj = new Bullet(true, m_vecPos.x - 66, m_vecPos.y - 140,
+                            new Vector2D(0, -1));
+                    break;
+                case IDLE_FRONT:
+                case WALK_FRONT:
+                    obj = new Bullet(true, m_vecPos.x - 66, m_vecPos.y,
+                            new Vector2D(0, 1));
+                    break;
+                case IDLE_LEFT:
+                case WALK_LEFT:
+                    obj = new Bullet(true, m_vecPos.x - 150, m_vecPos.y - 50,
+                            new Vector2D(-1, 0));
+                    break;
+                case IDLE_RIGHT:
+                case WALK_RIGHT:
+                    obj = new Bullet(true, m_vecPos.x, m_vecPos.y - 50,
+                            new Vector2D(1, 0));
+                    break;
+            }
+
+            // 스테이지에 추가 해줌
+            if(obj != null)
                 AppManager.getInstance().getCurGameState().
                         m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
-                Log.e("bullet cnt:",  "" + AppManager.getInstance().getCurGameState().
-                        m_lstObject[GameState.OBJ_BULLET_PLAYER].size());
-                break;
-            case ATT_BOMB:
-                break;
         }
+//        else if(iType == ATT_BOMB){
+//
+//        }
 
         m_isAttack = true;
     }

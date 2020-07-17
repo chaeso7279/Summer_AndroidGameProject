@@ -73,7 +73,7 @@ public class FireObject extends GameObject {
         switch (_state){
             case FIRE_ON:
                 rID = R.drawable.effect_fire;
-                fps = 5;
+                fps = 20;
                 break;
             case FIRE_OFF:
                 System.out.println("파이어 소멸");

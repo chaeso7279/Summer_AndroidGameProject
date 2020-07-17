@@ -8,13 +8,14 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
+import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
 
 public class Bullet extends GameObject {
     int m_gapX = 25 * 4;
     int m_gapY = 23 * 4;
 
-    int m_speed = 15;
+    int m_speed = 20;
 
     public Bullet(boolean _isPlayer, int _posX, int _posY, Vector2D _vecDir) {
         Bitmap bitmap;
@@ -49,14 +50,23 @@ public class Bullet extends GameObject {
 
     @Override
     public int Update(long _gameTime) {
-        if(m_isDead)
+        if(m_isDead) {
+            // 파괴 될 때 파괴이펙트 생성하고 삭제
+            GameObject obj = new BulletEffect(true, m_vecPos.x, m_vecPos.y);
+
+            // 스테이지에 추가 해줌
+            if(obj != null)
+                AppManager.getInstance().getCurGameState().
+                        m_lstObject[GameState.OBJ_EFFECT].add(obj);
+
             return DEAD_OBJ;
+        }
 
         // GameObjectState 업데이트
         if(m_objectState != null)
             m_objectState.Update(_gameTime);
 
-        // bondBox 위치 업데이트
+        // boundBox 위치 업데이트
         m_boundBox.set(m_vecPos.x + m_gapX, m_vecPos.y + m_gapY,
                 m_vecPos.x + m_gapX + (15 * 4), m_vecPos.y + m_gapY + (15 * 4));
 
