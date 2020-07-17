@@ -22,7 +22,7 @@ public class Player extends GameObject {
     public static final int WALK_RIGHT = 7;
     public static final int STATE_END = 8;
 
-    public static final int GAP_ATTACK = 1000;
+    public static final int GAP_ATTACK = 800;
 
     static final int ATT_BULLET = 0;
     static final int ATT_BOMB = 1;
@@ -185,7 +185,7 @@ public class Player extends GameObject {
         switch (iType) {
             case ATT_BULLET:
                 obj = new Bullet(true, m_vecPos.x, m_vecPos.y,
-                        new Vector2D(0, 0));
+                        new Vector2D(0, 1));
                 AppManager.getInstance().getCurGameState().
                         m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
                 Log.e("bullet cnt:",  "" + AppManager.getInstance().getCurGameState().

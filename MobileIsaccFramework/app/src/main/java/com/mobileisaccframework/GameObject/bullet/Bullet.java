@@ -63,6 +63,11 @@ public class Bullet extends GameObject {
         m_vecPos.x += m_vecDir.x * m_speed;
         m_vecPos.y += m_vecDir.y * m_speed;
 
+        // 벽 넘어가면 삭제
+        if(m_vecPos.x < AppManager.MIN_X || m_vecPos.x > AppManager.MAX_X
+                || m_vecPos.y < AppManager.MIN_Y || m_vecPos.y > AppManager.MAX_Y)
+            m_isDead = true;
+
         return NO_EVENT;
     }
 
