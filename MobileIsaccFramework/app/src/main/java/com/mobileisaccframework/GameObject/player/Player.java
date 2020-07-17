@@ -38,10 +38,6 @@ public class Player extends GameObject {
     boolean m_isMove = false;
     boolean m_isAttack = false;
 
-    public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
-        super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
-    }
-
     public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
     }
@@ -193,18 +189,17 @@ public class Player extends GameObject {
         ArrayList<GameObject> lstMapObject = AppManager.getInstance().
                 getCurGameState().GetObjectList(GameState.OBJ_MAP);
 
-        if(lstMapObject == null)
-            return;
+        if(lstMapObject != null) {
+            Rect testBox = new Rect();
+            testBox.set(posX, posY, posX + m_imgWidth, posY + m_imgHeight);
 
-        Rect testBox = new Rect();
-        testBox.set(posX, posY, posX + m_imgWidth, posY + m_imgHeight);
-
-        // 맵 오브젝트와 플레이어 겹침 검사
-        for(int i = 0; i < lstMapObject.size(); ++i){
-            GameObject mapObject = lstMapObject.get(i);
-            if(CollisionManager.CheckCollision(testBox, mapObject.getBoundBox())){
-                // 이동한 위치가 맵오브젝트(불,블럭)과 겹치지 않을 때만 이동 적용
-                return;
+            // 맵 오브젝트와 플레이어 겹침 검사
+            for(int i = 0; i < lstMapObject.size(); ++i){
+                GameObject mapObject = lstMapObject.get(i);
+                if(CollisionManager.CheckCollision(testBox, mapObject.getBoundBox())){
+                    // 이동한 위치가 맵오브젝트(불,블럭)과 겹치면 이동 X
+                    return;
+                }
             }
         }
 
@@ -256,7 +251,7 @@ public class Player extends GameObject {
             // 스테이지에 추가 해줌
             if(obj != null)
                 AppManager.getInstance().getCurGameState().
-                        m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
+                        m_lstObject[GameState.OBJ_BOMB_PLAYER].add(obj);
         }
 
         m_isAttack = true;
