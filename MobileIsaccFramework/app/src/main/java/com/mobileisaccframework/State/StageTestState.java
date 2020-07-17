@@ -32,9 +32,15 @@ public class StageTestState extends GameState {
         // 배경 업데이트
         m_backGround.Update(_gameTime);
 
-        for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
-            for(GameObject obj : m_lstObject[i])
-                obj.Update(_gameTime);
+        for (int i = 0; i < OBJ_END; ++i) {
+            for (int j = 0; j < m_lstObject[i].size(); ++j) {
+                GameObject obj = m_lstObject[i].get(j);
+
+                int iEvent = obj.Update(_gameTime);
+                if (iEvent == GameObject.DEAD_OBJ) { // 오브젝트가 죽었을 때
+                    m_lstObject[i].remove(j);
+                }
+            }
         }
     }
 

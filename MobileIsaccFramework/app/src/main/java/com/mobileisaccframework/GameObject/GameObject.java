@@ -14,6 +14,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class GameObject {       // 교수님 코드에서의 GraphicObject (조금 차이 있음)
+    public static final int DEAD_OBJ = 0;
+    public static final int NO_EVENT = 1;
+
     // 위치 좌표
     protected Vector2D m_vecPos;
     // 방향
@@ -24,6 +27,8 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     // 이미지 크기
     protected int m_imgWidth;
     protected int m_imgHeight;
+
+    protected boolean m_isDead = false;
 
     protected GameObjectState m_objectState;
 
@@ -108,13 +113,18 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     }
 
     // 매 프레임 실행
-    public void Update(long _gameTime) {
+    public int Update(long _gameTime) {
+        if(m_isDead)
+            return DEAD_OBJ;
+
         // GameObjectState 업데이트
         if(m_objectState != null)
          m_objectState.Update(_gameTime);
 
         // bondBox 위치 업데이트
         m_boundBox.set(m_vecPos.x, m_vecPos.y, m_vecPos.x + m_imgWidth, m_vecPos.y + m_imgHeight);
+
+        return NO_EVENT;
     }
 
     // 이미지 출력

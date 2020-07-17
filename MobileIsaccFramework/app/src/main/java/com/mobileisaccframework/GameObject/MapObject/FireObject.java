@@ -44,8 +44,8 @@ public class FireObject extends GameObject {
     }
 
     @Override
-    public void Update(long _gameTime){
-        super.Update(_gameTime);
+    public int Update(long _gameTime){
+        return super.Update(_gameTime);
     }
 
     @Override

@@ -1,16 +1,15 @@
 package com.mobileisaccframework.GameObject.player;
 
 import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.view.MotionEvent;
+import android.util.Log;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
+import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
+import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
-
-enum PLAYER_STATE { }
 
 public class Player extends GameObject {
     public static final int IDLE_FRONT = 0;
@@ -23,12 +22,16 @@ public class Player extends GameObject {
     public static final int WALK_RIGHT = 7;
     public static final int STATE_END = 8;
 
+    public static final int GAP_ATTACK = 1000;
+
     static final int ATT_BULLET = 0;
     static final int ATT_BOMB = 1;
-    static final int ATT_END = 2;
 
     private int m_moveSpeed;
+    private long m_attackTimer = 0;
+
     boolean m_isMove = false;
+    boolean m_isAttack = false;
 
     public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
@@ -64,14 +67,20 @@ public class Player extends GameObject {
 
     // 매 프레임 실행
     @Override
-    public void Update(long _gameTime) {
-        super.Update(_gameTime);
-
+    public int Update(long _gameTime) {
         if(m_isMove){
             m_vecPos.x += m_vecDir.x * m_moveSpeed;
             m_vecPos.y += m_vecDir.y * m_moveSpeed;
         }
+        // 일정 시간마다만 공격되도록 함
+        if(m_isAttack) {
+           if(_gameTime > m_attackTimer + GAP_ATTACK) {
+               m_attackTimer = _gameTime;
+               m_isAttack = false;
+           }
+        }
 
+        return super.Update(_gameTime);
     }
 
     @Override
@@ -169,11 +178,23 @@ public class Player extends GameObject {
     }
 
     public void Attack(int iType) {
-//        switch (iType) {
-//            case ATT_BULLET:
-//                break;
-//            case ATT_BOMB:
-//                break;
-//        }
+        if(m_isAttack)
+            return;
+
+        GameObject obj;
+        switch (iType) {
+            case ATT_BULLET:
+                obj = new Bullet(true, m_vecPos.x, m_vecPos.y,
+                        new Vector2D(0, 0));
+                AppManager.getInstance().getCurGameState().
+                        m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
+                Log.e("bullet cnt:",  "" + AppManager.getInstance().getCurGameState().
+                        m_lstObject[GameState.OBJ_BULLET_PLAYER].size());
+                break;
+            case ATT_BOMB:
+                break;
+        }
+
+        m_isAttack = true;
     }
 }

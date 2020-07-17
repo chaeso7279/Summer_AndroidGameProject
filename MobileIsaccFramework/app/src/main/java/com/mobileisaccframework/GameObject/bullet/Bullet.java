@@ -14,6 +14,8 @@ public class Bullet extends GameObject {
     int m_gapX = 25 * 4;
     int m_gapY = 23 * 4;
 
+    int m_speed = 15;
+
     public Bullet(boolean _isPlayer, int _posX, int _posY, Vector2D _vecDir) {
         Bitmap bitmap;
         if(_isPlayer)
@@ -46,7 +48,10 @@ public class Bullet extends GameObject {
     }
 
     @Override
-    public void Update(long _gameTime) {
+    public int Update(long _gameTime) {
+        if(m_isDead)
+            return DEAD_OBJ;
+
         // GameObjectState 업데이트
         if(m_objectState != null)
             m_objectState.Update(_gameTime);
@@ -54,6 +59,11 @@ public class Bullet extends GameObject {
         // bondBox 위치 업데이트
         m_boundBox.set(m_vecPos.x + m_gapX, m_vecPos.y + m_gapY,
                 m_vecPos.x + m_gapX + (15 * 4), m_vecPos.y + m_gapY + (15 * 4));
+
+        m_vecPos.x += m_vecDir.x * m_speed;
+        m_vecPos.y += m_vecDir.y * m_speed;
+
+        return NO_EVENT;
     }
 
     @Override

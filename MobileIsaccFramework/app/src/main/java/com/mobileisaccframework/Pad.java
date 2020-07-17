@@ -38,6 +38,8 @@ public class Pad {
     int m_iWidth;
     int m_iHeight;
 
+    boolean m_isAttack = false;
+
     public Pad(int posX, int posY) {
         m_vecPos = new Vector2D(posX, posY);
         m_vecCenter = new Vector2D();
@@ -109,9 +111,8 @@ public class Pad {
             int x2 = (int)_event.getX(1);
             int y2 = (int)_event.getY(1);
 
-
+            MultiTouch(x1, y1, x2, y2, _event);
         }
-
     }
 
     void SingleTouch(int x, int y, MotionEvent _event) {
@@ -147,25 +148,81 @@ public class Pad {
                 ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_RIGHT);
                 return;
             }
+
+            // 총알 발사 시
+            if(m_rectAttack[ATT_BULLET].contains(x, y)) {
+                ((Player)AppManager.getInstance().m_player).Attack(ATT_BULLET);
+                return;
+            }
+
+            // 총알 발사 시
+            if(m_rectAttack[ATT_BOMB].contains(x, y)) {
+                ((Player)AppManager.getInstance().m_player).Attack(ATT_BOMB);
+                return;
+            }
         }
 
         // 터치에서 손을 뗄 때
         else if(_event.getActionMasked() == MotionEvent.ACTION_UP) {
-            ((Player)AppManager.getInstance().m_player).MoveStop();
-        }
-
-        // 총알 발사 시
-        if(m_rectAttack[ATT_BULLET].contains(x, y)) {
-            ((Player)AppManager.getInstance().m_player).Attack(ATT_BULLET);
-        }
-
-        // 총알 발사 시
-        if(m_rectAttack[ATT_BOMB].contains(x, y)) {
-            ((Player)AppManager.getInstance().m_player).Attack(ATT_BOMB);
+            // 공격에서 손을 뗀 것이 아닐때(이동에서 손뗏을때만 적용됨)
+            if(!m_rectAttack[ATT_BULLET].contains(x, y) && !m_rectAttack[ATT_BOMB].contains(x, y))
+                ((Player)AppManager.getInstance().m_player).MoveStop();
         }
     }
 
-    void MultiTouch(int x1, int y1, int x2, int y2) {
-        
+    void MultiTouch(int x1, int y1, int x2, int y2, MotionEvent _event) {
+        Vector2D vecDir = new Vector2D(0, 0);
+
+        if(_event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN){
+            // 총알 발사 시
+            if(m_rectAttack[ATT_BULLET].contains(x1, y1) || m_rectAttack[ATT_BULLET].contains(x2, y2)) {
+                ((Player)AppManager.getInstance().m_player).Attack(ATT_BULLET);
+            }
+
+            // 총알 발사 시
+            if(m_rectAttack[ATT_BOMB].contains(x1, y1) || m_rectAttack[ATT_BOMB].contains(x2, y2)) {
+                ((Player)AppManager.getInstance().m_player).Attack(ATT_BOMB);
+            }
+        }
+
+        // 터치 할때(한번 터치 or 터치하고 움직임)
+        if(_event.getActionMasked() == MotionEvent.ACTION_DOWN ||
+                _event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+            // 위
+            if (m_rectArrow[DIR_UP].contains(x1, y1) || m_rectArrow[DIR_UP].contains(x2, y2)) {
+                vecDir = vecDir.getDirection(new Vector2D(0, -1));
+                ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_BACK);
+                return;
+            }
+
+            // 아래
+            if (m_rectArrow[DIR_DOWN].contains(x1, y1) || m_rectArrow[DIR_DOWN].contains(x2, y2)) {
+                vecDir = vecDir.getDirection(new Vector2D(0, 1));
+                ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_FRONT);
+                return;
+            }
+
+            // 왼
+            if(m_rectArrow[DIR_LEFT].contains(x1, y1) || m_rectArrow[DIR_LEFT].contains(x2, y2)) {
+                vecDir = vecDir.getDirection(new Vector2D(-1, 0));
+                ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_LEFT);
+                return;
+            }
+
+            // 오
+            if(m_rectArrow[DIR_RIGHT].contains(x1, y1) || m_rectArrow[DIR_RIGHT].contains(x2, y2)) {
+                vecDir = vecDir.getDirection(new Vector2D(1, 0));
+                ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_RIGHT);
+                return;
+            }
+        }
+
+        // 터치에서 손을 뗄 때
+        else if(_event.getActionMasked() == MotionEvent.ACTION_UP) {
+            // 공격에서 손을 뗀 것이 아닐때(이동에서 손뗏을때만 적용됨)
+            if(!m_rectAttack[ATT_BULLET].contains(x1, y1) && !m_rectAttack[ATT_BULLET].contains(x2, y2)
+                    && !m_rectAttack[ATT_BOMB].contains(x1, y1) && !m_rectAttack[ATT_BOMB].contains(x2, y2))
+                ((Player)AppManager.getInstance().m_player).MoveStop();
+        }
     }
 }

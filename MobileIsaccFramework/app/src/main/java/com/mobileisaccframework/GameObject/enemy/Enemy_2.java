@@ -46,10 +46,9 @@ public class Enemy_2 extends GameObject {
 
     //매 프레임 실행
     @Override
-    public void Update(long _gameTime){
-        super.Update(_gameTime);
-
+    public int Update(long _gameTime){
         move();
+        return super.Update(_gameTime);
     }
 
     @Override

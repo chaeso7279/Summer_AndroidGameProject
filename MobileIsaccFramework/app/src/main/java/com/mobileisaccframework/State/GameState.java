@@ -20,7 +20,7 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     public static int OBJ_UI = 6;
     public static int OBJ_END = 7;
 
-    protected ArrayList<GameObject>[] m_lstObject;
+    public ArrayList<GameObject>[] m_lstObject;
 
     public void Initialize() {
         m_lstObject = new ArrayList[OBJ_END];
