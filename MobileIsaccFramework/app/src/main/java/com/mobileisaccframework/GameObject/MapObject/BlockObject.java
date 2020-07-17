@@ -22,7 +22,7 @@ public class BlockObject extends GameObject {
 
 
     // 이미지만 넣을 때
-    public BlockObject(Bitmap bitmap, int _imgWidth, int _imgHeight\){
+    public BlockObject(Bitmap bitmap, int _imgWidth, int _imgHeight){
         super(bitmap, _imgWidth, _imgHeight);
     }
 

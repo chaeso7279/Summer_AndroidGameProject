@@ -76,9 +76,12 @@ public class StageTestState extends GameState {
                 AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
                  770, 307, 5, 5, true);
 
+        // 블록
         object = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
-                AppManager.getInstance().getB
-                )
+                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
+                1145, 532);
+
 
         m_lstObject[OBJ_PLAYER].add(object);
 
