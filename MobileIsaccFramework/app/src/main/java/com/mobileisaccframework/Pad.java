@@ -33,6 +33,7 @@ public class Pad {
 
     public Pad(int posX, int posY) {
         m_vecPos = new Vector2D(posX, posY);
+        m_vecCenter = new Vector2D();
 
         Initialize();
     }
@@ -90,7 +91,7 @@ public class Pad {
             // 위
             if(m_rect[DIR_UP].contains(x, y)) {
                 if(m_rect[DIR_LEFT].contains(x, y)) { // 아래 왼
-                    
+
                 }
             }
 
