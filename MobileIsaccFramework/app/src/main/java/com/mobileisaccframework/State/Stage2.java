@@ -51,10 +51,10 @@ public class Stage2 extends GameState {
         GameObject object = null;
 
         //배경
-        object =  new GameObject(AppManager.getInstance().getBitmap(R.drawable.mapbackground),
-                AppManager.getInstance().getBitmapWidth(R.drawable.mapbackground),
-                AppManager.getInstance().getBitmapHeight(R.drawable.mapbackground),
-                170, 82);
+        object =  new GameObject(AppManager.getInstance().getBitmap(R.drawable.stage_background),
+                AppManager.getInstance().getBitmapWidth(R.drawable.stage_background),
+                AppManager.getInstance().getBitmapHeight(R.drawable.stage_background),
+                166, 26);
 
         m_background = object;
 

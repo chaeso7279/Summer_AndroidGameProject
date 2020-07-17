@@ -1,12 +1,17 @@
 package com.mobileisaccframework.GameObject.enemy;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
+import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
+import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
+
+import java.util.Random;
 
 public class Enemy_1 extends GameObject {
     public static final int IDLE_FRONT = 0;
@@ -16,8 +21,15 @@ public class Enemy_1 extends GameObject {
     public static final int WALK_BACK = 4;
     public static final int STATE_END = 5;
 
+    public static final int GAP_ATTACK = 800;
+
     protected int m_speed;
     protected int m_hp;
+
+    private long m_attackTimer = 0;
+    boolean m_isAttack = false;
+    private long m_lastShoot = System.currentTimeMillis();
+
 
     public Enemy_1(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
@@ -50,6 +62,7 @@ public class Enemy_1 extends GameObject {
     @Override
     public int Update(long _gameTime){
         Move();
+        Attack();
         return super.Update(_gameTime);
     }
 
@@ -137,6 +150,28 @@ public class Enemy_1 extends GameObject {
     }
 
     public void Attack(){
+        if(m_isAttack)
+            return;
+
+        GameObject obj;
+
+        //공격하는 로직
+
+        //3~5초에 한번씩 공격
+        Random rand = new Random();
+        int randInt = rand.nextInt(2) + 3;
+
+        if(System.currentTimeMillis() - m_lastShoot >= randInt * 1000){
+            m_lastShoot = System.currentTimeMillis();
+            //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
+            obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(0, 1));
+
+            AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+            Log.e("bullet cnt:",  "" + AppManager.getInstance().getCurGameState().
+                    m_lstObject[GameState.OBJ_BULLET_PLAYER].size());
+        }
+
 
     }
 
