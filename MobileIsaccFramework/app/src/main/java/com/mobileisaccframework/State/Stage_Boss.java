@@ -54,10 +54,10 @@ public class Stage_Boss extends GameState{
         m_background = CreateBackground(166,26);
 
         // 플레이어
-        m_lstObject[OBJ_PLAYER].add(CreatePlayer(1200,500));
+        CreatePlayer(1200,500);
 
         //몬스터
-        m_lstObject[OBJ_ENEMY].add(CreateBoss(1200,500));
+        CreateBoss(1200,500);
     }
 
     @Override

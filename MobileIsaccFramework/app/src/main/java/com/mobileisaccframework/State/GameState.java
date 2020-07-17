@@ -13,6 +13,8 @@ import com.mobileisaccframework.GameObject.enemy.Enemy_2;
 import com.mobileisaccframework.GameObject.enemy.Enemy_Boss;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.CollisionManager;
+import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
 
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     public static int OBJ_UI = 6;
     public static int OBJ_END = 7;
 
+    // 방향키 패드
+    Pad m_pad;
 
     public ArrayList<GameObject>[] m_lstObject;
 
@@ -53,12 +57,46 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     }
 
     public abstract void AddObject();
-    public void CheckCollision() {}
+    public void CheckCollision() {
+        // 예시 (플레이어 - 적)
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_ENEMY);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
+        // 플레이어 - 불꽃
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
 
-    public abstract boolean onKeyDown(int _keyCode, KeyEvent _event);
-    public abstract boolean onTouchEvent(MotionEvent event);
+        // 플레이어 - 블록
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
 
-    public abstract void Destroy();
+        //플레이어 불릿 - 불꽃
+        for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
+                    dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
+                }
+            }
+        }
+    }
 
     //객체생성메소드
     //배경
@@ -76,6 +114,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
                 AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
                 _x, _y, 2, 1, true);
+
+        m_lstObject[OBJ_PLAYER].add(playerObject);
         return playerObject;
     }
     //몬스터
@@ -84,6 +124,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
                 AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
                 _x,_y,5,4,true);
+
+        m_lstObject[OBJ_ENEMY].add(enemyObject);
         return enemyObject;
     }
     public GameObject CreateEnemy_2(int _x, int _y){
@@ -91,6 +133,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
                 AppManager.getInstance().getBitmapWidth(R.drawable.enemy2_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.enemy2_front),
                 _x,_y,5,4,true);
+
+        m_lstObject[OBJ_ENEMY].add(enemyObject);
         return enemyObject;
     }
     public GameObject CreateBoss(int _x, int _y){
@@ -98,16 +142,17 @@ public abstract class GameState {       // 교수님 코드에서의 IState
                 AppManager.getInstance().getBitmapWidth(R.drawable.boss_idle),
                 AppManager.getInstance().getBitmapHeight(R.drawable.boss_idle),
                 _x,_y,5,3,true);
+
+        m_lstObject[OBJ_ENEMY].add(enemyObject);
         return enemyObject;
     }
 
-
     //문
-    public GameObject CreateDoor(int _x, int _y){
-        GameObject doorObject = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_right),
-                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_right),
-                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_right),
-                _x, _y, 1, 2, true);
+    public GameObject CreateDoor(int _x, int _y, int _rID){
+        GameObject doorObject = new GameObject(AppManager.getInstance().getBitmap(_rID),
+                AppManager.getInstance().getBitmapWidth(_rID),
+                AppManager.getInstance().getBitmapHeight(_rID),
+                _x, _y, 1, 2, false);
         return doorObject;
     }
     //불꽃
@@ -116,6 +161,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
                 AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
                 _x, _y, 20, 6, true);
+
+        m_lstObject[OBJ_MAP].add(fireObject);
         return fireObject;
     }
     //블록
@@ -124,6 +171,38 @@ public abstract class GameState {       // 교수님 코드에서의 IState
                 AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
                 AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
                 _x, _y);
+
+        m_lstObject[OBJ_MAP].add(blockObject);
         return blockObject;
     }
+
+    public void CreateUI() {
+        // 패드
+        m_pad = new Pad(85, AppManager.HEIGHT - 500);
+
+        GameObject object = null;
+
+        // 공격 버튼 UI
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_attack),
+                AppManager.getInstance().getBitmapWidth(R.drawable.ui_attack),
+                AppManager.getInstance().getBitmapHeight(R.drawable.ui_attack),
+                2440 - (350), 1440 - (450));
+
+        m_lstObject[OBJ_UI].add(object);
+        m_pad.SetAttackUIRect(0, object.getBoundBox());
+
+        // 폭탄 버튼 UI
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_bomb),
+                AppManager.getInstance().getBitmapWidth(R.drawable.ui_bomb),
+                AppManager.getInstance().getBitmapHeight(R.drawable.ui_bomb),
+                2440 - (500), 1440 - (620));
+
+        m_lstObject[OBJ_UI].add(object);
+        m_pad.SetAttackUIRect(1, object.getBoundBox());
+    }
+
+    public abstract boolean onKeyDown(int _keyCode, KeyEvent _event);
+    public abstract boolean onTouchEvent(MotionEvent event);
+
+    public abstract void Destroy();
 }
