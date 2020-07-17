@@ -122,9 +122,13 @@ public class Enemy_Boss extends GameObject {
     }
 
     public void Move(){
+        Vector2D enemyPos = new Vector2D(this.getPosition());
+        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
 
-        Vector2D enemyPos = new Vector2D(getPosition());
+        int dist = enemyPos.getDistance(playerPos);
 
+        if(dist<500)
+            return;
 
         int afterX = enemyPos.x;
         int afterY = enemyPos.y;
@@ -146,5 +150,13 @@ public class Enemy_Boss extends GameObject {
         setPosition(afterX, afterY);
     }
 
+    public void Attack_Circle(){
 
+    }
+    public void Attack_Player(){
+
+    }
+    public void Attack_Hurricane(){
+
+    }
 }
