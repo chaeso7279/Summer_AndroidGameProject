@@ -13,21 +13,16 @@ import com.mobileisaccframework.State.GameState;
 import static com.mobileisaccframework.State.GameState.OBJ_BULLET_PLAYER;
 import static com.mobileisaccframework.State.GameState.OBJ_PLAYER;
 
-public class FireObject extends GameObject {
+public class FireObject extends MapObject {
 //    public static final int STATE_START = 0;
 //    public static final int FIRE_ON = 1;
 //    public static final int FIRE_OFF = 2;
 //    public static final int STATE_END = 3;
 //    private int m_fireState = FIRE_ON;
-
     private int m_fireHP;   // 불꽃 체력(bullet 세 번 맞아야 불이 꺼짐)
 
-    public FireObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
-        super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
-    }
-
-    public FireObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
-        super(bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
+    public FireObject(int iType, Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
+        super(iType, bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
     }
 
     @Override
@@ -101,7 +96,7 @@ public class FireObject extends GameObject {
 
     // 충돌 시 호출 되는 함수. 인자인 obj는 자신과 충돌한 오브젝트임!
     public void OnCollision(GameObject obj, int objID) {
-        //플레이어 불릿이랑 충돌
+        //플레이어 불릿이랑 충돌 시 체력 감소
         if(objID == OBJ_BULLET_PLAYER) {
             --m_fireHP;
             if(m_fireHP <= 0)

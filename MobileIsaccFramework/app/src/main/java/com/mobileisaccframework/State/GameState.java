@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.MapObject.BlockObject;
 import com.mobileisaccframework.GameObject.MapObject.FireObject;
+import com.mobileisaccframework.GameObject.MapObject.MapObject;
 import com.mobileisaccframework.GameObject.enemy.Enemy_1;
 import com.mobileisaccframework.GameObject.enemy.Enemy_2;
 import com.mobileisaccframework.GameObject.enemy.Enemy_Boss;
@@ -25,10 +26,11 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     public static int OBJ_PLAYER = 1;
     public static int OBJ_ENEMY = 2;
     public static int OBJ_BULLET_PLAYER = 3;
-    public static int OBJ_BULLET_ENEMY = 4;
-    public static int OBJ_EFFECT = 5;
-    public static int OBJ_UI = 6;
-    public static int OBJ_END = 7;
+    public static int OBJ_BOMB_PLAYER = 4;
+    public static int OBJ_BULLET_ENEMY = 5;
+    public static int OBJ_EFFECT = 6;
+    public static int OBJ_UI = 7;
+    public static int OBJ_END = 8;
 
     // 배경
     protected GameObject m_backGround;
@@ -67,21 +69,34 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     public abstract void AddObject();
     public void CheckCollision() {
         // 예시 (플레이어 - 적)
-        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
-                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_ENEMY);
-                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
-                }
+
+        for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
+            if(CollisionManager.CheckCollision(AppManager.m_player.getBoundBox(), dstObj.getBoundBox())) {
+                AppManager.m_player.OnCollision(dstObj, OBJ_ENEMY);
+                dstObj.OnCollision(AppManager.m_player, OBJ_PLAYER);
             }
         }
 
         //플레이어 불릿 - 불꽃
         for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
             for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
-                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_MAP);
-                    dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
+                if(((MapObject)dstObj).GetMapObjectType() == MapObject.MAP_FIRE){ // 맵 오브젝트가 불꽃일때만 검사
+                    if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                        srcObj.OnCollision(dstObj, OBJ_MAP);
+                        dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
+                    }
+                }
+            }
+        }
+
+        //플레이어 폭탄 - 블럭
+        for(GameObject srcObj : m_lstObject[OBJ_BOMB_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
+                if(((MapObject)dstObj).GetMapObjectType() == MapObject.MAP_BLOCK){ // 맵 오브젝트가 블럭일때만 검사
+                    if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                        srcObj.OnCollision(dstObj, OBJ_MAP);
+                        dstObj.OnCollision(srcObj, OBJ_BOMB_PLAYER);
+                    }
                 }
             }
         }
@@ -145,7 +160,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     }
     //불꽃
     public GameObject CreateFire(int _x, int _y){
-        GameObject fireObject = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+        GameObject fireObject = new FireObject(MapObject.MAP_FIRE,
+                AppManager.getInstance().getBitmap(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
                 _x, _y, 20, 6, true);
@@ -155,7 +171,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     }
     //블록
     public GameObject CreateBlock(int _x, int _y){
-        GameObject blockObject = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+        GameObject blockObject = new BlockObject(MapObject.MAP_BLOCK,
+                AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
                 AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
                 AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
                 _x, _y);
