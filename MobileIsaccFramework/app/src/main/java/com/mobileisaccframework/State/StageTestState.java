@@ -60,6 +60,9 @@ public class StageTestState extends GameState {
     // 오브젝트 추가 함수
     @Override
     public void AddObject() {
+        // 패드
+        m_pad = new Pad(85, AppManager.HEIGHT - 500);
+
         GameObject object = null;
 
         // 백그라운드
@@ -93,13 +96,23 @@ public class StageTestState extends GameState {
         
         m_lstObject[OBJ_MAP].add(object);
 
-        // 총알 확인용
-        object = new Bullet(true,
-                AppManager.m_player.getPosition().x, AppManager.m_player.getPosition().y);
-        m_lstObject[OBJ_BULLET_PLAYER].add(object);
+        // 공격 버튼 UI
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_attack),
+                AppManager.getInstance().getBitmapWidth(R.drawable.ui_attack),
+                AppManager.getInstance().getBitmapHeight(R.drawable.ui_attack),
+                2440 - (350), 1440 - (450));
 
-        // 패드
-        m_pad = new Pad(85, AppManager.HEIGHT - 500);
+        m_lstObject[OBJ_UI].add(object);
+        m_pad.SetAttackUIRect(0, object.getBoundBox());
+
+        // 폭탄 버튼 UI
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_bomb),
+                AppManager.getInstance().getBitmapWidth(R.drawable.ui_bomb),
+                AppManager.getInstance().getBitmapHeight(R.drawable.ui_bomb),
+                2440 - (500), 1440 - (620));
+
+        m_lstObject[OBJ_UI].add(object);
+        m_pad.SetAttackUIRect(1, object.getBoundBox());
     }
 
     @Override

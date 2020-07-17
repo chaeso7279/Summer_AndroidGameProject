@@ -14,7 +14,7 @@ public class Bullet extends GameObject {
     int m_gapX = 25 * 4;
     int m_gapY = 23 * 4;
 
-    public Bullet(boolean _isPlayer, int _posX, int _posY) {
+    public Bullet(boolean _isPlayer, int _posX, int _posY, Vector2D _vecDir) {
         Bitmap bitmap;
         if(_isPlayer)
             bitmap = AppManager.getInstance().getBitmap(R.drawable.bullet_player);
@@ -25,7 +25,7 @@ public class Bullet extends GameObject {
         m_imgHeight =  AppManager.getInstance().getBitmapWidth(R.drawable.bullet_player) * 4;
 
         m_vecPos = new Vector2D(_posX,_posY);
-        m_vecDir = new Vector2D(0, 0);
+        m_vecDir = _vecDir;
 
         // No Animation
         m_objectState = new GameObjectState(this, bitmap, m_imgWidth, m_imgHeight,1, 1, false);
