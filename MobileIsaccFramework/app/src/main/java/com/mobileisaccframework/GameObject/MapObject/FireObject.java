@@ -5,9 +5,13 @@ import android.graphics.Rect;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
+import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
+
+import static com.mobileisaccframework.State.GameState.OBJ_BULLET_PLAYER;
+import static com.mobileisaccframework.State.GameState.OBJ_PLAYER;
 
 public class FireObject extends GameObject {
     protected int fire_hp;   // 불꽃 체력(bollet 세 번 맞아야 불이 꺼짐)
@@ -94,8 +98,18 @@ public class FireObject extends GameObject {
 
     // 충돌 시 호출 되는 함수. 인자인 obj는 자신과 충돌한 오브젝트임!
     public void OnCollision(GameObject obj, int objID) {
+        // 플레이어랑 충돌
+        if(objID== OBJ_PLAYER){
+        }
 
-
+        //플레이어 불릿이랑 충돌
+        else if(objID == OBJ_BULLET_PLAYER) {
+            if (fire_hp > 1)
+                --fire_hp;
+            else {
+                firestate = FIRE_OFF;
+            }
+        }
     }
 
 }
