@@ -106,24 +106,36 @@ public class Enemy_Boss extends GameObject {
         m_curState = _state;
     }
     public void move(){
-        Vector2D enemyPos = new Vector2D(this.getPosition());
-        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
-        Vector2D dir = enemyPos.getDirection(playerPos);
 
-        int dist = enemyPos.getDistance(playerPos);
+        setPosition(1200,500);
+        ChangeState(STATE_IDLE);
+//        Vector2D enemyPos = new Vector2D(getPosition());
+//        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+//        Vector2D dir = enemyPos.getDirection(playerPos);
+//
+//        int dist = enemyPos.getDistance(playerPos);
+//
+//        int afterX = enemyPos.x;
+//        int afterY = enemyPos.y;
+//
+//        if(Math.abs(enemyPos.y - playerPos.y) < 10){
+//            ChangeState(STATE_IDLE);
+//
+//        }
+//
+//        afterX+=m_speedX*dir.x;
+//        afterY+=m_speedY;
+//
+//        ++m_speedY;
+//        setPosition(afterX, afterY);
 
-        int afterX = enemyPos.x;
-        int afterY = enemyPos.y;
+    }
 
-        if(Math.abs(enemyPos.y - playerPos.y) > 50){
-            afterX+=m_speedX*dir.x;
-            afterY+=m_speedY;
+    public void jumpStart(){
 
-            ++m_speedY;
-        }else{
-            ChangeState(STATE_IDLE);
-        }
-        this.setPosition(afterX, afterY);
+    }
+
+    public void jumpEnd(){
 
     }
 }

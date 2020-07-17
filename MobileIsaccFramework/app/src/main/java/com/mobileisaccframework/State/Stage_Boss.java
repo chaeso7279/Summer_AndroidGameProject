@@ -70,7 +70,7 @@ public class Stage_Boss extends GameState{
         object = new Enemy_Boss(AppManager.getInstance().getBitmap(R.drawable.boss_idle),
                 AppManager.getInstance().getBitmapWidth(R.drawable.boss_idle),
                 AppManager.getInstance().getBitmapHeight(R.drawable.boss_idle),
-                1400,700,5,3,true);
+                1200,500,5,3,true);
 
         m_lstObject[OBJ_ENEMY].add(object);
     }
