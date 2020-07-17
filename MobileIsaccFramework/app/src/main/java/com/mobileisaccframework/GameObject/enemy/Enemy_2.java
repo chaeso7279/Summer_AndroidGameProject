@@ -4,9 +4,13 @@ import android.graphics.Bitmap;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
+import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
+import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
+
+import java.util.Random;
 
 public class Enemy_2 extends GameObject {
 
@@ -17,6 +21,8 @@ public class Enemy_2 extends GameObject {
     public static final int STATE_END = 4;
 
     protected int m_hp;
+
+    private long m_lastShoot = System.currentTimeMillis();
 
     public Enemy_2(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
@@ -48,6 +54,7 @@ public class Enemy_2 extends GameObject {
     @Override
     public int Update(long _gameTime){
         Move();
+        Attack();
         return super.Update(_gameTime);
     }
 
@@ -128,6 +135,28 @@ public class Enemy_2 extends GameObject {
                 //아래로 이동
                 ChangeState(IDLE_FRONT);
             }
+        }
+    }
+
+    public void Attack(){
+        //공격하는 로직
+
+        //3~5초에 한번씩 공격
+        Random rand = new Random();
+        int randInt = rand.nextInt(2) + 3;
+
+        if(System.currentTimeMillis() - m_lastShoot >= randInt * 1000){
+            m_lastShoot = System.currentTimeMillis();
+
+            //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
+            //플레이어 위치에 따라 방향벡터 다르게 처리
+            Vector2D enemyPos = new Vector2D(this.getPosition());
+            Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+            Vector2D dir = enemyPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
+
+            GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, dir);
+
+            AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
         }
     }
 }

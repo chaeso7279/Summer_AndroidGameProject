@@ -8,6 +8,7 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.MapObject.BlockObject;
 import com.mobileisaccframework.GameObject.MapObject.FireObject;
 import com.mobileisaccframework.GameObject.enemy.Enemy_1;
+import com.mobileisaccframework.GameObject.enemy.Enemy_2;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
@@ -98,6 +99,7 @@ public class Stage1 extends GameState {
         m_lstObject[OBJ_PLAYER].add(object);
 
         //몬스터
+            //Enemy_1
         object = new Enemy_1(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
@@ -111,6 +113,23 @@ public class Stage1 extends GameState {
                 1900,900,5,4,true);
 
         m_lstObject[OBJ_ENEMY].add(object);
+
+        //Enemy_2
+        object = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
+                395,307,5,4,true);
+
+        m_lstObject[OBJ_ENEMY].add(object);
+
+        object = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
+                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
+                1900,1000,5,4,true);
+
+        m_lstObject[OBJ_ENEMY].add(object);
+
+
 
         // 불꽃
         CreateFire(620, 532);
