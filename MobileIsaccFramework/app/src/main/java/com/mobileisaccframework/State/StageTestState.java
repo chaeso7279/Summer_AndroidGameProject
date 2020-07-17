@@ -185,7 +185,7 @@ public class StageTestState extends GameState {
         GameObject fireposition = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                x, y, 10, 6, true);
+                x, y, 20, 6, true);
         m_lstObject[OBJ_MAP].add(fireposition);
         return fireposition;
     }

@@ -4,7 +4,7 @@ public class Vector2D {
     public int x;
     public int y;
 
-    Vector2D() { x = 0; y = 0; }
+    public Vector2D() { x = 0; y = 0; }
     public Vector2D(int _x, int _y) { x = _x; y = _y;}
     public Vector2D(Vector2D _pos)   {x = _pos.x; y = _pos.y;}
 
