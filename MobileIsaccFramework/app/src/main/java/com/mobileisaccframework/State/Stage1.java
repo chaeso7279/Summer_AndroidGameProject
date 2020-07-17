@@ -12,6 +12,7 @@ import com.mobileisaccframework.R;
 
 public class Stage1 extends GameState {
 
+
     GameObject m_background;
 
     @Override
