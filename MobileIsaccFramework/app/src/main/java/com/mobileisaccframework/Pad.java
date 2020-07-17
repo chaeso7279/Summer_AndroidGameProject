@@ -68,12 +68,12 @@ public class Pad {
         if(canvas == null)
             return;
 
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.GREEN);
+        //Paint paint = new Paint();
+        //paint.setStyle(Paint.Style.STROKE);
+        //paint.setColor(Color.GREEN);
 
-        for(int i = 0; i < DIR_END; ++i)
-            canvas.drawRect(m_rect[i], paint);
+        //for(int i = 0; i < DIR_END; ++i)
+        //    canvas.drawRect(m_rect[i], paint);
         canvas.drawBitmap(m_bitmap, m_vecPos.x, m_vecPos.y, null);
     }
 
@@ -89,61 +89,41 @@ public class Pad {
 
         Vector2D vecDir = new Vector2D(0, 0);
 
-        // 터치 할때
-        if(_event.getAction() == KeyEvent.ACTION_DOWN) {
+        // 터치 할때(한번 터치 or 터치하고 움직임)
+        if(_event.getActionMasked() == MotionEvent.ACTION_DOWN ||
+                _event.getActionMasked() == MotionEvent.ACTION_MOVE) {
             // 위
             if (m_rect[DIR_UP].contains(x, y)) {
-                if (m_rect[DIR_LEFT].contains(x, y)) {
-                    // 위 왼
-                    vecDir = vecDir.getDirection(new Vector2D(-1, 1));
-                }
-                else if(m_rect[DIR_RIGHT].contains(x, y)) {
-                    // 위 오른
-                    vecDir = vecDir.getDirection(new Vector2D(1, 1));
-                }
-                else {
-                    // 위
-                    vecDir = vecDir.getDirection(new Vector2D(0, -1));
-                }
-                AppManager.getInstance().m_player.Move(vecDir, Player.WALK_BACK);
+                vecDir = vecDir.getDirection(new Vector2D(0, -1));
+                ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_BACK);
                 return;
             }
 
             // 아래
             if (m_rect[DIR_DOWN].contains(x, y)) {
-                if (m_rect[DIR_LEFT].contains(x, y)) {
-                    // 아래 왼
-                    vecDir = vecDir.getDirection(new Vector2D(-1, -1));
-                }
-                else if(m_rect[DIR_RIGHT].contains(x, y)) {
-                    // 아래 오른
-                    vecDir = vecDir.getDirection(new Vector2D(1, -1));
-                }
-                else {
-                    // 아래
-                    vecDir = vecDir.getDirection(new Vector2D(0, 1));
-                }
-                AppManager.getInstance().m_player.Move(vecDir, Player.WALK_FRONT);
+                vecDir = vecDir.getDirection(new Vector2D(0, 1));
+                ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_FRONT);
                 return;
             }
 
             // 왼
             if(m_rect[DIR_LEFT].contains(x, y)) {
                 vecDir = vecDir.getDirection(new Vector2D(-1, 0));
-                AppManager.getInstance().m_player.Move(vecDir, Player.WALK_LEFT);
+                ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_LEFT);
                 return;
             }
 
+            // 오
             if(m_rect[DIR_RIGHT].contains(x, y)) {
                 vecDir = vecDir.getDirection(new Vector2D(1, 0));
-                AppManager.getInstance().m_player.Move(vecDir, Player.WALK_RIGHT);
+                ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_RIGHT);
                 return;
             }
         }
 
         // 터치에서 손을 뗄 때
-        else if(_event.getAction() == KeyEvent.ACTION_UP) {
-            AppManager.getInstance().m_player.MoveStop();
+        else if(_event.getActionMasked() == MotionEvent.ACTION_UP) {
+            ((Player)AppManager.getInstance().m_player).MoveStop();
         }
     }
 }

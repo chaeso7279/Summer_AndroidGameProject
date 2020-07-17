@@ -4,11 +4,11 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.GameObject.MapObject.BlockObject;
 import com.mobileisaccframework.GameObject.MapObject.FireObject;
-import com.mobileisaccframework.GameObject.MapObject.MapObject;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
@@ -73,7 +73,7 @@ public class StageTestState extends GameState {
         object = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
-                400, 230, 2, 2, true);
+                400, 230, 1, 1, true);
 
         m_lstObject[OBJ_PLAYER].add(object);
 
@@ -92,6 +92,11 @@ public class StageTestState extends GameState {
                 1145, 532);
         
         m_lstObject[OBJ_MAP].add(object);
+
+        // 총알 확인용
+        object = new Bullet(true,
+                AppManager.m_player.getPosition().x, AppManager.m_player.getPosition().y);
+        m_lstObject[OBJ_BULLET_PLAYER].add(object);
 
         // 패드
         m_pad = new Pad(85, AppManager.HEIGHT - 500);
@@ -115,17 +120,8 @@ public class StageTestState extends GameState {
         if(_event.getAction() != KeyEvent.ACTION_DOWN)
             return true;
 
-        if(_keyCode == KeyEvent.KEYCODE_F1)
+        if(_keyCode == KeyEvent.KEYCODE_SPACE)
             AppManager.getInstance().m_bRenderRect = !AppManager.getInstance().m_bRenderRect;
-
-        if(_keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
-            m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_FRONT);
-        if(_keyCode == KeyEvent.KEYCODE_DPAD_UP)
-            m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_BACK);
-        if(_keyCode == KeyEvent.KEYCODE_DPAD_LEFT)
-            m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_LEFT);
-        if(_keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)
-            m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_RIGHT);
 
         return true;
     }

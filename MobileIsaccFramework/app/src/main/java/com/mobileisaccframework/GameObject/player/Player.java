@@ -47,9 +47,9 @@ public class Player extends GameObject {
         // 각 state 마다 프레임 개수가 다름 -> int 배열로 처리
         m_arrFrameCnt = new int[STATE_END];
 
-        // IDLE 은 모두 프레임 개수가 2라서 이렇게 처리함
+        // IDLE 은 모두 프레임 개수가 1라서 이렇게 처리함
         for(int i = IDLE_FRONT; i <= IDLE_RIGHT; ++i)
-           m_arrFrameCnt[i] = 2;
+           m_arrFrameCnt[i] = 1;
 
         for(int i = WALK_FRONT; i <= WALK_RIGHT; ++i)
             m_arrFrameCnt[i] = 10;
@@ -87,19 +87,19 @@ public class Player extends GameObject {
         switch (_state) {
             case IDLE_FRONT:
                 rID = R.drawable.player_idle_front;
-                fps = 2;
+                fps = 1;
                 break;
             case IDLE_BACK:
                 rID = R.drawable.player_idle_back;
-                fps = 2;
+                fps = 1;
                 break;
             case IDLE_LEFT:
                 rID = R.drawable.player_idle_left;
-                fps = 2;
+                fps = 1;
                 break;
             case IDLE_RIGHT:
                 rID = R.drawable.player_idle_right;
-                fps = 2;
+                fps = 1;
                 break;
             case WALK_FRONT:
                 rID = R.drawable.player_walk_front;
