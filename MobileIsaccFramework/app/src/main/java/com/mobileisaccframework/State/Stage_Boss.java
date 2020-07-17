@@ -51,28 +51,13 @@ public class Stage_Boss extends GameState{
         GameObject object = null;
 
         //배경
-        object =  new GameObject(AppManager.getInstance().getBitmap(R.drawable.stage_background),
-                AppManager.getInstance().getBitmapWidth(R.drawable.stage_background),
-                AppManager.getInstance().getBitmapHeight(R.drawable.stage_background),
-                166, 26);
-
-        m_background = object;
+        m_background = CreateBackground(166,26);
 
         // 플레이어
-        object = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
-                AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
-                AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
-                1200, 500, 2, 2, true);
-
-        m_lstObject[OBJ_PLAYER].add(object);
+        m_lstObject[OBJ_PLAYER].add(CreatePlayer(1200,500));
 
         //몬스터
-        object = new Enemy_Boss(AppManager.getInstance().getBitmap(R.drawable.boss_idle),
-                AppManager.getInstance().getBitmapWidth(R.drawable.boss_idle),
-                AppManager.getInstance().getBitmapHeight(R.drawable.boss_idle),
-                1200,500,5,3,true);
-
-        m_lstObject[OBJ_ENEMY].add(object);
+        m_lstObject[OBJ_ENEMY].add(CreateBoss(1200,500));
     }
 
     @Override
