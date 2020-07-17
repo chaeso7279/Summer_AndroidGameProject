@@ -26,10 +26,17 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     public static int OBJ_EFFECT = 5;
     public static int OBJ_UI = 6;
     public static int OBJ_END = 7;
-    public static int OBJ_FIRE = 8;
-    public static int OBJ_BLOCK = 9;
+
 
     public ArrayList<GameObject>[] m_lstObject;
+
+    public ArrayList<GameObject> GetObjectList(int objectID) {
+        // 리스트가 비었거나 리스트가 만들어지지 않았으면 null 리턴
+        if(m_lstObject[objectID].isEmpty() || m_lstObject[objectID] == null)
+            return null;
+
+        return m_lstObject[objectID];
+    }
 
     public void Initialize() {
         m_lstObject = new ArrayList[OBJ_END];

@@ -5,13 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
-import com.mobileisaccframework.R;
-import com.mobileisaccframework.Vector2D;
 
 public class Pad {
     static final int DIR_UP = 0;
@@ -37,8 +34,6 @@ public class Pad {
 
     int m_iWidth;
     int m_iHeight;
-
-    boolean m_isAttack = false;
 
     public Pad(int posX, int posY) {
         m_vecPos = new Vector2D(posX, posY);
@@ -82,12 +77,12 @@ public class Pad {
         if(canvas == null)
             return;
 
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.GREEN);
-
-        for(int i = 0; i < DIR_END; ++i)
-            canvas.drawRect(m_rectArrow[i], paint);
+//        Paint paint = new Paint();
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setColor(Color.GREEN);
+//
+//        for(int i = 0; i < DIR_END; ++i)
+//            canvas.drawRect(m_rectArrow[i], paint);
         canvas.drawBitmap(m_bitmap, m_vecPos.x, m_vecPos.y, null);
     }
 
@@ -115,7 +110,7 @@ public class Pad {
         }
     }
 
-    void SingleTouch(int x, int y, MotionEvent _event) {
+    private void SingleTouch(int x, int y, MotionEvent _event) {
         Vector2D vecDir = new Vector2D(0, 0);
 
         // 터치 할때(한번 터치 or 터치하고 움직임)

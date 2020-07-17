@@ -12,6 +12,8 @@ import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
 
+import java.util.ArrayList;
+
 public class Player extends GameObject {
     public static final int IDLE_FRONT = 0;
     public static final int IDLE_BACK = 1;
@@ -69,15 +71,7 @@ public class Player extends GameObject {
     // 매 프레임 실행
     @Override
     public int Update(long _gameTime) {
-        if(m_isMove){       // 이동 버튼이 눌리고 있을 때만 좌표 변경
-            // 이동한 위치가 벽을 넘어가지 않을 때만 이동 적용
-            int posX = m_vecPos.x + m_vecDir.x * m_moveSpeed;
-            int posY = m_vecPos.y + m_vecDir.y * m_moveSpeed;
-            if(posX > AppManager.MIN_X + 40 && posX < AppManager.MAX_X)
-                m_vecPos.x += m_vecDir.x * m_moveSpeed;
-            if(posY > AppManager.MIN_Y && posY < AppManager.MAX_Y)
-                m_vecPos.y += m_vecDir.y * m_moveSpeed;
-        }
+
         // 일정 시간마다만 공격되도록 함
         if(m_isAttack) {
            if(_gameTime > m_attackTimer + GAP_ATTACK) {
@@ -182,6 +176,23 @@ public class Player extends GameObject {
                 ChangeState(IDLE_RIGHT);
                 break;
         }
+    }
+
+    private void MoveCheck() {
+        if(!m_isMove) // 이동 버튼이 눌리고 있을 때만 좌표 변경
+            return;
+
+        int posX = m_vecPos.x + m_vecDir.x * m_moveSpeed;
+        int posY = m_vecPos.y + m_vecDir.y * m_moveSpeed;
+
+        // 이동한 위치가 벽을 넘어가지 않을 때만 이동 적용
+        if(posX > AppManager.MIN_X + 40 && posX < AppManager.MAX_X)
+            m_vecPos.x += m_vecDir.x * m_moveSpeed;
+        if(posY > AppManager.MIN_Y && posY < AppManager.MAX_Y)
+            m_vecPos.y += m_vecDir.y * m_moveSpeed;
+
+        // 이동한 위치가 맵오브젝트(불,블럭)과 겹치지 않을 때만 이동 적용
+        //ArrayList<GameObject> lstMapObject = AppManager.getInstance().getCurGameState().GetObjectList(GameState.OBJ)
     }
 
     public void Attack(int iType) {

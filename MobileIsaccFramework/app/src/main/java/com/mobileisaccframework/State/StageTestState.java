@@ -88,6 +88,7 @@ public class StageTestState extends GameState {
 
 
         // 플레이어
+        CreatePlayer(400, 230);
         object = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
@@ -103,12 +104,6 @@ public class StageTestState extends GameState {
 
         // 블록
         CreateBlock(1970,532);
-
-
-
-        
-        //m_lstObject[OBJ_MAP].add(object);
-
 
         // 공격 버튼 UI
         object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_attack),
@@ -142,9 +137,9 @@ public class StageTestState extends GameState {
         }
         // 플레이어 - 불꽃
         for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
                 if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
                     dstObj.OnCollision(srcObj, OBJ_PLAYER);
                 }
             }
@@ -152,9 +147,9 @@ public class StageTestState extends GameState {
 
         // 플레이어 - 블록
         for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_BLOCK]) {
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
                 if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_BLOCK);
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
                     dstObj.OnCollision(srcObj, OBJ_PLAYER);
                 }
             }
@@ -162,9 +157,9 @@ public class StageTestState extends GameState {
 
         //플레이어 불릿 - 불꽃
         for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
                 if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
                     dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
                 }
             }

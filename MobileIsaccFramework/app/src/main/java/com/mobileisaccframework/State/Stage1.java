@@ -159,9 +159,9 @@ public class Stage1 extends GameState {
         }
         // 플레이어 - 불꽃
         for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
                 if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
                     dstObj.OnCollision(srcObj, OBJ_PLAYER);
                 }
             }
@@ -169,9 +169,9 @@ public class Stage1 extends GameState {
 
         // 플레이어 - 블록
         for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_BLOCK]) {
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
                 if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_BLOCK);
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
                     dstObj.OnCollision(srcObj, OBJ_PLAYER);
                 }
             }
@@ -179,9 +179,9 @@ public class Stage1 extends GameState {
 
         //플레이어 불릿 - 불꽃
         for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
                 if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
                     dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
                 }
             }
