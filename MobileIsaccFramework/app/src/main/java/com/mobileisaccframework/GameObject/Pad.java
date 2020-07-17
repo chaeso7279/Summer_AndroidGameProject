@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.Manager.AppManager;
@@ -69,7 +70,23 @@ public class Pad {
         canvas.drawBitmap(m_bitmap, m_vecPos.x, m_vecPos.y, null);
     }
 
-    public void OnTouchEvent(MotionEvent Event) {
+    public void OnTouchEvent(MotionEvent _event) {
+        if(m_rect[0] == null) // 배열로 생성이라 첫번쨰것만 검사
+            return;
+
+        int action = _event.getAction();
+        int x = (int)_event.getX();
+        int y = (int)_event.getY();
+
+        // 터치 할때
+        if(_event.getAction() == KeyEvent.ACTION_DOWN) {
+
+        }
+
+        // 터치에서 손을 뗄 때
+        else if(_event.getAction() == KeyEvent.ACTION_UP) {
+
+        }
 
     }
 }
