@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.GameObject.MapObject.BlockObject;
@@ -81,20 +80,14 @@ public class StageTestState extends GameState {
         m_lstObject[OBJ_PLAYER].add(object);
 
         // 불꽃
-        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                 770, 307, 10, 6, true);
-
-        m_lstObject[OBJ_MAP].add(object);
+        FirePosition(620, 532);
+        FirePosition(995, 682);
+        FirePosition(1520,457);
+        FirePosition(1595,982);
 
         // 블록
-        object = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
-                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
-                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
-                1145, 532);
-        
-        m_lstObject[OBJ_MAP].add(object);
+        BlockPosition(1970,532);
+
 
         // 공격 버튼 UI
         object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_attack),
@@ -149,5 +142,23 @@ public class StageTestState extends GameState {
     @Override
     public void Destroy() {
 
+    }
+
+    public GameObject FirePosition(int x, int y){
+        GameObject fireposition = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                x, y, 10, 6, true);
+        m_lstObject[OBJ_MAP].add(fireposition);
+        return fireposition;
+    }
+
+    public GameObject BlockPosition(int x, int y){
+        GameObject blockposition = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
+                x, y);
+        m_lstObject[OBJ_MAP].add(blockposition);
+        return blockposition;
     }
 }
