@@ -5,6 +5,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.MapObject.BlockObject;
+import com.mobileisaccframework.GameObject.MapObject.FireObject;
 import com.mobileisaccframework.GameObject.enemy.Enemy_2;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
@@ -12,6 +14,7 @@ import com.mobileisaccframework.R;
 
 public class Stage2 extends GameState {
     GameObject m_background;
+    GameObject m_door;
 
     @Override
     public void Initialize() {
@@ -58,6 +61,14 @@ public class Stage2 extends GameState {
 
         m_background = object;
 
+        // 문
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_right),
+                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_front),
+                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_front),
+                1520, 82, 1, 2, true);
+
+        m_door = object;
+
         // 플레이어
         object = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
@@ -73,6 +84,20 @@ public class Stage2 extends GameState {
                 1000,230,5,2,true);
 
         m_lstObject[OBJ_ENEMY].add(object);
+
+        // 불꽃
+        CreateFire(545, 682);
+        CreateFire(920, 982);
+        CreateFire(1220,382);
+        CreateFire(1670,907);
+        CreateFire(1745,382);
+
+        // 블록
+        CreateBlock(770,607);
+        CreateBlock(1370,757);
+        CreateBlock(1820,532);
+
+
     }
 
     @Override
@@ -87,6 +112,25 @@ public class Stage2 extends GameState {
 
     @Override
     public void Destroy() {
-
     }
+
+    public GameObject CreateFire(int x, int y){
+        GameObject fireposition = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                x, y, 20, 6, true);
+        m_lstObject[OBJ_MAP].add(fireposition);
+        return fireposition;
+    }
+
+    public GameObject CreateBlock(int x, int y){
+        GameObject blockposition = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
+                x, y);
+        m_lstObject[OBJ_MAP].add(blockposition);
+        return blockposition;
+    }
+
+
 }
