@@ -18,9 +18,6 @@ import com.mobileisaccframework.R;
 public class Stage1 extends GameState {
     GameObject m_door;
 
-    // 방향키 패드
-    Pad m_pad;
-
     @Override
     public void Initialize() {
         super.Initialize();
