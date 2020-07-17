@@ -215,7 +215,6 @@ public class Player extends GameObject {
             return;
 
         GameObject obj = null;
-        Vector2D vecDir;
         // 총알일 때
         if(iType == ATT_BULLET) {
             switch (m_curState){
