@@ -9,10 +9,15 @@ import com.mobileisaccframework.GameObject.enemy.Enemy_2;
 import com.mobileisaccframework.GameObject.enemy.Enemy_Boss;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.CollisionManager;
+import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
 
 public class Stage_Boss extends GameState{
     GameObject m_background;
+
+    // 방향키 패드
+    Pad m_pad;
 
     @Override
     public void Initialize() {
@@ -25,8 +30,14 @@ public class Stage_Boss extends GameState{
         m_background.Update(_gameTime);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
-            for(GameObject obj : m_lstObject[i])
-                obj.Update(_gameTime);
+            for (int j = 0; j < m_lstObject[i].size(); ++j) {
+                GameObject obj = m_lstObject[i].get(j);
+
+                int iEvent = obj.Update(_gameTime);
+                if (iEvent == GameObject.DEAD_OBJ) { // 오브젝트가 죽었을 때
+                    m_lstObject[i].remove(j);
+                }
+            }
         }
     }
 
@@ -48,7 +59,27 @@ public class Stage_Boss extends GameState{
 
     @Override
     public void AddObject() {
+        // 패드
+        m_pad = new Pad(85, AppManager.HEIGHT - 500);
+
         GameObject object = null;
+        // 공격 버튼 UI
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_attack),
+                AppManager.getInstance().getBitmapWidth(R.drawable.ui_attack),
+                AppManager.getInstance().getBitmapHeight(R.drawable.ui_attack),
+                2440 - (350), 1440 - (450));
+
+        m_lstObject[OBJ_UI].add(object);
+        m_pad.SetAttackUIRect(0, object.getBoundBox());
+
+        // 폭탄 버튼 UI
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_bomb),
+                AppManager.getInstance().getBitmapWidth(R.drawable.ui_bomb),
+                AppManager.getInstance().getBitmapHeight(R.drawable.ui_bomb),
+                2440 - (500), 1440 - (620));
+
+        m_lstObject[OBJ_UI].add(object);
+        m_pad.SetAttackUIRect(1, object.getBoundBox());
 
         //배경
         m_background = CreateBackground(166,26);
@@ -80,16 +111,68 @@ public class Stage_Boss extends GameState{
         if(_keyCode == KeyEvent.KEYCODE_6){
             m_lstObject[OBJ_ENEMY].get(0).setPosition(1400,230);
         }
-        return false;
+        if(_event.getAction() != KeyEvent.ACTION_DOWN)
+            return true;
+
+        if(_keyCode == KeyEvent.KEYCODE_SPACE)
+            AppManager.getInstance().m_bRenderRect = !AppManager.getInstance().m_bRenderRect;
+
+        return true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return false;
+        m_pad.OnTouchEvent(event);
+        // m_lstObject[OBJ_MAP].get(0).ChangeState(FireObject.STATE_START);
+        return true;
     }
 
     @Override
     public void Destroy() {
+
+    }
+    @Override
+    public void CheckCollision() {
+        // 예시 (플레이어 - 적)
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_ENEMY);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
+        // 플레이어 - 불꽃
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
+
+        // 플레이어 - 블록
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_BLOCK]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_BLOCK);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
+
+        //플레이어 불릿 - 불꽃
+        for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
+                }
+            }
+        }
+
+        //폭탄 - 블록
 
     }
 }
