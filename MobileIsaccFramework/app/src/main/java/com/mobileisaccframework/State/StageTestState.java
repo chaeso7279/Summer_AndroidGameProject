@@ -15,6 +15,7 @@ import com.mobileisaccframework.R;
 
 public class StageTestState extends GameState {
     GameObject m_backGround;
+    GameObject m_door;
 
     // 방향키 패드
     Pad m_pad;
@@ -31,6 +32,7 @@ public class StageTestState extends GameState {
         // 배경 업데이트
         m_backGround.Update(_gameTime);
 
+
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for(GameObject obj : m_lstObject[i])
                 obj.Update(_gameTime);
@@ -46,6 +48,7 @@ public class StageTestState extends GameState {
 
         // 배경 출력
         m_backGround.Render(canvas);
+        m_door.Render(canvas);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for(GameObject obj : m_lstObject[i])
@@ -71,6 +74,14 @@ public class StageTestState extends GameState {
 
         m_backGround = object;
 
+        // 문
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_right),
+                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_right),
+                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_right),
+                2155, 532, 1, 2, true);
+        m_door = object;
+
+
         // 플레이어
         object = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
@@ -87,39 +98,8 @@ public class StageTestState extends GameState {
 
         // 블록
         BlockPosition(1970,532);
-        // 불꽃 1
-        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                 620, 532, 10, 6, true);
-        m_lstObject[OBJ_MAP].add(object);
 
-        // 불꽃 2
-        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                995, 682, 10, 6, true);
-        m_lstObject[OBJ_MAP].add(object);
 
-        // 불꽃 3
-        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                1520, 457, 10, 6, true);
-        m_lstObject[OBJ_MAP].add(object);
-
-        // 불꽃 4
-        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                1595, 982, 10, 6, true);
-        m_lstObject[OBJ_MAP].add(object);
-
-        // 블록
-        object = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
-                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
-                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
-                1970, 532);
         
         //m_lstObject[OBJ_MAP].add(object);
 

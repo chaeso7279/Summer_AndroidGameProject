@@ -16,6 +16,7 @@ public class Stage1 extends GameState {
 
 
     GameObject m_background;
+    GameObject m_door;
 
     @Override
     public void Initialize() {
@@ -27,6 +28,7 @@ public class Stage1 extends GameState {
     @Override
     public void Update(long _gameTime) {
         m_background.Update(_gameTime);
+        m_door.Update(_gameTime);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for(GameObject obj : m_lstObject[i])
@@ -43,6 +45,7 @@ public class Stage1 extends GameState {
 
         // 배경 출력
         m_background.Render(canvas);
+        m_door.Render(canvas);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for(GameObject obj : m_lstObject[i])
@@ -59,8 +62,14 @@ public class Stage1 extends GameState {
                 AppManager.getInstance().getBitmapWidth(R.drawable.mapbackground),
                 AppManager.getInstance().getBitmapHeight(R.drawable.mapbackground),
                 170, 82);
-
         m_background = object;
+
+        // 문
+        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_right),
+                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_right),
+                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_right),
+                2045, 532, 1, 2, true);
+        m_door = object;
 
         // 플레이어
         object = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
