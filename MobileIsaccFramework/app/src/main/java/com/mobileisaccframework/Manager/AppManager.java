@@ -14,12 +14,11 @@ import com.mobileisaccframework.State.GameState;
 public class AppManager {
     public static int WIDTH = 2440;
     public static int HEIGHT = 1440;
+    public static GameObject m_player;
 
     private GameView m_gameView;
     private Resources m_resources;
     private GameState m_curGameState; // 현재 게임 State
-
-    public Player m_player;
 
     public boolean m_bRenderRect = false; // 충돌 박스 그릴 여부
 
