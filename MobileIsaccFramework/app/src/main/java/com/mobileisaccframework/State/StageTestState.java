@@ -5,13 +5,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
-import com.mobileisaccframework.GameObject.Pad;
+import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
-
-import java.util.ArrayList;
 
 public class StageTestState extends GameState {
     GameObject m_backGround;

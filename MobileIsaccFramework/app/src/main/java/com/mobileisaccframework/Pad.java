@@ -1,4 +1,4 @@
-package com.mobileisaccframework.GameObject;
+package com.mobileisaccframework;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -21,6 +21,8 @@ public class Pad {
 
     // 위치 좌표
     protected Vector2D m_vecPos;
+    protected Vector2D m_vecCenter;
+
     // 충돌 렉트 4개
     Rect m_rect[];
     // 비트맵
@@ -55,6 +57,9 @@ public class Pad {
 
         m_rect[DIR_RIGHT].set(m_vecPos.x + (67 * 4), m_vecPos.y + (34 * 4),
                 m_vecPos.x + (101 * 4), m_vecPos.y + (67 * 4));
+
+        m_vecCenter.x = m_vecPos.x + (m_iWidth / 2);
+        m_vecCenter.y = m_vecPos.y + (m_iHeight / 2);
     }
 
     public void Render(Canvas canvas) {
@@ -75,12 +80,25 @@ public class Pad {
             return;
 
         int action = _event.getAction();
+
+        // 싱글 터치
         int x = (int)_event.getX();
         int y = (int)_event.getY();
 
         // 터치 할때
         if(_event.getAction() == KeyEvent.ACTION_DOWN) {
+            // 위
+            if(m_rect[DIR_UP].contains(x, y)) {
+                if(m_rect[DIR_LEFT].contains(x, y)) { // 아래 왼
+                    
+                }
+            }
 
+            // 아래
+
+            // 왼
+
+            // 오
         }
 
         // 터치에서 손을 뗄 때

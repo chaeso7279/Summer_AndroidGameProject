@@ -22,7 +22,7 @@ public class Player extends GameObject {
     public static final int WALK_LEFT = 6;
     public static final int WALK_RIGHT = 7;
     public static final int STATE_END = 8;
-    
+
     public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
     }
