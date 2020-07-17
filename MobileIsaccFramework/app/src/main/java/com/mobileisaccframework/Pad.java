@@ -121,6 +121,21 @@ public class Pad {
         // 터치 할때(한번 터치 or 터치하고 움직임)
         if(_event.getActionMasked() == MotionEvent.ACTION_DOWN ||
                 _event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+
+            if(_event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                // 총알 발사 시
+                if(m_rectAttack[ATT_BULLET].contains(x, y)) {
+                    ((Player)AppManager.getInstance().m_player).Attack(ATT_BULLET);
+                    return;
+                }
+
+                // 총알 발사 시
+                if(m_rectAttack[ATT_BOMB].contains(x, y)) {
+                    ((Player)AppManager.getInstance().m_player).Attack(ATT_BOMB);
+                    return;
+                }
+            }
+
             // 위
             if (m_rectArrow[DIR_UP].contains(x, y)) {
                 vecDir = vecDir.getDirection(new Vector2D(0, -1));
@@ -146,18 +161,6 @@ public class Pad {
             if(m_rectArrow[DIR_RIGHT].contains(x, y)) {
                 vecDir = vecDir.getDirection(new Vector2D(1, 0));
                 ((Player)AppManager.getInstance().m_player).Move(vecDir, Player.WALK_RIGHT);
-                return;
-            }
-
-            // 총알 발사 시
-            if(m_rectAttack[ATT_BULLET].contains(x, y)) {
-                ((Player)AppManager.getInstance().m_player).Attack(ATT_BULLET);
-                return;
-            }
-
-            // 총알 발사 시
-            if(m_rectAttack[ATT_BOMB].contains(x, y)) {
-                ((Player)AppManager.getInstance().m_player).Attack(ATT_BOMB);
                 return;
             }
         }

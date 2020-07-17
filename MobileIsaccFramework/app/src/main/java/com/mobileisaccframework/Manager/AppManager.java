@@ -14,6 +14,13 @@ import com.mobileisaccframework.State.GameState;
 public class AppManager {
     public static int WIDTH = 2440;
     public static int HEIGHT = 1440;
+
+    // 벽 좌표(객체는 이 좌표를 넘어가지 않음)
+    public static int MIN_X = 300;
+    public static int MIN_Y = 150;
+    public static int MAX_X = 2045;
+    public static int MAX_Y = 1020;
+
     public static GameObject m_player;
 
     private GameView m_gameView;
