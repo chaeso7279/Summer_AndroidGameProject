@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.GameObject.MapObject.BlockObject;
 import com.mobileisaccframework.GameObject.MapObject.FireObject;
 import com.mobileisaccframework.GameObject.MapObject.MapObject;
@@ -13,10 +14,11 @@ import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
 
-import java.util.ArrayList;
-
 public class StageTestState extends GameState {
     GameObject m_backGround;
+
+    // 방향키 패드
+    Pad m_pad;
 
     @Override
     public void Initialize() {
@@ -50,6 +52,9 @@ public class StageTestState extends GameState {
             for(GameObject obj : m_lstObject[i])
                 obj.Render(canvas);
         }
+
+        // Pad 출력
+        m_pad.Render(canvas);
     }
 
     // 오브젝트 추가 함수
@@ -70,28 +75,26 @@ public class StageTestState extends GameState {
                 AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
                 400, 230, 2, 2, true);
 
+        m_lstObject[OBJ_PLAYER].add(object);
+
         // 불꽃
         object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
                  770, 307, 5, 5, true);
 
+        m_lstObject[OBJ_MAP].add(object);
+
         // 블록
         object = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
                 AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
                 AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
                 1145, 532);
-
-
-        m_lstObject[OBJ_PLAYER].add(object);
-
+        
         m_lstObject[OBJ_MAP].add(object);
 
-        // 만약 몬스터면
-        // m_lstObject[OBJ_ENEMY].add(object) 하면 됩니다
-
-        // 맵 오브젝트면
-        // m_lstObject[OBJ_MAP].add(object); // 하면 됩니다
+        // 패드
+        m_pad = new Pad(85, AppManager.HEIGHT - 500);
     }
 
     @Override
@@ -112,6 +115,9 @@ public class StageTestState extends GameState {
         if(_event.getAction() != KeyEvent.ACTION_DOWN)
             return true;
 
+        if(_keyCode == KeyEvent.KEYCODE_F1)
+            AppManager.getInstance().m_bRenderRect = !AppManager.getInstance().m_bRenderRect;
+
         if(_keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
             m_lstObject[OBJ_PLAYER].get(0).ChangeState(Player.WALK_FRONT);
         if(_keyCode == KeyEvent.KEYCODE_DPAD_UP)
@@ -126,6 +132,7 @@ public class StageTestState extends GameState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        m_pad.OnTouchEvent(event);
        // m_lstObject[OBJ_MAP].get(0).ChangeState(FireObject.STATE_START);
         return true;
     }
