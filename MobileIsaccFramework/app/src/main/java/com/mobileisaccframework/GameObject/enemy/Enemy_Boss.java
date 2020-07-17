@@ -83,6 +83,7 @@ public class Enemy_Boss extends GameObject {
                 rID = R.drawable.boss_jump_start;
                 fps = 5;
                 isLoop = false;
+                m_speedY = -20;
                 break;
         }
 
@@ -114,9 +115,9 @@ public class Enemy_Boss extends GameObject {
         int afterX = enemyPos.x;
         int afterY = enemyPos.y;
 
-        if(Math.abs(enemyPos.y - playerPos.y) > 10){
+        if(Math.abs(enemyPos.y - playerPos.y) > 50){
             afterX+=m_speedX*dir.x;
-            afterY+=m_speedY*dir.y;
+            afterY+=m_speedY;
 
             ++m_speedY;
         }else{
