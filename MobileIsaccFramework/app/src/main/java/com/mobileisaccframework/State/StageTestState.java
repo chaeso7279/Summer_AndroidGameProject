@@ -81,7 +81,7 @@ public class StageTestState extends GameState {
         object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
                 AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                 770, 307, 5, 5, true);
+                 770, 307, 10, 6, true);
 
         m_lstObject[OBJ_MAP].add(object);
 
