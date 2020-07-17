@@ -10,7 +10,7 @@ import com.mobileisaccframework.R;
 
 public class IntroState extends GameState {
     GameObject m_introUI;
-    GameObject m_backGround;
+
 
     @Override
     public void Initialize() {

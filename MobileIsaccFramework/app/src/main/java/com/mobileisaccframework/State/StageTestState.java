@@ -65,7 +65,7 @@ public class StageTestState extends GameState {
     @Override
     public void AddObject() {
         // 백그라운드
-        m_backGround = CreateBackground(166, 26);
+        CreateBackground(166, 26);
 
         // 문
         m_door = CreateDoor(2155, 532, R.drawable.golddoor_right);
@@ -81,6 +81,8 @@ public class StageTestState extends GameState {
 
         // 블록
         CreateBlock(1970,532);
+
+        CreateUI();
     }
 
     @Override
@@ -96,7 +98,8 @@ public class StageTestState extends GameState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        m_pad.OnTouchEvent(event);
+        if(m_pad != null)
+            m_pad.OnTouchEvent(event);
         return true;
     }
 

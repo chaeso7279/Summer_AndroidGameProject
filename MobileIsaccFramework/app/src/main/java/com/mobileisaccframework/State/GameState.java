@@ -30,6 +30,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     public static int OBJ_UI = 6;
     public static int OBJ_END = 7;
 
+    // 배경
+    GameObject m_backGround;
     // 방향키 패드
     Pad m_pad;
 
@@ -100,12 +102,11 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
     //객체생성메소드
     //배경
-    public GameObject CreateBackground(int _x, int _y){
-        GameObject backgroundObject = new GameObject(AppManager.getInstance().getBitmap(R.drawable.stage_background),
+    public void CreateBackground(int _x, int _y){
+        m_backGround = new GameObject(AppManager.getInstance().getBitmap(R.drawable.stage_background),
                 AppManager.getInstance().getBitmapWidth(R.drawable.stage_background),
                 AppManager.getInstance().getBitmapHeight(R.drawable.stage_background),
                 _x, _y);
-        return backgroundObject;
     }
 
     //플레이어
