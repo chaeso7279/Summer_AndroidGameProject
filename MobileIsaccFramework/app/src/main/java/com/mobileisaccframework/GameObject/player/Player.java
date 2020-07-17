@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
+import com.mobileisaccframework.GameObject.bullet.Bomb;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
@@ -28,7 +29,7 @@ public class Player extends GameObject {
     static final int ATT_BOMB = 1;
 
     private int m_moveSpeed;
-    private long m_attackTimer = 0;
+    private long m_attackTimer = System.currentTimeMillis();
 
     boolean m_isMove = false;
     boolean m_isAttack = false;
@@ -69,8 +70,13 @@ public class Player extends GameObject {
     @Override
     public int Update(long _gameTime) {
         if(m_isMove){       // 이동 버튼이 눌리고 있을 때만 좌표 변경
-            m_vecPos.x += m_vecDir.x * m_moveSpeed;
-            m_vecPos.y += m_vecDir.y * m_moveSpeed;
+            // 이동한 위치가 벽을 넘어가지 않을 때만 이동 적용
+            int posX = m_vecPos.x + m_vecDir.x * m_moveSpeed;
+            int posY = m_vecPos.y + m_vecDir.y * m_moveSpeed;
+            if(posX > AppManager.MIN_X + 40 && posX < AppManager.MAX_X)
+                m_vecPos.x += m_vecDir.x * m_moveSpeed;
+            if(posY > AppManager.MIN_Y && posY < AppManager.MAX_Y)
+                m_vecPos.y += m_vecDir.y * m_moveSpeed;
         }
         // 일정 시간마다만 공격되도록 함
         if(m_isAttack) {
@@ -141,7 +147,7 @@ public class Player extends GameObject {
         int height = AppManager.getInstance().getBitmapHeight(rID) * 4;
 
         // 오브젝트 스테이트 지정
-        m_objectState = new GameObjectState(this,bitmap, width, height,
+        m_objectState = new GameObjectState(this, bitmap, width, height,
                 fps, m_arrFrameCnt[_state], isLoop);
         m_objectState.Initialize();
 
@@ -214,9 +220,13 @@ public class Player extends GameObject {
                 AppManager.getInstance().getCurGameState().
                         m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
         }
-//        else if(iType == ATT_BOMB){
-//
-//        }
+        else if(iType == ATT_BOMB){     // 폭탄일때
+            obj = new Bomb(m_vecPos.x + 20, m_vecPos.y + 50);
+            // 스테이지에 추가 해줌
+            if(obj != null)
+                AppManager.getInstance().getCurGameState().
+                        m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
+        }
 
         m_isAttack = true;
     }

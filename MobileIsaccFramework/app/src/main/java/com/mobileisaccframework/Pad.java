@@ -62,17 +62,17 @@ public class Pad {
         m_iWidth = AppManager.getInstance().getBitmapWidth(R.drawable.ui_direction);
         m_iHeight = AppManager.getInstance().getBitmapHeight(R.drawable.ui_direction);
 
-        m_rectArrow[DIR_UP].set(m_vecPos.x + (33 * 4), m_vecPos.y ,
+        m_rectArrow[DIR_UP].set(m_vecPos.x + (33 * 4), m_vecPos.y - (20 * 4),
                 m_vecPos.x + (66 * 4), m_vecPos.y + (33 * 4));
 
         m_rectArrow[DIR_DOWN].set(m_vecPos.x + (33 * 4), m_vecPos.y + (67 * 4),
-                m_vecPos.x + (66 * 4), m_vecPos.y + (101 * 4));
+                m_vecPos.x + (66 * 4), m_vecPos.y + (121 * 4));
 
-        m_rectArrow[DIR_LEFT].set(m_vecPos.x, m_vecPos.y + (34 * 4),
+        m_rectArrow[DIR_LEFT].set(m_vecPos.x - (20 * 4), m_vecPos.y + (34 * 4),
                 m_vecPos.x + (34 * 4), m_vecPos.y + (67 * 4));
 
         m_rectArrow[DIR_RIGHT].set(m_vecPos.x + (67 * 4), m_vecPos.y + (34 * 4),
-                m_vecPos.x + (101 * 4), m_vecPos.y + (67 * 4));
+                m_vecPos.x + (121 * 4), m_vecPos.y + (67 * 4));
 
         m_vecCenter.x = m_vecPos.x + (m_iWidth / 2);
         m_vecCenter.y = m_vecPos.y + (m_iHeight / 2);
@@ -82,12 +82,12 @@ public class Pad {
         if(canvas == null)
             return;
 
-        //Paint paint = new Paint();
-        //paint.setStyle(Paint.Style.STROKE);
-        //paint.setColor(Color.GREEN);
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.GREEN);
 
-        //for(int i = 0; i < DIR_END; ++i)
-        //    canvas.drawRect(m_rect[i], paint);
+        for(int i = 0; i < DIR_END; ++i)
+            canvas.drawRect(m_rectArrow[i], paint);
         canvas.drawBitmap(m_bitmap, m_vecPos.x, m_vecPos.y, null);
     }
 
