@@ -47,7 +47,7 @@ public class Enemy_2 extends GameObject {
     //매 프레임 실행
     @Override
     public int Update(long _gameTime){
-        move();
+        Move();
         return super.Update(_gameTime);
     }
 
@@ -100,7 +100,7 @@ public class Enemy_2 extends GameObject {
         // 이건 단순히 오브젝트 스테이트를 숫자로 쓰는 용도
         m_curState = _state;
     }
-    public void move(){
+    public void Move(){
         Vector2D enemyPos = new Vector2D(this.getPosition());
         Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
         Vector2D dir = enemyPos.getDirection(playerPos);

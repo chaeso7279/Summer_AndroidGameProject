@@ -49,7 +49,7 @@ public class Enemy_1 extends GameObject {
     //매 프레임 실행
     @Override
     public int Update(long _gameTime){
-        move();
+        Move();
         return super.Update(_gameTime);
     }
 
@@ -104,7 +104,7 @@ public class Enemy_1 extends GameObject {
         m_curState = _state;
     }
 
-    public void move(){
+    public void Move(){
         Vector2D enemyPos = new Vector2D(this.getPosition());
         Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
         Vector2D dir = enemyPos.getDirection(playerPos);
@@ -134,6 +134,10 @@ public class Enemy_1 extends GameObject {
              }
          }
         this.setPosition(this.getPosition().x + dir.x * m_speed,this.getPosition().y + dir.y * m_speed);
+    }
+
+    public void Attack(){
+
     }
 
 }
