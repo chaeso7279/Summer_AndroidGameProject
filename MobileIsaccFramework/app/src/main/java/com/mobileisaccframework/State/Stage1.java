@@ -73,73 +73,6 @@ public class Stage1 extends GameState {
         m_pad = new Pad(85, AppManager.HEIGHT - 500);
 
         GameObject object = null;
-
-        //배경
-        object =  new GameObject(AppManager.getInstance().getBitmap(R.drawable.stage_background),
-                AppManager.getInstance().getBitmapWidth(R.drawable.stage_background),
-                AppManager.getInstance().getBitmapHeight(R.drawable.stage_background),
-                166, 26);
-
-
-        m_background = object;
-
-        // 문
-        object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_right),
-                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_right),
-                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_right),
-                2045, 532, 1, 2, true);
-        m_door = object;
-
-        // 플레이어
-        object = new Player(AppManager.getInstance().getBitmap(R.drawable.player_idle_front),
-                AppManager.getInstance().getBitmapWidth(R.drawable.player_idle_front),
-                AppManager.getInstance().getBitmapHeight(R.drawable.player_idle_front),
-                1500, 800, 2, 1, true);
-
-        m_lstObject[OBJ_PLAYER].add(object);
-
-        //몬스터
-            //Enemy_1
-        object = new Enemy_1(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
-                400,500,5,4,true);
-
-        m_lstObject[OBJ_ENEMY].add(object);
-
-        object = new Enemy_1(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
-                1900,900,5,4,true);
-
-        m_lstObject[OBJ_ENEMY].add(object);
-
-        //Enemy_2
-        object = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
-                395,307,5,4,true);
-
-        m_lstObject[OBJ_ENEMY].add(object);
-
-        object = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
-                1900,1000,5,4,true);
-
-        m_lstObject[OBJ_ENEMY].add(object);
-
-
-
-        // 불꽃
-        CreateFire(620, 532);
-        CreateFire(995, 682);
-        CreateFire(1520,457);
-        CreateFire(1595,982);
-
-        // 블록
-        CreateBlock(1970,532);
-
         // 공격 버튼 UI
         object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_attack),
                 AppManager.getInstance().getBitmapWidth(R.drawable.ui_attack),
@@ -157,6 +90,36 @@ public class Stage1 extends GameState {
 
         m_lstObject[OBJ_UI].add(object);
         m_pad.SetAttackUIRect(1, object.getBoundBox());
+
+
+        //배경
+        m_background = CreateBackground(166,26);
+
+        // 문
+        m_door = CreateDoor(2045, 532);
+
+        // 플레이어
+        m_lstObject[OBJ_PLAYER].add(CreatePlayer(1500,800));
+
+        //몬스터
+            //Enemy_1
+        m_lstObject[OBJ_ENEMY].add(CreateEnemy_1(400,500));
+        m_lstObject[OBJ_ENEMY].add(CreateEnemy_1(1900,900));
+
+            //Enemy_2
+        m_lstObject[OBJ_ENEMY].add(CreateEnemy_2(395,307));
+        m_lstObject[OBJ_ENEMY].add(CreateEnemy_2(1900,1000));
+
+
+
+        // 불꽃
+        m_lstObject[OBJ_MAP].add(CreateFire(620, 532));
+        m_lstObject[OBJ_MAP].add(CreateFire(995, 682));
+        m_lstObject[OBJ_MAP].add(CreateFire(1520, 457));
+        m_lstObject[OBJ_MAP].add(CreateFire(1595, 982));
+
+        // 블록
+        m_lstObject[OBJ_MAP].add(CreateBlock(1970,532));
 
     }
 
@@ -181,24 +144,6 @@ public class Stage1 extends GameState {
     @Override
     public void Destroy() {
 
-    }
-
-    public GameObject CreateFire(int x, int y){
-        GameObject fireposition = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                x, y, 20, 6, true);
-        m_lstObject[OBJ_MAP].add(fireposition);
-        return fireposition;
-    }
-
-    public GameObject CreateBlock(int x, int y){
-        GameObject blockposition = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
-                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
-                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
-                x, y);
-        m_lstObject[OBJ_MAP].add(blockposition);
-        return blockposition;
     }
 
     @Override
