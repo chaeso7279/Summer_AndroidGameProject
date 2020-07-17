@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.GameObject.MapObject.BlockObject;
@@ -87,20 +86,13 @@ public class StageTestState extends GameState {
         m_lstObject[OBJ_PLAYER].add(object);
 
         // 불꽃
-        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
-                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
-                 770, 307, 10, 6, true);
-
-        m_lstObject[OBJ_MAP].add(object);
+        CreateFire(620, 532);
+        CreateFire(995, 682);
+        CreateFire(1520,457);
+        CreateFire(1595,982);
 
         // 블록
-        object = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
-                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
-                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
-                1145, 532);
-        
-        m_lstObject[OBJ_MAP].add(object);
+        CreateBlock(1970,532);
 
         // 공격 버튼 UI
         object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.ui_attack),
@@ -132,6 +124,38 @@ public class StageTestState extends GameState {
                 }
             }
         }
+        // 플레이어 - 불꽃
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
+
+        // 플레이어 - 블록
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_BLOCK]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_BLOCK);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
+
+        //플레이어 불릿 - 불꽃
+        for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
+                }
+            }
+        }
+
+        //폭탄 - 블록
+
     }
 
     @Override
@@ -155,5 +179,23 @@ public class StageTestState extends GameState {
     @Override
     public void Destroy() {
 
+    }
+
+    public GameObject CreateFire(int x, int y){
+        GameObject fireposition = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                x, y, 10, 6, true);
+        m_lstObject[OBJ_MAP].add(fireposition);
+        return fireposition;
+    }
+
+    public GameObject CreateBlock(int x, int y){
+        GameObject blockposition = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
+                x, y);
+        m_lstObject[OBJ_MAP].add(blockposition);
+        return blockposition;
     }
 }

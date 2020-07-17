@@ -5,6 +5,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.MapObject.BlockObject;
+import com.mobileisaccframework.GameObject.MapObject.FireObject;
 import com.mobileisaccframework.GameObject.enemy.Enemy_1;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
@@ -72,9 +74,18 @@ public class Stage1 extends GameState {
         object = new Enemy_1(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
-                400,230,5,4,true);
+                1500,800,5,4,true);
 
         m_lstObject[OBJ_ENEMY].add(object);
+
+        // 불꽃
+        FirePosition(620, 532);
+        FirePosition(995, 682);
+        FirePosition(1520,457);
+        FirePosition(1595,982);
+
+        // 블록
+        BlockPosition(1970,532);
 
     }
 
@@ -91,5 +102,23 @@ public class Stage1 extends GameState {
     @Override
     public void Destroy() {
 
+    }
+
+    public GameObject FirePosition(int x, int y){
+        GameObject fireposition = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                x, y, 10, 6, true);
+        m_lstObject[OBJ_MAP].add(fireposition);
+        return fireposition;
+    }
+
+    public GameObject BlockPosition(int x, int y){
+        GameObject blockposition = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
+                x, y);
+        m_lstObject[OBJ_MAP].add(blockposition);
+        return blockposition;
     }
 }

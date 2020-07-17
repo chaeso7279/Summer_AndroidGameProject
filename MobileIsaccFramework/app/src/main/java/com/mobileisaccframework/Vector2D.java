@@ -20,7 +20,9 @@ public class Vector2D {
         int unitX;
         int unitY;
 
-        if(tempX>0) unitX = 1;
+        if(tempX>0) unitX =
+
+                1;
         else if(tempX<0) unitX = -1;
         else    unitX = 0;
 

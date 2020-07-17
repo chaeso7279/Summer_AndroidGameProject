@@ -103,6 +103,7 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     public Vector2D getPosition() { return m_vecPos; }
     public Vector2D getDirection() { return m_vecDir; }
     public Rect getBoundBox() { return m_boundBox; }
+    public int getImgHeight() {return m_imgHeight;}
 
     // 초기 데이터 설정
     public void Initialize() {
