@@ -32,10 +32,8 @@ public class Bomb extends GameObject {
 
     @Override
     public void Initialize() {
-        // 이미지 크기보다 충돌박스의 크기 크게 해서 오브젝트들이 폭탄과 충돌하도록 함
-        m_boundBox = new Rect();
-        m_boundBox.set(m_vecPos.x - 80, m_vecPos.y - 80,
-                m_vecPos.x + 160 , m_vecPos.y + 160);
+        // 터지기 전까지 충돌 박스 X
+        m_boundBox = new Rect(0, 0,0,0);
     }
 
     @Override
@@ -58,6 +56,11 @@ public class Bomb extends GameObject {
 
         // 터지는 시간 다되면 객체 죽음
         if(_gameTime > m_explosionTimer + TIME_EXPLOSION) {
+            // 터질 때 이미지 크기보다 충돌박스의 크기 크게 해서 오브젝트들이 폭탄과 충돌하도록 함
+            m_boundBox = new Rect();
+            m_boundBox.set(m_vecPos.x - 90, m_vecPos.y - 90,
+                    m_vecPos.x + 180 , m_vecPos.y + 180);
+
             m_isDead = true;
         }
 

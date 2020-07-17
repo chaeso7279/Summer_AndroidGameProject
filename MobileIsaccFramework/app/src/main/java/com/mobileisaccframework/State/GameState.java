@@ -80,11 +80,11 @@ public abstract class GameState {       // 교수님 코드에서의 IState
         //플레이어 불릿 - 불꽃
         for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
             for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
-                if(((MapObject)dstObj).GetMapObjectType() == MapObject.MAP_FIRE){ // 맵 오브젝트가 불꽃일때만 검사
-                    if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                        srcObj.OnCollision(dstObj, OBJ_MAP);
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_MAP);
+                    // 맵 오브젝트가 불꽃일때만 맵 오브젝트에 충돌 여부 전달
+                    if(((MapObject)dstObj).GetMapObjectType() == MapObject.MAP_FIRE)
                         dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
-                    }
                 }
             }
         }
@@ -92,11 +92,10 @@ public abstract class GameState {       // 교수님 코드에서의 IState
         //플레이어 폭탄 - 블럭
         for(GameObject srcObj : m_lstObject[OBJ_BOMB_PLAYER]){
             for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
-                if(((MapObject)dstObj).GetMapObjectType() == MapObject.MAP_BLOCK){ // 맵 오브젝트가 블럭일때만 검사
-                    if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                        srcObj.OnCollision(dstObj, OBJ_MAP);
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    // 맵 오브젝트가 블럭일때만 맵 오브젝트에 충돌 여부 전달
+                    if(((MapObject)dstObj).GetMapObjectType() == MapObject.MAP_BLOCK)
                         dstObj.OnCollision(srcObj, OBJ_BOMB_PLAYER);
-                    }
                 }
             }
         }
