@@ -21,14 +21,13 @@ public class Enemy_1 extends GameObject {
     public static final int WALK_BACK = 4;
     public static final int STATE_END = 5;
 
-    public static final int GAP_ATTACK = 800;
-
     protected int m_speed;
     protected int m_hp;
 
-    private long m_attackTimer = 0;
-    boolean m_isAttack = false;
     private long m_lastShoot = System.currentTimeMillis();
+    private long m_lastStop = System.currentTimeMillis();
+
+    private boolean m_isStop = true;
 
 
     public Enemy_1(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
@@ -118,14 +117,30 @@ public class Enemy_1 extends GameObject {
     }
 
     public void Move(){
+        //5초에 한 번 3초씩 멈춤
+        //멈춤 시작
+        if(System.currentTimeMillis() - m_lastStop >= 8000) {
+            m_lastStop = System.currentTimeMillis();
+            m_isStop = true;
+        }
+        //3초 동안 멈춤
+        if(m_isStop && System.currentTimeMillis() - m_lastStop <= 3000){
+            ChangeState(IDLE_FRONT);
+            return;
+        }
+        else{
+            m_isStop = false;
+        }
+
         Vector2D enemyPos = new Vector2D(this.getPosition());
         Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
         Vector2D dir = enemyPos.getDirection(playerPos);
 
         int dist = enemyPos.getDistance(playerPos);
-        if(dist< 300 ){
+        if(dist< 300){
             //플레이어와 일정 거리만큼 가까워지면 멈춤
             ChangeState(IDLE_FRONT);
+            m_lastStop = System.currentTimeMillis();
             return;
         }
         if(dir.x>0){
@@ -136,7 +151,7 @@ public class Enemy_1 extends GameObject {
             //왼쪽으로 이동
             ChangeState(WALK_LEFT);
         }
-        else if(dir.x == 0){
+        else{/* dir.x == 0 */
              if(dir.y<0){
                  //위로 이동
                  ChangeState(WALK_BACK);
@@ -150,11 +165,6 @@ public class Enemy_1 extends GameObject {
     }
 
     public void Attack(){
-        if(m_isAttack)
-            return;
-
-        GameObject obj;
-
         //공격하는 로직
 
         //3~5초에 한번씩 공격
@@ -163,16 +173,17 @@ public class Enemy_1 extends GameObject {
 
         if(System.currentTimeMillis() - m_lastShoot >= randInt * 1000){
             m_lastShoot = System.currentTimeMillis();
+
             //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
-            obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(0, 1));
+            //플레이어 위치에 따라 방향벡터 다르게 처리
+            Vector2D enemyPos = new Vector2D(this.getPosition());
+            Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+            Vector2D dir = enemyPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
+
+            GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, dir);
 
             AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
-
-            Log.e("bullet cnt:",  "" + AppManager.getInstance().getCurGameState().
-                    m_lstObject[GameState.OBJ_BULLET_PLAYER].size());
         }
-
-
     }
 
 }
