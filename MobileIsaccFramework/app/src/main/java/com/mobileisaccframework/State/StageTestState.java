@@ -87,6 +87,41 @@ public class StageTestState extends GameState {
 
         // 블록
         BlockPosition(1970,532);
+        // 불꽃 1
+        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                 620, 532, 10, 6, true);
+        m_lstObject[OBJ_MAP].add(object);
+
+        // 불꽃 2
+        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                995, 682, 10, 6, true);
+        m_lstObject[OBJ_MAP].add(object);
+
+        // 불꽃 3
+        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                1520, 457, 10, 6, true);
+        m_lstObject[OBJ_MAP].add(object);
+
+        // 불꽃 4
+        object = new FireObject(AppManager.getInstance().getBitmap(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_fire),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_fire),
+                1595, 982, 10, 6, true);
+        m_lstObject[OBJ_MAP].add(object);
+
+        // 블록
+        object = new BlockObject(AppManager.getInstance().getBitmap(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapWidth(R.drawable.rocks_basement),
+                AppManager.getInstance().getBitmapHeight(R.drawable.rocks_basement),
+                1970, 532);
+        
+        //m_lstObject[OBJ_MAP].add(object);
 
 
         // 공격 버튼 UI
@@ -119,6 +154,38 @@ public class StageTestState extends GameState {
                 }
             }
         }
+        // 플레이어 - 불꽃
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
+
+        // 플레이어 - 블록
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_BLOCK]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_BLOCK);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
+            }
+        }
+
+        //플레이어 불릿 - 불꽃
+        for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_FIRE]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_FIRE);
+                    dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
+                }
+            }
+        }
+
+        //폭탄 - 블록
+
     }
 
     @Override
