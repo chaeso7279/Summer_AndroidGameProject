@@ -10,6 +10,7 @@ import com.mobileisaccframework.GameObject.MapObject.BlockObject;
 import com.mobileisaccframework.GameObject.MapObject.FireObject;
 import com.mobileisaccframework.GameObject.enemy.Enemy_1;
 import com.mobileisaccframework.GameObject.enemy.Enemy_2;
+import com.mobileisaccframework.GameObject.enemy.Enemy_Boss;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
@@ -86,10 +87,10 @@ public abstract class GameState {       // 교수님 코드에서의 IState
         return enemyObject;
     }
     public GameObject CreateBoss(int _x, int _y){
-        GameObject enemyObject = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapWidth(R.drawable.enemy1_front),
-                AppManager.getInstance().getBitmapHeight(R.drawable.enemy1_front),
-                _x,_y,5,4,true);
+        GameObject enemyObject = new Enemy_Boss(AppManager.getInstance().getBitmap(R.drawable.boss_idle),
+                AppManager.getInstance().getBitmapWidth(R.drawable.boss_idle),
+                AppManager.getInstance().getBitmapHeight(R.drawable.boss_idle),
+                _x,_y,5,3,true);
         return enemyObject;
     }
 
