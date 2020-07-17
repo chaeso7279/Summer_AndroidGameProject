@@ -35,6 +35,8 @@ public class Stage_Boss extends GameState {
                 }
             }
         }
+
+        CheckCollision();
     }
 
     @Override

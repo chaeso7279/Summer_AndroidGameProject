@@ -44,6 +44,8 @@ public class Stage1 extends GameState {
                 }
             }
         }
+
+        CheckCollision();
     }
 
     @Override

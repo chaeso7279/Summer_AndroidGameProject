@@ -1,6 +1,7 @@
 package com.mobileisaccframework.GameObject.player;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.mobileisaccframework.GameObject.GameObject;
@@ -8,6 +9,7 @@ import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameObject.bullet.Bomb;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
@@ -187,14 +189,30 @@ public class Player extends GameObject {
         int posX = m_vecPos.x + m_vecDir.x * m_moveSpeed;
         int posY = m_vecPos.y + m_vecDir.y * m_moveSpeed;
 
+        // 현재 GameState 로부터 맵 오브젝트 리스트 받아옴
+        ArrayList<GameObject> lstMapObject = AppManager.getInstance().
+                getCurGameState().GetObjectList(GameState.OBJ_MAP);
+
+        if(lstMapObject == null)
+            return;
+
+        Rect testBox = new Rect();
+        testBox.set(posX, posY, posX + m_imgWidth, posY + m_imgHeight);
+
+        // 맵 오브젝트와 플레이어 겹침 검사
+        for(int i = 0; i < lstMapObject.size(); ++i){
+            GameObject mapObject = lstMapObject.get(i);
+            if(CollisionManager.CheckCollision(testBox, mapObject.getBoundBox())){
+                // 이동한 위치가 맵오브젝트(불,블럭)과 겹치지 않을 때만 이동 적용
+                return;
+            }
+        }
+
         // 이동한 위치가 벽을 넘어가지 않을 때만 이동 적용
         if(posX > AppManager.MIN_X + 40 && posX < AppManager.MAX_X)
             m_vecPos.x += m_vecDir.x * m_moveSpeed;
         if(posY > AppManager.MIN_Y && posY < AppManager.MAX_Y)
             m_vecPos.y += m_vecDir.y * m_moveSpeed;
-
-        // 이동한 위치가 맵오브젝트(불,블럭)과 겹치지 않을 때만 이동 적용
-        //ArrayList<GameObject> lstMapObject = AppManager.getInstance().getCurGameState().GetObjectList(GameState.OBJ)
     }
 
     public void Attack(int iType) {

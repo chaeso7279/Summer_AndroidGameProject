@@ -75,25 +75,6 @@ public abstract class GameState {       // 교수님 코드에서의 IState
                 }
             }
         }
-        // 플레이어 - 불꽃
-        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
-                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_MAP);
-                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
-                }
-            }
-        }
-
-        // 플레이어 - 블록
-        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
-            for(GameObject dstObj : m_lstObject[OBJ_MAP]) {
-                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
-                    srcObj.OnCollision(dstObj, OBJ_MAP);
-                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
-                }
-            }
-        }
 
         //플레이어 불릿 - 불꽃
         for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
