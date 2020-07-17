@@ -23,6 +23,10 @@ public class Player extends GameObject {
     public static final int WALK_RIGHT = 7;
     public static final int STATE_END = 8;
 
+    static final int ATT_BULLET = 0;
+    static final int ATT_BOMB = 1;
+    static final int ATT_END = 2;
+
     private int m_moveSpeed;
     boolean m_isMove = false;
 
@@ -162,5 +166,14 @@ public class Player extends GameObject {
                 ChangeState(IDLE_RIGHT);
                 break;
         }
+    }
+
+    public void Attack(int iType) {
+//        switch (iType) {
+//            case ATT_BULLET:
+//                break;
+//            case ATT_BOMB:
+//                break;
+//        }
     }
 }
