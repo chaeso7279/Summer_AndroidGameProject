@@ -18,8 +18,6 @@ public class FireObject extends GameObject {
     public static final int STATE_END = 3;
     public int firestate = FIRE_ON;
 
-    public Rect m_BoundBox = new Rect();
-
     public FireObject(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
     }
@@ -40,9 +38,8 @@ public class FireObject extends GameObject {
         m_arrFrameCnt = new int[STATE_END];
 
         //모두 5
-        for(int i=STATE_START; i<STATE_END;i++){
-
-            m_arrFrameCnt[i]=5;
+        for(int i=STATE_START; i<STATE_END;i++) {
+            m_arrFrameCnt[i] = 6;
         }
     }
 

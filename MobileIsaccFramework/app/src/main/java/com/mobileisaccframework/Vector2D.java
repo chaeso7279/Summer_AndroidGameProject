@@ -12,6 +12,7 @@ public class Vector2D {
         double tempX = _dst.x - this.x;
         double tempY = _dst.y - this.y;
 
+        // Normalize
         double vectorSize = Math.sqrt(tempX*tempX + tempY*tempY);
         tempX = tempX/vectorSize;
         tempY = tempY/vectorSize;

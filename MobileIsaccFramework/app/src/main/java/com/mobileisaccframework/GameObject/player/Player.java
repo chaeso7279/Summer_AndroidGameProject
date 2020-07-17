@@ -23,6 +23,9 @@ public class Player extends GameObject {
     public static final int WALK_RIGHT = 7;
     public static final int STATE_END = 8;
 
+    private int m_moveSpeed;
+    boolean m_isMove = false;
+
     public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
     }
@@ -50,12 +53,20 @@ public class Player extends GameObject {
 
         for(int i = WALK_FRONT; i <= WALK_RIGHT; ++i)
             m_arrFrameCnt[i] = 10;
+
+        // Speed 설정
+        m_moveSpeed = 5;
     }
 
     // 매 프레임 실행
     @Override
     public void Update(long _gameTime) {
         super.Update(_gameTime);
+
+        if(m_isMove){
+            m_vecPos.x += m_vecDir.x * m_moveSpeed;
+            m_vecPos.y += m_vecDir.y * m_moveSpeed;
+        }
 
     }
 
@@ -125,7 +136,31 @@ public class Player extends GameObject {
         m_curState = _state;
     }
 
-    void Move(Vector2D _vecDir) {
+    public void Move(Vector2D _vecDir, int iState) {
+        ChangeState(iState);
+        m_vecDir = _vecDir;
+        m_isMove = true;
+    }
 
+    public void MoveStop() {
+        m_vecDir.x = 0;
+        m_vecDir.y = 0;
+
+        m_isMove = false;
+
+        switch (m_curState) {
+            case WALK_BACK:
+                ChangeState(IDLE_BACK);
+                break;
+            case WALK_FRONT:
+                ChangeState(IDLE_FRONT);
+                break;
+            case WALK_LEFT:
+                ChangeState(IDLE_LEFT);
+                break;
+            case WALK_RIGHT:
+                ChangeState(IDLE_RIGHT);
+                break;
+        }
     }
 }
