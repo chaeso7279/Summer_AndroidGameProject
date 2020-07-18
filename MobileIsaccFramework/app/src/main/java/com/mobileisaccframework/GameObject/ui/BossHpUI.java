@@ -52,7 +52,7 @@ public class BossHpUI extends GameObject {
 
         // 플레이어의 최대 체력으로 이미지를 나눈 것에 현재 플레이어의 체력을 곱하면
         // 플레이어의 체력만큼 하트 개수를 출력할 수 있음
-        int imgRight = (m_imgWidth / m_bossMaxHP+2) *(m_bossHP+2);
+        int imgRight = (m_imgWidth / m_bossMaxHP) * 2 + (((m_imgWidth / m_bossMaxHP) * 13 ) / m_bossMaxHP) *(m_bossHP);
         m_imgRect.right = imgRight;
 
         Rect dest = new Rect( m_vecPos.x, m_vecPos.y,

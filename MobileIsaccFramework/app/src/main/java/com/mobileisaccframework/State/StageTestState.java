@@ -78,7 +78,8 @@ public class StageTestState extends GameState {
         CreateDoor(Door.DOOR_RIGHT);
         // 플레이어
         CreatePlayer(AppManager.WIDTH / 2, AppManager.HEIGHT / 2 + 20);
-
+//        // 보스
+//        CreateBoss(1100,500);
         CreateUI();
     }
 

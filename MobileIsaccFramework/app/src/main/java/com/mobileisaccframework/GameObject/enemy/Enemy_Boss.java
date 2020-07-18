@@ -207,8 +207,8 @@ public class Enemy_Boss extends GameObject {
         ++m_speedY;
 
         // 이동할 위치가 벽을 넘어가면 멈춤
-        if(posX < AppManager.MIN_X + 40 || posX > AppManager.MAX_X
-                || posY > AppManager.MAX_Y){
+        if(posX < AppManager.MIN_X + 80 || posX > AppManager.MAX_X - 120
+                || posY > AppManager.MAX_Y-120){
             ChangeState(STATE_IDLE);
             m_isJump = false;
             // 이펙트 생성
