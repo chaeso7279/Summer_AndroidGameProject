@@ -6,6 +6,7 @@ import android.graphics.Rect;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
+import com.mobileisaccframework.GameObject.MapObject.MapObject;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
@@ -93,5 +94,22 @@ public class Bullet extends GameObject {
     @Override
     public void Render(Canvas canvas) {
         super.Render(canvas);
+    }
+
+    @Override
+    public void OnCollision(GameObject obj, int objID) {
+        // 맵 오브젝트 충돌 시 죽음
+        if(objID == GameState.OBJ_MAP)
+            m_isDead = true;
+
+        if(m_isPlayer){ // 플레이어 Bullet 일 경우 적과 부딫히면 죽음
+            if(objID == GameState.OBJ_ENEMY)
+                m_isDead = true;
+        }
+
+        else{ // 적 Bullet 일 경우 플레이어와 부딫히면 죽음
+            if(objID == GameState.OBJ_PLAYER)
+                m_isDead = true;
+        }
     }
 }

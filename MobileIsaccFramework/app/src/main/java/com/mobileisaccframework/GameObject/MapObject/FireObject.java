@@ -19,7 +19,7 @@ public class FireObject extends MapObject {
 //    public static final int FIRE_OFF = 2;
 //    public static final int STATE_END = 3;
 //    private int m_fireState = FIRE_ON;
-    private int m_fireHP;   // 불꽃 체력(bullet 세 번 맞아야 불이 꺼짐)
+    //private int m_fireHP = 3;   // 불꽃 체력(bullet 세 번 맞아야 불이 꺼짐)
 
     public FireObject(int iType, Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
         super(iType, bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
@@ -43,7 +43,7 @@ public class FireObject extends MapObject {
         if(m_objectState != null)
             m_objectState.Update(_gameTime);
 
-        // bondBox 위치 업데이트
+        // boundBox 위치 업데이트
         m_boundBox.set(m_vecPos.x + 20, m_vecPos.y + 10,
                 m_vecPos.x + m_imgWidth - 20, m_vecPos.y + m_imgHeight - 20);
 
@@ -98,9 +98,9 @@ public class FireObject extends MapObject {
     public void OnCollision(GameObject obj, int objID) {
         //플레이어 불릿이랑 충돌 시 체력 감소
         if(objID == OBJ_BULLET_PLAYER) {
-            --m_fireHP;
-            if(m_fireHP <= 0)
-                m_isDead = true;
+            //--m_fireHP;
+            //if(m_fireHP <= 0)
+            m_isDead = true;
         }
     }
 }
