@@ -81,6 +81,8 @@ public class Door extends GameObject {
                     break;
             }
             AppManager.getInstance().ChangeGameState(gameState); // 생성한 스테이지로 GameState 변경
+            // 다음 스테이지의 플레이어에 체력 전달하기 위해 이전 스테이지 체력을 저장
+            AppManager.getInstance().SavePlayerHP();
         }
     }
 }

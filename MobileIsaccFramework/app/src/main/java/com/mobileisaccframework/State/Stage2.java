@@ -78,6 +78,8 @@ public class Stage2 extends GameState {
 
         // 플레이어
         CreatePlayer(1200, 1000);
+        // 이전 스테이지에서 저장한 체력을 현재 플레이어에 전달
+        AppManager.getInstance().LoadPlayerHP();
 
 //        // 적
 //        CreateEnemy_2(1000,230);
