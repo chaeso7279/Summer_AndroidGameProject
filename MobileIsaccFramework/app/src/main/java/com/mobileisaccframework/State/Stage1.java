@@ -12,6 +12,7 @@ import com.mobileisaccframework.GameObject.enemy.Enemy_2;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
 
@@ -20,6 +21,9 @@ public class Stage1 extends GameState {
 
     // 방향키 패드
     Pad m_pad;
+
+    SoundManager soundManager;
+    public int stageSound;
 
     @Override
     public void Initialize() {
@@ -33,6 +37,10 @@ public class Stage1 extends GameState {
 
         m_backGround.Update(_gameTime);
         m_door.Update(_gameTime);
+
+        //사운드
+        SoundManager.getInstance().addSound(SOUND_STAGE, R.raw.stage_back);
+        SoundManager.getInstance().playSound(SOUND_STAGE);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for (int j = 0; j < m_lstObject[i].size(); ++j) {

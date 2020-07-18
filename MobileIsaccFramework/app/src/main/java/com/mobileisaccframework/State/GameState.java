@@ -1,7 +1,11 @@
 package com.mobileisaccframework.State;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -15,6 +19,7 @@ import com.mobileisaccframework.GameObject.enemy.Enemy_Boss;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
 
@@ -34,6 +39,13 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
     // 배경
     protected GameObject m_backGround;
+
+    //사운드
+    public static final int SOUND_INTRO = 1;
+    public static final int SOUND_STAGE = 2;
+    public static final int SOUND_BOSSSTAGE = 3;
+
+
     // 방향키 패드
     Pad m_pad;
 
@@ -204,6 +216,10 @@ public abstract class GameState {       // 교수님 코드에서의 IState
         m_lstObject[OBJ_UI].add(object);
         m_pad.SetAttackUIRect(1, object.getBoundBox());
     }
+
+   // public void CreateSound(int _index, int _soundID){
+
+   // }
 
     public abstract boolean onKeyDown(int _keyCode, KeyEvent _event);
     public abstract boolean onTouchEvent(MotionEvent event);

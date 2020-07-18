@@ -18,6 +18,7 @@ public class Stage2 extends GameState {
     @Override
     public void Initialize() {
         super.Initialize();
+
     }
 
     @Override

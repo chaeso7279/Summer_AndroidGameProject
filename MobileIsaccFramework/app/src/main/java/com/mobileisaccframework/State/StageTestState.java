@@ -1,10 +1,15 @@
 package com.mobileisaccframework.State;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Canvas;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.GameObject.MapObject.BlockObject;
 import com.mobileisaccframework.GameObject.MapObject.FireObject;
@@ -16,15 +21,22 @@ import com.mobileisaccframework.R;
 public class StageTestState extends GameState {
     GameObject m_door;
 
+
     @Override
     public void Initialize() {
         super.Initialize();
+
     }
 
     @Override
     public void Update(long _gameTime) {
         if(!m_isInit) // 아직 Initialize 가 진행되지 않았다면 더 이상 진행 X
             return;
+
+      //  SoundManager.getInstance().Initialize();
+      //  SoundManager.getInstance().addSound(_index, _soundID);
+      //  SoundManager.getInstance().playSound(_index);
+
 
         // 배경 업데이트
         m_backGround.Update(_gameTime);
@@ -46,6 +58,8 @@ public class StageTestState extends GameState {
     @Override
     public void Render(Canvas canvas) {
         super.Render(canvas);
+
+
 
         if(!m_isInit) // 아직 Initialize 가 진행되지 않았다면 더 이상 진행 X
             return;
@@ -87,6 +101,9 @@ public class StageTestState extends GameState {
         CreateBlock(1970,532);
 
         CreateUI();
+
+
+
     }
 
     @Override
@@ -111,4 +128,6 @@ public class StageTestState extends GameState {
     public void Destroy() {
 
     }
+
+
 }

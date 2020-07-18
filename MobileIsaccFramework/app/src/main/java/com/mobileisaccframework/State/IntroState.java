@@ -6,15 +6,20 @@ import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 
 public class IntroState extends GameState {
     GameObject m_introUI;
+    SoundManager soundManager;
+    private int introSound;
 
     @Override
     public void Initialize() {
         AddObject();
         m_isInit = true;
+        soundManager.addSound(introSound, R.raw.intro_back);
+        soundManager.playSound(introSound);
     }
 
     @Override
@@ -24,6 +29,7 @@ public class IntroState extends GameState {
 
         m_backGround.Update(_gameTime);
         m_introUI.Update(_gameTime);
+
     }
 
     @Override
