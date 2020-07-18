@@ -200,7 +200,7 @@ public class Enemy_Boss extends GameObject {
             Random rand = new Random();
             int randInt = rand.nextInt(3) + 1;
 
-            switch(3){
+            switch(randInt){
                 case ATTACK_JUMP:
                     ChangeState(STATE_JUMP);
                     Log.d("attack:", "jump");
@@ -227,6 +227,35 @@ public class Enemy_Boss extends GameObject {
 
     public void Attack_Circle(){
         Log.d("attack:", "circle");
+        //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
+        //플레이어 위치에 따라 방향벡터 다르게 처리
+        Vector2D enemyPos = new Vector2D(this.getPosition());
+        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+
+        GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(0,1));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(1,1));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(1,0));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(1,-1));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(0,-1));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(-1,-1));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(-1,0));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(-1,1));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
     }
     public void Attack_Player(){
         Log.d("attack:", "player");
