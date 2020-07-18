@@ -18,6 +18,7 @@ public class SoundManager {
     public static int BGM_DEAD = 4;
     public static int BGM_END = 5;
 
+
     // 배경음악용 MediaPlayer;
     private MediaPlayer[] m_bgm = new MediaPlayer[BGM_END];
     private MediaPlayer m_curBGM;
@@ -42,16 +43,24 @@ public class SoundManager {
     }
 
     // 이펙트 사운드 추가
-    public void AddEffectSound(int _index, int _soundID){
+    public void AddEffectSound(EFFECT_ENUM _effectID, int _soundID){
         int id = m_SoundPool.load(m_context, _soundID, 1); //사운드를 로드
-        m_SoundPoolMap.put(_index, id); //해시맵에 아이디 값을 받아온 인덱스 저장
+        m_SoundPoolMap.put(_effectID, id); //해시맵에 아이디 값을 받아온 인덱스 저장
     }
 
-    // 이펙트 사운드 재생
-    public void PlayEffectSound(int _index){
+    // 이펙트 사운드 재생 (No Loop)
+    public void PlayEffectSound(EFFECT_ENUM _effectID){
+        //float streamVolume = m_AudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        //streamVolume = streamVolume / m_AudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        //m_SoundPool.play((Integer) m_SoundPoolMap.get(_effectID), streamVolume, streamVolume, 0, 1, 1f);
+        m_SoundPool.play((Integer) m_SoundPoolMap.get(_effectID), 0.5f, 0.5f, 1, 0, 1f);
+    }
+
+    // 이펙트 사운드 재생 (Loop)
+    public void PlayEffectSound_Looped(EFFECT_ENUM _effectID) {
         float streamVolume = m_AudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         streamVolume = streamVolume / m_AudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        m_SoundPool.play((Integer) m_SoundPoolMap.get(_index), streamVolume, streamVolume, 1, 0, 1f);
+        m_SoundPool.play((Integer)m_SoundPoolMap.get(_effectID), streamVolume, streamVolume, 1, 1, 1.f);
     }
 
     // 배경음악 재생
@@ -59,9 +68,7 @@ public class SoundManager {
         if(m_curBGM != null) // 현재 재생중인 배경음악이 있으면 꺼줌
             m_curBGM.stop();
 
-        m_bgm[bgmID].setLooping(true);
         m_bgm[bgmID].start();
-
         m_curBGM =  m_bgm[bgmID];
     }
 
@@ -71,10 +78,34 @@ public class SoundManager {
         m_bgm[BGM_BOSS] = MediaPlayer.create(m_context, R.raw.bgm_boss);
         m_bgm[BGM_CLEAR] = MediaPlayer.create(m_context, R.raw.bgm_clear);
         m_bgm[BGM_DEAD] = MediaPlayer.create(m_context, R.raw.bgm_died);
+
+        // 볼륨 및 Loop 여부 셋팅
+        for(int i = 0; i<BGM_END; ++i){
+            m_bgm[i].setVolume(0.5f, 0.5f);
+            m_bgm[i].setLooping(true);
+        }
     }
 
     public void LoadEffectSound() {
+        // 총알
+        AddEffectSound(EFFECT_ENUM.FX_BULLET_SHOOT, R.raw.bullet_shooted);
+        AddEffectSound(EFFECT_ENUM.FX_BULLET_DIE, R.raw.bullet_die);
+        AddEffectSound(EFFECT_ENUM.FX_BOMB, R.raw.bomb);
 
+        // 플레이어
+        AddEffectSound(EFFECT_ENUM.FX_PLAYER_HIT, R.raw.player_hit);
+        AddEffectSound(EFFECT_ENUM.FX_PLAYER_DIE, R.raw.player_die);
+
+        // 적
+        AddEffectSound(EFFECT_ENUM.FX_ENEMY_DIE, R.raw.enemy_die);
+        AddEffectSound(EFFECT_ENUM.FX_BOSS_DIE, R.raw.boss_die);
+        AddEffectSound(EFFECT_ENUM.FX_BOSS_LAND, R.raw.boss_land);
+
+        // 맵
+        AddEffectSound(EFFECT_ENUM.FX_BLOCK_DIE, R.raw.block_die);
+        AddEffectSound(EFFECT_ENUM.FX_DOOR_OPEN, R.raw.door_open);
+
+        AddEffectSound(EFFECT_ENUM.FX_CLICK, R.raw.click);
     }
 
     // 싱글톤

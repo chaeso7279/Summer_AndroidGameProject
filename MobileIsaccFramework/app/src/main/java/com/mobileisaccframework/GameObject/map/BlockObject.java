@@ -4,6 +4,9 @@ package com.mobileisaccframework.GameObject.map;
 import android.graphics.Bitmap;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.Manager.EFFECT_ENUM;
+import com.mobileisaccframework.Manager.SoundManager;
+
 import static com.mobileisaccframework.State.GameState.OBJ_BOMB_PLAYER;
 
 public class BlockObject extends MapObject {
@@ -56,7 +59,10 @@ public class BlockObject extends MapObject {
     //충돌 시 호출되는 함수. 인자인 obj는 자신과 충돌한 오브젝트임!
     @Override
     public void OnCollision(GameObject obj, int objID) {
-       if (objID == OBJ_BOMB_PLAYER) // 플레이어 폭탄과 충돌 시 죽음
-            m_isDead = true;
+       if (objID == OBJ_BOMB_PLAYER) {  // 플레이어 폭탄과 충돌 시 죽음
+           m_isDead = true;
+           // 효과음
+           SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_BLOCK_DIE);
+       }
     }
 }

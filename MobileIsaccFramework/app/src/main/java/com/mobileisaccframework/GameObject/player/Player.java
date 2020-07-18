@@ -11,6 +11,8 @@ import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.GameObject.ui.PlayerHpUI;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
+import com.mobileisaccframework.Manager.EFFECT_ENUM;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
@@ -286,6 +288,9 @@ public class Player extends GameObject {
             if(obj != null)
                 AppManager.getInstance().getCurGameState().
                         m_lstObject[GameState.OBJ_BULLET_PLAYER].add(obj);
+
+            // 효과음
+            SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_BULLET_SHOOT);
         }
         else if(iType == ATT_BOMB){     // 폭탄일때
             obj = new Bomb(m_vecPos.x + 20, m_vecPos.y + 50);
@@ -300,6 +305,7 @@ public class Player extends GameObject {
 
     private void Hit(){
         m_isHit = true;
+        m_hitTimer = System.currentTimeMillis();
         --m_hp;
 
         if(AppManager.getInstance().m_isNoDead){
@@ -310,11 +316,15 @@ public class Player extends GameObject {
             if(m_hp <= 0)  {    // HP가 0이 되면 죽음
                 m_isDead = true;
                 AppManager.getInstance().PlayerDead();
+                SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_PLAYER_DIE);
             }
         }
 
         // 체력 UI 업데이트
         if(m_hpUI != null)
             ((PlayerHpUI)m_hpUI).UpdateHP(m_hp);
+
+        // 효과음
+        SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_PLAYER_HIT);
     }
 }

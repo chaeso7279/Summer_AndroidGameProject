@@ -12,6 +12,8 @@ import com.mobileisaccframework.GameObject.ui.BossHpUI;
 import com.mobileisaccframework.GameObject.ui.PlayerHpUI;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
+import com.mobileisaccframework.Manager.EFFECT_ENUM;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.State.Stage_Boss;
@@ -211,6 +213,7 @@ public class Enemy_Boss extends GameObject {
             m_isJump = false;
             // 이펙트 생성
             CreateJumpEffect();
+            SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_BOSS_LAND);
             return;
         }
 
@@ -347,6 +350,8 @@ public class Enemy_Boss extends GameObject {
         if(m_hp <=0){
             m_isDead = true;
             CreateDieEffect();
+            // 효과음
+            SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_BOSS_DIE);
 
             // 보스가 죽어도 바로 크레딧으로 넘어가지 않도록 할 것임 -> 죽으면 타이머 스타트
             AppManager.m_boss = null;

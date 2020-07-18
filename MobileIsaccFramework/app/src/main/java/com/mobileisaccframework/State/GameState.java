@@ -288,7 +288,7 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
         // 적이 없으면 문 열어줌
         if(IsEmpty(OBJ_ENEMY)) {
-            ((Door) m_lstObject[OBJ_DOOR].get(0)).SetIsOpen(true);
+            ((Door) m_lstObject[OBJ_DOOR].get(0)).OpenDoor();
             m_isDoorOpen = true;
         }
     }

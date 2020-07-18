@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.EFFECT_ENUM;
 import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 

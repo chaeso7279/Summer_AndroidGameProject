@@ -6,6 +6,8 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameView;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.EFFECT_ENUM;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.State.Stage1;
@@ -53,9 +55,15 @@ public class Door extends GameObject {
         Initialize();
     }
 
-    public void SetIsOpen(boolean _isOpen) {
-        m_isOpen = _isOpen;
+    public void OpenDoor() {
+        if(m_isOpen)
+            return;
+
+        m_isOpen = true;
         m_objectState.SetPlay(true); // 문 열린 이미지로 변경
+
+        // 효과음
+        SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_DOOR_OPEN);
     }
 
     @Override

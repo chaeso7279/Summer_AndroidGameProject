@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.EFFECT_ENUM;
 import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.Vector2D;
@@ -98,9 +99,10 @@ public class CreditState extends GameState {
         int y = (int)event.getY();
 
         // 각 영역마다 터치 확인
-        if(m_rectButton[BUTTON_HP].contains(x,y)) // 건강한 피와 터치 시 플레이어 안죽음 모드
+        if(m_rectButton[BUTTON_HP].contains(x,y)) { // 건강한 피와 터치 시 플레이어 안죽음 모드
             AppManager.getInstance().m_isNoDead = true;
-
+            SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_CLICK);
+        }
         else if(m_rectButton[BUTTON_RESTART].contains(x,y)) // 재시작 시 인트로 화면으로
             AppManager.getInstance().ReStartGame();
 

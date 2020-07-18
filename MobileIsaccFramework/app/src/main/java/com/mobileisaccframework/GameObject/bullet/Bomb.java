@@ -7,6 +7,8 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameObject.effect.BombEffect;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.EFFECT_ENUM;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
@@ -47,6 +49,9 @@ public class Bomb extends GameObject {
             if(obj != null)
                 AppManager.getInstance().getCurGameState().
                         m_lstObject[GameState.OBJ_EFFECT].add(obj);
+
+            // 효과음
+            SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_BOMB);
 
             return DEAD_OBJ;
         }

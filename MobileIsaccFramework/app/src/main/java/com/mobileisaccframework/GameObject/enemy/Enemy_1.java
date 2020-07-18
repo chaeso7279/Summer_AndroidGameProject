@@ -8,6 +8,8 @@ import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.GameObject.effect.Effect;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.EFFECT_ENUM;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
@@ -221,6 +223,9 @@ public class Enemy_1 extends GameObject {
         if(m_hp <=0){
             m_isDead = true;
             CreateDieEffect();
+
+            // 효과음
+            SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_ENEMY_DIE);
         }
         Log.d("Enemy1 HP:",m_hp+"");
     }
