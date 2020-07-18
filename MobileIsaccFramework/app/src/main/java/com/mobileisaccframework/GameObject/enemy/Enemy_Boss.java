@@ -19,6 +19,7 @@ import java.util.Random;
 
 import static com.mobileisaccframework.State.GameState.OBJ_BACK_EFFECT;
 import static com.mobileisaccframework.State.GameState.OBJ_BOMB_PLAYER;
+import static com.mobileisaccframework.State.GameState.OBJ_EFFECT;
 
 public class Enemy_Boss extends GameObject {
     public static final int STATE_IDLE = 0;
@@ -37,14 +38,14 @@ public class Enemy_Boss extends GameObject {
 
     protected int m_speedX;
     protected int m_speedY;
-    protected int hp;
+    protected int m_hp;
 
     boolean m_isAttack = false;
     private long m_attackTimer = System.currentTimeMillis();
 
     protected boolean m_isJump = false;
-    protected Vector2D jumpDest;
-    Vector2D jumpDir;
+    protected Vector2D m_jumpDest;
+    Vector2D m_jumpDir;
 
 
     public Enemy_Boss(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
@@ -66,7 +67,7 @@ public class Enemy_Boss extends GameObject {
         //프레임 개수 설정
         m_arrFrameCnt = new int[STATE_END];
 
-        //모두 3임
+        //ATTACK 빼고 모두 3임
         for(int i = STATE_IDLE; i < STATE_END; ++i)
             m_arrFrameCnt[i] = 3;
         m_arrFrameCnt[STATE_ATTACK] = 18;
@@ -74,6 +75,9 @@ public class Enemy_Boss extends GameObject {
         //이동 속도 설정
         m_speedX = 20;
         m_speedY = -100;
+
+        //hp 설정
+        m_hp = 15;
     }
 
     //매 프레임 실행
@@ -150,9 +154,11 @@ public class Enemy_Boss extends GameObject {
     public void SetJump(){
         m_isJump = true;
         //점프할 떄 플레이어의 위치
-        jumpDest = new Vector2D(AppManager.getInstance().m_player.getPosition());
-        //점프할 방향
-        jumpDir = m_vecPos.getDirection(jumpDest);
+        if(AppManager.getInstance().m_player!=null){
+            m_jumpDest = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        }
+         //점프할 방향
+        m_jumpDir = m_vecPos.getDirection(m_jumpDest);
     }
 
     public void Move(){
@@ -170,11 +176,11 @@ public class Enemy_Boss extends GameObject {
         int posY = m_vecPos.y;
 
         //화면 위로 올라가면 바로 이동 방향 아래로 바꿈
-        if(m_speedY<0 && posY < -100){
+        if(m_speedY < 0 && posY < -100){
             m_speedY = 0;
         }
 
-        posX += m_speedX * jumpDir.x;
+        posX += m_speedX * m_jumpDir.x;
         posY += m_speedY;
         ++m_speedY;
 
@@ -189,7 +195,7 @@ public class Enemy_Boss extends GameObject {
         }
 
         //boss가 내려오는 상태고, 점프 목적지의 y좌표와 50이하로 차이나면 멈춤
-        if( m_speedY > 0 && Math.abs(m_vecPos.y - jumpDest.y) < 50){
+        if( m_speedY > 0 && Math.abs(m_vecPos.y - m_jumpDest.y) < 50){
             ChangeState(STATE_IDLE);
             m_isJump = false;
             CreateJumpEffect();
@@ -233,10 +239,6 @@ public class Enemy_Boss extends GameObject {
     public void Attack_Circle(){
         Log.d("attack:", "circle");
         //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
-        //플레이어 위치에 따라 방향벡터 다르게 처리
-        Vector2D enemyPos = new Vector2D(this.getPosition());
-        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
-
         GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(0,1));
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
 
@@ -267,9 +269,11 @@ public class Enemy_Boss extends GameObject {
 
         //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
         //플레이어 위치에 따라 방향벡터 다르게 처리
-        Vector2D enemyPos = new Vector2D(this.getPosition());
-        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
-        Vector2D dir = enemyPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
+        Vector2D playerPos = null;
+        if(AppManager.getInstance().m_player!=null) {
+            playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        }
+        Vector2D dir = m_vecPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
 
         GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, dir);
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
@@ -278,6 +282,12 @@ public class Enemy_Boss extends GameObject {
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
 
         obj = new Bullet(false, m_vecPos.x+50, m_vecPos.y+50, dir);
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x+50, m_vecPos.y+50, new Vector2D(dir.x, 0));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x+50, m_vecPos.y+50, new Vector2D(0, dir.y));
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
     }
 
@@ -290,5 +300,37 @@ public class Enemy_Boss extends GameObject {
 
         // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
         AppManager.getInstance().getCurGameState().m_lstObject[OBJ_BACK_EFFECT].add(object);
+    }
+    private void CreateDieEffect(){
+        //hp<=0이 되어 죽을 경우 이펙트 출력
+        GameObject object = new Effect(AppManager.getInstance().getBitmap(R.drawable.effect_boss_die),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_boss_die),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_boss_die),
+                m_vecPos.x - 20, m_vecPos.y - 70, 20, 16, false);
+
+        // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
+        AppManager.getInstance().getCurGameState().m_lstObject[OBJ_EFFECT].add(object);
+
+    }
+
+    @Override
+    public void OnCollision(GameObject object, int objID) {
+        switch (objID) {
+            //플레이어 공격과 충돌 시 체력 감소
+            case GameState.OBJ_BOMB_PLAYER:
+                m_hp-=3;    //폭탄일 경우 3 감소
+                if(m_hp <=0)
+                    m_isDead = true;
+                break;
+            case GameState.OBJ_BULLET_PLAYER:
+                --m_hp;     //총알일 경우 1 감소
+                if(m_hp <= 0){
+                    m_isDead = true;
+                    CreateDieEffect();
+                }
+
+                break;
+        }
+        Log.d("Boss HP:",m_hp+"");
     }
 }
