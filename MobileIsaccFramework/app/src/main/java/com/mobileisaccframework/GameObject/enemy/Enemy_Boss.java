@@ -33,6 +33,7 @@ public class Enemy_Boss extends GameObject {
     public static final int ATTACK_PLAYER = 3;
 
     public static final int GAP_ATTACK = 4000;
+    public static final int GAP_DIE = 2000;
 
     protected int m_curAttackPattern = ATTACK_CIRCLE;
 
@@ -46,6 +47,8 @@ public class Enemy_Boss extends GameObject {
     protected boolean m_isJump = false;
     protected Vector2D m_jumpDest;
     Vector2D m_jumpDir;
+
+    private long m_dieTimer = System.currentTimeMillis();
 
 
     public Enemy_Boss(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
@@ -97,6 +100,13 @@ public class Enemy_Boss extends GameObject {
         //점프 상태일 때만 Move 실행
         if(m_curState == STATE_JUMP ) {
             Move();
+        }
+
+        // Boss가 죽고 일정 시간이 지나면(이펙트 완료된 후) game clear
+        if(m_isDead) {
+            if(_gameTime > m_dieTimer + GAP_DIE) {
+                AppManager.getInstance().GameClear();
+            }
         }
 
         return super.Update(_gameTime);
@@ -326,6 +336,7 @@ public class Enemy_Boss extends GameObject {
         }
         if(m_hp <=0){
             m_isDead = true;
+            m_dieTimer = System.currentTimeMillis();
             CreateDieEffect();
         }
         Log.d("Boss HP:",m_hp+"");

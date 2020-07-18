@@ -193,7 +193,7 @@ public abstract class GameState {       // 교수님 코드에서의 IState
         GameObject enemyObject = new Enemy_2(AppManager.getInstance().getBitmap(R.drawable.enemy2_front),
                 AppManager.getInstance().getBitmapWidth(R.drawable.enemy2_front),
                 AppManager.getInstance().getBitmapHeight(R.drawable.enemy2_front),
-                _x,_y,5,4,true);
+                _x,_y,5,2,true);
 
         m_lstObject[OBJ_ENEMY].add(enemyObject);
         return enemyObject;

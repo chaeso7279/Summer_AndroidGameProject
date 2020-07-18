@@ -86,22 +86,13 @@ public class Stage1 extends GameState {
 
         //몬스터
         //Enemy_1
-        CreateEnemy_1(400,500);
+        CreateEnemy_1(800,500);
         CreateEnemy_1(1900,900);
 
         //Enemy_2
         CreateEnemy_2(395,307);
         CreateEnemy_2(1900,1000);
 
-
-//        //몬스터
-//        //Enemy_1
-//        CreateEnemy_1(400,500);
-//        CreateEnemy_1(1900,900);
-//
-//        //Enemy_2
-//        CreateEnemy_2(395,307);
-//        CreateEnemy_2(1900,1000);
 
         // UI
         CreateUI();
