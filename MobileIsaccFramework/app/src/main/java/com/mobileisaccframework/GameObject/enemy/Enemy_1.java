@@ -132,11 +132,13 @@ public class Enemy_1 extends GameObject {
             m_isStop = false;
         }
 
-        Vector2D enemyPos = new Vector2D(this.getPosition());
-        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
-        Vector2D dir = enemyPos.getDirection(playerPos);
+        Vector2D playerPos = null;
+        if(AppManager.getInstance().m_player!=null) {
+            playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        }
+        Vector2D dir = m_vecPos.getDirection(playerPos);
 
-        int dist = enemyPos.getDistance(playerPos);
+        int dist = m_vecPos.getDistance(playerPos);
         if(dist< 300){
             //플레이어와 일정 거리만큼 가까워지면 멈춤
             ChangeState(IDLE_FRONT);
@@ -176,9 +178,11 @@ public class Enemy_1 extends GameObject {
 
             //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
             //플레이어 위치에 따라 방향벡터 다르게 처리
-            Vector2D enemyPos = new Vector2D(this.getPosition());
-            Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
-            Vector2D dir = enemyPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
+            Vector2D playerPos = null;
+            if(AppManager.getInstance().m_player!=null) {
+                playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+            }
+            Vector2D dir = m_vecPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
 
             GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, dir);
 

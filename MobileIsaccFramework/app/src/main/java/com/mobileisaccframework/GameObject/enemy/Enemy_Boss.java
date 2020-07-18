@@ -150,8 +150,10 @@ public class Enemy_Boss extends GameObject {
     public void SetJump(){
         m_isJump = true;
         //점프할 떄 플레이어의 위치
-        m_jumpDest = new Vector2D(AppManager.getInstance().m_player.getPosition());
-        //점프할 방향
+        if(AppManager.getInstance().m_player!=null){
+            m_jumpDest = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        }
+         //점프할 방향
         m_jumpDir = m_vecPos.getDirection(m_jumpDest);
     }
 
@@ -233,10 +235,6 @@ public class Enemy_Boss extends GameObject {
     public void Attack_Circle(){
         Log.d("attack:", "circle");
         //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
-        //플레이어 위치에 따라 방향벡터 다르게 처리
-        Vector2D enemyPos = new Vector2D(this.getPosition());
-        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
-
         GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, new Vector2D(0,1));
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
 
@@ -267,9 +265,11 @@ public class Enemy_Boss extends GameObject {
 
         //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
         //플레이어 위치에 따라 방향벡터 다르게 처리
-        Vector2D enemyPos = new Vector2D(this.getPosition());
-        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
-        Vector2D dir = enemyPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
+        Vector2D playerPos = null;
+        if(AppManager.getInstance().m_player!=null) {
+            playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        }
+        Vector2D dir = m_vecPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
 
         GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, dir);
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
