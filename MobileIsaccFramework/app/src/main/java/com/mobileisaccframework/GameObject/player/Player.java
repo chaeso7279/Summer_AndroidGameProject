@@ -301,14 +301,16 @@ public class Player extends GameObject {
     private void Hit(){
         m_isHit = true;
         --m_hp;
+
         if(AppManager.getInstance().m_isNoDead){
             if(m_hp <= 1)     // 시연용으로 HP가 1이 되면 더이상 HP가 줄어들지 않도록 바꿈
                 ++m_hp;
         }
         else {
-            if(m_hp <= 0)   // HP가 0이 되면 죽음
+            if(m_hp <= 0)  {    // HP가 0이 되면 죽음
                 m_isDead = true;
                 AppManager.getInstance().PlayerDead();
+            }
         }
 
         // 체력 UI 업데이트
