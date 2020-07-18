@@ -19,6 +19,7 @@ import java.util.Random;
 
 import static com.mobileisaccframework.State.GameState.OBJ_BACK_EFFECT;
 import static com.mobileisaccframework.State.GameState.OBJ_BOMB_PLAYER;
+import static com.mobileisaccframework.State.GameState.OBJ_EFFECT;
 
 public class Enemy_Boss extends GameObject {
     public static final int STATE_IDLE = 0;
@@ -175,7 +176,7 @@ public class Enemy_Boss extends GameObject {
         int posY = m_vecPos.y;
 
         //화면 위로 올라가면 바로 이동 방향 아래로 바꿈
-        if(m_speedY<0 && posY < -100){
+        if(m_speedY < 0 && posY < -100){
             m_speedY = 0;
         }
 
@@ -300,6 +301,17 @@ public class Enemy_Boss extends GameObject {
         // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
         AppManager.getInstance().getCurGameState().m_lstObject[OBJ_BACK_EFFECT].add(object);
     }
+    private void CreateDieEffect(){
+        //hp<=0이 되어 죽을 경우 이펙트 출력
+        GameObject object = new Effect(AppManager.getInstance().getBitmap(R.drawable.effect_boss_die),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_boss_die),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_boss_die),
+                m_vecPos.x - 20, m_vecPos.y - 70, 20, 16, false);
+
+        // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
+        AppManager.getInstance().getCurGameState().m_lstObject[OBJ_EFFECT].add(object);
+
+    }
 
     @Override
     public void OnCollision(GameObject object, int objID) {
@@ -312,8 +324,11 @@ public class Enemy_Boss extends GameObject {
                 break;
             case GameState.OBJ_BULLET_PLAYER:
                 --m_hp;     //총알일 경우 1 감소
-                if(m_hp <= 0)
+                if(m_hp <= 0){
                     m_isDead = true;
+                    CreateDieEffect();
+                }
+
                 break;
         }
         Log.d("Boss HP:",m_hp+"");
