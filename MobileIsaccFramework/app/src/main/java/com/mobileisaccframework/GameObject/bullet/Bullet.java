@@ -72,7 +72,8 @@ public class Bullet extends GameObject {
                         m_lstObject[GameState.OBJ_EFFECT].add(obj);
 
             // 효과음
-            SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_BULLET_DIE);
+            if(m_isPlayer)
+                SoundManager.getInstance().PlayEffectSound(EFFECT_ENUM.FX_BULLET_DIE);
 
             return DEAD_OBJ;
         }

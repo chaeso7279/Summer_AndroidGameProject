@@ -84,6 +84,8 @@ public class SoundManager {
             m_bgm[i].setVolume(0.5f, 0.5f);
             m_bgm[i].setLooping(true);
         }
+
+        m_bgm[BGM_CLEAR].setLooping(false);
     }
 
     public void LoadEffectSound() {
