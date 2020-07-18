@@ -76,8 +76,8 @@ public class Enemy_Boss extends GameObject {
         m_speedX = 20;
         m_speedY = -100;
 
-        //hp
-        m_hp = 3;
+        //hp 설정
+        m_hp = 15;
     }
 
     //매 프레임 실행

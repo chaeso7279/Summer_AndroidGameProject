@@ -6,12 +6,15 @@ import android.util.Log;
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
+import com.mobileisaccframework.GameObject.effect.Effect;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.Vector2D;
 
 import java.util.Random;
+
+import static com.mobileisaccframework.State.GameState.OBJ_EFFECT;
 
 public class Enemy_1 extends GameObject {
     public static final int IDLE_FRONT = 0;
@@ -55,6 +58,9 @@ public class Enemy_1 extends GameObject {
 
         //이동 속도 설정
         m_speed = 2;
+
+        //hp 설정
+        m_hp = 3;
     }
 
     //매 프레임 실행
@@ -188,6 +194,37 @@ public class Enemy_1 extends GameObject {
 
             AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
         }
+    }
+    private void CreateDieEffect(){
+        //hp<=0이 되어 죽을 경우 이펙트 출력
+        GameObject object = new Effect(AppManager.getInstance().getBitmap(R.drawable.effect_boss_die),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_boss_die),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_boss_die),
+                m_vecPos.x - 20, m_vecPos.y - 70, 20, 16, false);
+
+        // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
+        AppManager.getInstance().getCurGameState().m_lstObject[OBJ_EFFECT].add(object);
+
+    }
+
+    @Override
+    public void OnCollision(GameObject object, int objID) {
+        switch (objID) {
+            //플레이어 공격과 충돌 시 체력 감소
+            case GameState.OBJ_BOMB_PLAYER:
+                m_hp-=3;    //폭탄일 경우 3 감소
+                if(m_hp <=0)
+                    m_isDead = true;
+                break;
+            case GameState.OBJ_BULLET_PLAYER:
+                --m_hp;     //총알일 경우 1 감소
+                if(m_hp <= 0){
+                    m_isDead = true;
+                    //CreateDieEffect();
+                }
+                break;
+        }
+        Log.d("Enemy1 HP:",m_hp+"");
     }
 
 }
