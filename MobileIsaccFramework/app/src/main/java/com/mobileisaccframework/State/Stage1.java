@@ -8,6 +8,7 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.door.Door;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
 
