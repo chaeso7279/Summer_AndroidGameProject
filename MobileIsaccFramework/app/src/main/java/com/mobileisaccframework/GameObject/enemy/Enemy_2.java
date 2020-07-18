@@ -173,10 +173,10 @@ public class Enemy_2 extends GameObject {
 
     private void CreateDieEffect(){
         //hp<=0이 되어 죽을 경우 이펙트 출력
-        GameObject object = new Effect(AppManager.getInstance().getBitmap(R.drawable.effect_boss_die),
-                AppManager.getInstance().getBitmapWidth(R.drawable.effect_boss_die),
-                AppManager.getInstance().getBitmapHeight(R.drawable.effect_boss_die),
-                m_vecPos.x - 20, m_vecPos.y - 70, 20, 16, false);
+        GameObject object = new Effect(AppManager.getInstance().getBitmap(R.drawable.effect_enemy_die),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_enemy_die),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_enemy_die),
+                m_vecPos.x - 70 , m_vecPos.y- 70, 30, 12, false);
 
         // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
         AppManager.getInstance().getCurGameState().m_lstObject[OBJ_EFFECT].add(object);
@@ -189,16 +189,14 @@ public class Enemy_2 extends GameObject {
             //플레이어 공격과 충돌 시 체력 감소
             case GameState.OBJ_BOMB_PLAYER:
                 m_hp-=3;    //폭탄일 경우 3 감소
-                if(m_hp <=0)
-                    m_isDead = true;
                 break;
             case GameState.OBJ_BULLET_PLAYER:
                 --m_hp;     //총알일 경우 1 감소
-                if(m_hp <= 0){
-                    m_isDead = true;
-                    //CreateDieEffect();
-                }
                 break;
+        }
+        if(m_hp <=0){
+            m_isDead = true;
+            CreateDieEffect();
         }
         Log.d("Enemy2 HP:",m_hp+"");
     }

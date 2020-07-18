@@ -88,14 +88,14 @@ public class StageTestState extends GameState {
 //        // 블록
 //        CreateBlock(1970,532);
 
-//        //몬스터
-//        //Enemy_1
-//        CreateEnemy_1(400,500);
-//        CreateEnemy_1(1900,900);
-//
-//        //Enemy_2
-//        CreateEnemy_2(395,307);
-//        CreateEnemy_2(1900,1000);
+        //몬스터
+        //Enemy_1
+        CreateEnemy_1(400,500);
+        CreateEnemy_1(1900,900);
+
+        //Enemy_2
+        CreateEnemy_2(395,307);
+        CreateEnemy_2(1900,1000);
 
         CreateUI();
     }
