@@ -1,4 +1,4 @@
-package com.mobileisaccframework.GameObject.bullet;
+package com.mobileisaccframework.GameObject.effect;
 
 import android.graphics.Bitmap;
 
@@ -8,7 +8,7 @@ import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.Vector2D;
 
-public class BombEffect extends GameObject {
+public class BombEffect extends Effect {
     public BombEffect(int _posX, int _posY){
         Bitmap bitmap;
 
@@ -23,13 +23,5 @@ public class BombEffect extends GameObject {
         m_objectState = new GameObjectState(this, bitmap, m_imgWidth, m_imgHeight,20, 12, false);
 
         Initialize();
-    }
-
-    @Override
-    public int Update(long _gameTime) {
-        if(m_objectState.IsPlay() == false) // 애니메이션 재생이 멈췄을 경우
-            m_isDead = true; // 객체 삭제
-
-        return super.Update(_gameTime);
     }
 }

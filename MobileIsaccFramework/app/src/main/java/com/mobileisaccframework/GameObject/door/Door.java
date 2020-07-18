@@ -28,7 +28,7 @@ public class Door extends GameObject {
 
         int rID = 0;
         if(iDirType == DOOR_RIGHT){
-            m_vecPos = new Vector2D(2160,532);
+            m_vecPos = new Vector2D(2155,532);
             rID = R.drawable.golddoor_right;
         }
         else{

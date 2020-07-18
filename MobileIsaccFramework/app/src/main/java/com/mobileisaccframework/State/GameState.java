@@ -33,15 +33,17 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
     // 오브젝트 구분 번호
     public final static int OBJ_MAP = 0;
-    public final static int OBJ_DOOR = 1;
-    public final static int OBJ_PLAYER = 2;
-    public final static int OBJ_ENEMY = 3;
-    public final static int OBJ_BULLET_PLAYER = 4;
-    public final static int OBJ_BOMB_PLAYER = 5;
-    public final static int OBJ_BULLET_ENEMY = 6;
-    public final static int OBJ_EFFECT = 7;
-    public final static int OBJ_UI = 8;
-    public final static int OBJ_END = 9;
+    public final static int OBJ_ETC = 1;
+    public final static int OBJ_DOOR = 2;
+    public final static int OBJ_BACK_EFFECT = 3;
+    public final static int OBJ_PLAYER = 4;
+    public final static int OBJ_ENEMY = 5;
+    public final static int OBJ_BULLET_PLAYER = 6;
+    public final static int OBJ_BOMB_PLAYER = 7;
+    public final static int OBJ_BULLET_ENEMY = 8;
+    public final static int OBJ_EFFECT = 9;
+    public final static int OBJ_UI = 10;
+    public final static int OBJ_END = 11;
 
     // 배경
     protected GameObject m_backGround;

@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.door.Door;
+import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 
 public class Stage2 extends GameState {
@@ -56,6 +57,9 @@ public class Stage2 extends GameState {
             for(GameObject obj : m_lstObject[i])
                 obj.Render(canvas);
         }
+
+        // Pad 출력
+        m_pad.Render(canvas);
     }
 
     @Override
@@ -65,24 +69,30 @@ public class Stage2 extends GameState {
 
         // 문
         CreateDoor(Door.DOOR_RIGHT);
+        // 전 스테이지에서 들어온 문(장식용임)
+        GameObject object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_back),
+                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_back),
+                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_back),
+                1200, 1160);
+        m_lstObject[OBJ_ETC].add(object);
 
         // 플레이어
-        CreatePlayer(1200, 700);
+        CreatePlayer(1200, 1000);
 
-        // 적
-        CreateEnemy_2(1000,230);
-
-        // 불꽃
-        CreateFire(545, 682);
-        CreateFire(920, 982);
-        CreateFire(1220,382);
-        CreateFire(1670,907);
-        CreateFire(1745,382);
-
-        // 블록
-        CreateBlock(770,607);
-        CreateBlock(1370,757);
-        CreateBlock(1820,532);
+//        // 적
+//        CreateEnemy_2(1000,230);
+//
+//        // 불꽃
+//        CreateFire(545, 682);
+//        CreateFire(920, 982);
+//        CreateFire(1220,382);
+//        CreateFire(1670,907);
+//        CreateFire(1745,382);
+//
+//        // 블록
+//        CreateBlock(770,607);
+//        CreateBlock(1370,757);
+//        CreateBlock(1820,532);
 
         // UI
         CreateUI();

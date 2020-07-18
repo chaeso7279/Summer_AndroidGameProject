@@ -71,27 +71,33 @@ public class Stage1 extends GameState {
 
         // 문
         CreateDoor(Door.DOOR_FRONT);
+        // 전 스테이지에서 들어온 문(장식용임)
+        GameObject object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_left),
+                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_left),
+                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_left),
+                210, 532);
+        m_lstObject[OBJ_ETC].add(object);
 
         // 플레이어
-        CreatePlayer(1500, 800);
+        CreatePlayer(400, 580);
 
-        //몬스터
-        //Enemy_1
-        CreateEnemy_1(400,500);
-        CreateEnemy_1(1900,900);
-
-        //Enemy_2
-        CreateEnemy_2(395,307);
-        CreateEnemy_2(1900,1000);
+//        //몬스터
+//        //Enemy_1
+//        CreateEnemy_1(400,500);
+//        CreateEnemy_1(1900,900);
+//
+//        //Enemy_2
+//        CreateEnemy_2(395,307);
+//        CreateEnemy_2(1900,1000);
 
         // 불꽃
-        CreateFire(620, 532);
-        CreateFire(995, 682);
-        CreateFire(1520,457);
-        CreateFire(1595,982);
-
-        // 블록
-        CreateBlock(1970,532);
+//        CreateFire(620, 532);
+//        CreateFire(995, 682);
+//        CreateFire(1520,457);
+//        CreateFire(1595,982);
+//
+//        // 블록
+//        CreateBlock(1970,532);
 
         // UI
         CreateUI();

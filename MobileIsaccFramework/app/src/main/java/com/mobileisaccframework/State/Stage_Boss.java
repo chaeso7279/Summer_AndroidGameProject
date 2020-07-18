@@ -67,8 +67,15 @@ public class Stage_Boss extends GameState {
         // 백그라운드
         CreateBackground(166, 26);
 
+        // 전 스테이지에서 들어온 문(장식용임)
+        GameObject object = new GameObject(AppManager.getInstance().getBitmap(R.drawable.golddoor_left),
+                AppManager.getInstance().getBitmapWidth(R.drawable.golddoor_left),
+                AppManager.getInstance().getBitmapHeight(R.drawable.golddoor_left),
+                210, 532);
+        m_lstObject[OBJ_ETC].add(object);
+
         // 플레이어
-        CreatePlayer(500,500);
+        CreatePlayer(400, 580);
 
         // 보스
         CreateBoss(1100,500);

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
+import com.mobileisaccframework.GameObject.effect.Effect;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
@@ -16,6 +17,7 @@ import com.mobileisaccframework.Vector2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.mobileisaccframework.State.GameState.OBJ_BACK_EFFECT;
 import static com.mobileisaccframework.State.GameState.OBJ_BOMB_PLAYER;
 
 public class Enemy_Boss extends GameObject {
@@ -181,6 +183,8 @@ public class Enemy_Boss extends GameObject {
                 || posY > AppManager.MAX_Y){
             ChangeState(STATE_IDLE);
             m_isJump = false;
+            // 이펙트 생성
+            CreateJumpEffect();
             return;
         }
 
@@ -188,6 +192,7 @@ public class Enemy_Boss extends GameObject {
         if( m_speedY > 0 && Math.abs(m_vecPos.y - jumpDest.y) < 50){
             ChangeState(STATE_IDLE);
             m_isJump = false;
+            CreateJumpEffect();
             return;
         }
         //멈춤 조건에 모두 해당하지 않을 때만 좌표 이동
@@ -276,4 +281,14 @@ public class Enemy_Boss extends GameObject {
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
     }
 
+    private void CreateJumpEffect() {
+        // 점프 -> 바닥 착지후 -> 이펙트 출력
+        GameObject object = new Effect(AppManager.getInstance().getBitmap(R.drawable.effect_boss_jump),
+                AppManager.getInstance().getBitmapWidth(R.drawable.effect_boss_jump),
+                AppManager.getInstance().getBitmapHeight(R.drawable.effect_boss_jump),
+                m_vecPos.x - 20, m_vecPos.y - 70, 20, 16, false);
+
+        // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
+        AppManager.getInstance().getCurGameState().m_lstObject[OBJ_BACK_EFFECT].add(object);
+    }
 }

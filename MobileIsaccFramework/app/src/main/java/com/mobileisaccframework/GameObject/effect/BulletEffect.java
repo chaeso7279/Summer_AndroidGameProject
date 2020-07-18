@@ -1,4 +1,4 @@
-package com.mobileisaccframework.GameObject.bullet;
+package com.mobileisaccframework.GameObject.effect;
 
 import android.graphics.Bitmap;
 
@@ -8,7 +8,7 @@ import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.Vector2D;
 
-public class BulletEffect extends GameObject {
+public class BulletEffect extends Effect {
     public BulletEffect(boolean _isPlayer, int _posX, int _posY){
         Bitmap bitmap;
         // 플레이어와 적 구분해서 이미지 변경
@@ -26,13 +26,5 @@ public class BulletEffect extends GameObject {
         m_objectState = new GameObjectState(this, bitmap, m_imgWidth, m_imgHeight,20, 15, false);
 
         Initialize();
-    }
-
-    @Override
-    public int Update(long _gameTime) {
-        if(m_objectState.IsPlay() == false) // 애니메이션 재생이 멈췄을 경우
-            m_isDead = true; // 객체 삭제
-
-        return super.Update(_gameTime);
     }
 }
