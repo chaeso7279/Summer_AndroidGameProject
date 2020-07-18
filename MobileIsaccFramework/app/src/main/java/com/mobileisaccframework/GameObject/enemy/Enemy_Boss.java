@@ -122,12 +122,13 @@ public class Enemy_Boss extends GameObject {
     }
 
     public void Move(){
+
         Vector2D enemyPos = new Vector2D(this.getPosition());
         Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
 
         int dist = enemyPos.getDistance(playerPos);
 
-        if(dist<500)
+        if(dist<200)
             return;
 
         int afterX = enemyPos.x;
