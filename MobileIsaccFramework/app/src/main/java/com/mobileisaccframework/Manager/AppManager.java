@@ -11,6 +11,7 @@ import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.GameView;
 import com.mobileisaccframework.State.CreditState;
 import com.mobileisaccframework.State.GameState;
+import com.mobileisaccframework.State.IntroState;
 
 public class AppManager {
     public static int WIDTH = 2440;
@@ -79,11 +80,11 @@ public class AppManager {
 
     public void PlayerDead(){
         m_player = null;
-        ChangeGameState(new CreditState());
+        ChangeGameState(new CreditState(false));
     }
 
     public void ReStartGame() {
-
+        ChangeGameState(new IntroState());
     }
 
     // 싱글톤

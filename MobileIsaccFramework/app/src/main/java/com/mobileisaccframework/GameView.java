@@ -9,6 +9,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.State.CreditState;
 import com.mobileisaccframework.State.GameState;
 import com.mobileisaccframework.State.IntroState;
 import com.mobileisaccframework.State.Stage1;
@@ -37,12 +38,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         AppManager.getInstance().setResources(getResources());
 
         // 스테이트 설정
-        changeGameState(new StageTestState());
+        changeGameState(new IntroState());
 
-        //changeGameState(new IntroState());
+        //changeGameState(new StageTestState());
         //changeGameState(new Stage1());
         //changeGameState(new Stage2());
         //changeGameState(new Stage_Boss());
+        //changeGameState(new CreditState(true));
     }
 
     public void Update() {
