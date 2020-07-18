@@ -66,7 +66,7 @@ public class Enemy_Boss extends GameObject {
         //프레임 개수 설정
         m_arrFrameCnt = new int[STATE_END];
 
-        //모두 3임
+        //ATTACK 빼고 모두 3임
         for(int i = STATE_IDLE; i < STATE_END; ++i)
             m_arrFrameCnt[i] = 3;
         m_arrFrameCnt[STATE_ATTACK] = 18;
@@ -74,6 +74,9 @@ public class Enemy_Boss extends GameObject {
         //이동 속도 설정
         m_speedX = 20;
         m_speedY = -100;
+
+        //hp
+        m_hp = 3;
     }
 
     //매 프레임 실행
@@ -207,7 +210,7 @@ public class Enemy_Boss extends GameObject {
             Random rand = new Random();
             int randInt = rand.nextInt(3) + 1;
 
-            switch(3){
+            switch(randInt){
                 case ATTACK_JUMP:
                     ChangeState(STATE_JUMP);
                     Log.d("attack:", "jump");
@@ -296,5 +299,23 @@ public class Enemy_Boss extends GameObject {
 
         // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
         AppManager.getInstance().getCurGameState().m_lstObject[OBJ_BACK_EFFECT].add(object);
+    }
+
+    @Override
+    public void OnCollision(GameObject object, int objID) {
+        switch (objID) {
+            //플레이어 공격과 충돌 시 체력 감소
+            case GameState.OBJ_BOMB_PLAYER:
+                m_hp-=3;    //폭탄일 경우 3 감소
+                if(m_hp <=0)
+                    m_isDead = true;
+                break;
+            case GameState.OBJ_BULLET_PLAYER:
+                --m_hp;     //총알일 경우 1 감소
+                if(m_hp <= 0)
+                    m_isDead = true;
+                break;
+        }
+        Log.d("Boss HP:",m_hp+"");
     }
 }
