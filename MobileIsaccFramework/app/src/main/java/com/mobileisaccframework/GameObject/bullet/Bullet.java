@@ -6,7 +6,6 @@ import android.graphics.Rect;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
-import com.mobileisaccframework.GameObject.MapObject.MapObject;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;

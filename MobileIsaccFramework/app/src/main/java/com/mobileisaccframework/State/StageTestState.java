@@ -5,12 +5,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
-import com.mobileisaccframework.Pad;
-import com.mobileisaccframework.GameObject.MapObject.BlockObject;
-import com.mobileisaccframework.GameObject.MapObject.FireObject;
-import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
-import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
 
 public class StageTestState extends GameState {

@@ -1,17 +1,11 @@
-package com.mobileisaccframework.GameObject.MapObject;
+package com.mobileisaccframework.GameObject.map;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 import com.mobileisaccframework.GameObject.GameObject;
-import com.mobileisaccframework.GameObject.GameObjectState;
-import com.mobileisaccframework.GameObject.player.Player;
-import com.mobileisaccframework.Manager.AppManager;
-import com.mobileisaccframework.R;
-import com.mobileisaccframework.State.GameState;
 
 import static com.mobileisaccframework.State.GameState.OBJ_BULLET_PLAYER;
-import static com.mobileisaccframework.State.GameState.OBJ_PLAYER;
 
 public class FireObject extends MapObject {
 //    public static final int STATE_START = 0;

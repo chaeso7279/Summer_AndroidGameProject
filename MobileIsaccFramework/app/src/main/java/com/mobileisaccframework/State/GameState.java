@@ -6,9 +6,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
-import com.mobileisaccframework.GameObject.MapObject.BlockObject;
-import com.mobileisaccframework.GameObject.MapObject.FireObject;
-import com.mobileisaccframework.GameObject.MapObject.MapObject;
+import com.mobileisaccframework.GameObject.map.BlockObject;
+import com.mobileisaccframework.GameObject.map.FireObject;
+import com.mobileisaccframework.GameObject.map.MapObject;
 import com.mobileisaccframework.GameObject.enemy.Enemy_1;
 import com.mobileisaccframework.GameObject.enemy.Enemy_2;
 import com.mobileisaccframework.GameObject.enemy.Enemy_Boss;

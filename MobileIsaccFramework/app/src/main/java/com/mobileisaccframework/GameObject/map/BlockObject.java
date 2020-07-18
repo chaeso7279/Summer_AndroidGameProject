@@ -1,4 +1,4 @@
-package com.mobileisaccframework.GameObject.MapObject;
+package com.mobileisaccframework.GameObject.map;
 
 
 import android.graphics.Bitmap;
