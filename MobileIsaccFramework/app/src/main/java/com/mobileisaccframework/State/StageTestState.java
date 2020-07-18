@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.door.Door;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 
 public class StageTestState extends GameState {
@@ -14,6 +15,7 @@ public class StageTestState extends GameState {
     public void Initialize() {
         m_stageID = STATE_TEST;
         super.Initialize();
+        SoundManager.getInstance().PlayBGM(SoundManager.BGM_STAGE);
     }
 
     @Override

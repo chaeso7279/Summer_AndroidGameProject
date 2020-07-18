@@ -16,14 +16,13 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        // 사운드 매니저 초기화
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        SoundManager.getInstance().Initialize(this);
         setContentView(new GameView(this));
 
         deleteStatusBar();
-
-        // 사운드 매니저 초기화
-        SoundManager.getInstance().Initialize(this);
     }
 
     public void deleteStatusBar(){

@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.Vector2D;
 
@@ -25,6 +26,10 @@ public class CreditState extends GameState {
     public CreditState(boolean isClear){
         m_bIsClear = isClear;
         Initialize();
+        if(isClear)
+            SoundManager.getInstance().PlayBGM(SoundManager.BGM_CLEAR);
+        else
+            SoundManager.getInstance().PlayBGM(SoundManager.BGM_DEAD);
     }
 
     @Override
