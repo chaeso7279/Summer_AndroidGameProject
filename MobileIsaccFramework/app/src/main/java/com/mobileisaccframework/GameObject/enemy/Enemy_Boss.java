@@ -100,13 +100,12 @@ public class Enemy_Boss extends GameObject {
     @Override
     public int Update(long _gameTime){
 
-        if(m_isDead) {
-            AppManager.getInstance().GameClear();
-//            if(_gameTime > m_dieTimer + GAP_DIE) {
-//                AppManager.getInstance().m_boss = null;
-//            }
-            return super.Update(_gameTime);
-        }
+//        if(m_isDead) {
+//            //AppManager.getInstance().GameClear();
+////            if(_gameTime > m_dieTimer + GAP_DIE) {
+////                AppManager.getInstance().m_boss = null;
+////            }
+//        }
 
         // 체력 UI 업데이트
         if(m_hpUI != null)
