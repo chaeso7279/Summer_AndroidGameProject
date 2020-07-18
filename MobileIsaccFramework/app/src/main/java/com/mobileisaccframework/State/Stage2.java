@@ -82,16 +82,19 @@ public class Stage2 extends GameState {
         AppManager.getInstance().LoadPlayerHP();
 
         // 불꽃
-        CreateFire(545, 682);
-        CreateFire(1220, 382);
-        CreateFire(1370,907);
+        CreateFire(995, 982);
+        CreateFire(1125, 832);
+        CreateFire(1295,832);
+        CreateFire(1400,982);
 
         // 블록
         CreateBlock(1940, 402);
         CreateBlock(1940,652);
 
-//        // 적
-//        CreateEnemy_2(1000,230);
+        // 적
+        CreateEnemy_1(1670, 307);
+        CreateEnemy_2(545,382);
+        CreateEnemy_2(545,907);
 
         // UI
         CreateUI();
