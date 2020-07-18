@@ -319,17 +319,14 @@ public class Enemy_Boss extends GameObject {
             //플레이어 공격과 충돌 시 체력 감소
             case GameState.OBJ_BOMB_PLAYER:
                 m_hp-=3;    //폭탄일 경우 3 감소
-                if(m_hp <=0)
-                    m_isDead = true;
                 break;
             case GameState.OBJ_BULLET_PLAYER:
                 --m_hp;     //총알일 경우 1 감소
-                if(m_hp <= 0){
-                    m_isDead = true;
-                    CreateDieEffect();
-                }
-
                 break;
+        }
+        if(m_hp <=0){
+            m_isDead = true;
+            CreateDieEffect();
         }
         Log.d("Boss HP:",m_hp+"");
     }
