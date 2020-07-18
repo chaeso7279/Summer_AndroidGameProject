@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.Manager.AppManager;
+import com.mobileisaccframework.Manager.SoundManager;
 import com.mobileisaccframework.R;
 
 public class IntroState extends GameState {
@@ -16,6 +17,9 @@ public class IntroState extends GameState {
         m_stageID = STATE_INTRO;
         AddObject();
         m_isInit = true;
+
+        // 배경음악 재생
+        //SoundManager.getInstance().AddSound(0, R.raw.intro_back);
     }
 
     @Override

@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import com.mobileisaccframework.Manager.SoundManager;
+
 public class GameActivity extends AppCompatActivity {
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -19,6 +21,9 @@ public class GameActivity extends AppCompatActivity {
         setContentView(new GameView(this));
 
         deleteStatusBar();
+
+        // 사운드 매니저 초기화
+        SoundManager.getInstance().Initialize(this);
     }
 
     public void deleteStatusBar(){
