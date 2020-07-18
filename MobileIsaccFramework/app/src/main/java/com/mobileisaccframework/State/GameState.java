@@ -88,11 +88,39 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
     public abstract void AddObject();
     public void CheckCollision() {
-        // 예시 (플레이어 - 적)
 
+        // 예시 (플레이어 - 적)
         for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
             if(CollisionManager.CheckCollision(AppManager.m_player.getBoundBox(), dstObj.getBoundBox())) {
                 AppManager.m_player.OnCollision(dstObj, OBJ_ENEMY);
+                dstObj.OnCollision(AppManager.m_player, OBJ_PLAYER);
+            }
+        }
+
+        //플레이어 불릿 - 적
+        for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_ENEMY);
+                    dstObj.OnCollision(srcObj, OBJ_BULLET_PLAYER);
+                }
+            }
+        }
+
+        //플레이어 폭탄 - 적
+        for(GameObject srcObj : m_lstObject[OBJ_BOMB_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_ENEMY);
+                    dstObj.OnCollision(srcObj, OBJ_BOMB_PLAYER);
+                }
+            }
+        }
+
+        // 플레이어 - 적 불릿
+        for(GameObject dstObj : m_lstObject[OBJ_BULLET_ENEMY]) {
+            if(CollisionManager.CheckCollision(AppManager.m_player.getBoundBox(), dstObj.getBoundBox())) {
+                AppManager.m_player.OnCollision(dstObj, OBJ_BULLET_ENEMY);
                 dstObj.OnCollision(AppManager.m_player, OBJ_PLAYER);
             }
         }

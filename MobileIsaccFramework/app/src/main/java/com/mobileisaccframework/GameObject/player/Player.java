@@ -27,16 +27,25 @@ public class Player extends GameObject {
     public static final int WALK_RIGHT = 7;
     public static final int STATE_END = 8;
 
-    public static final int GAP_ATTACK = 800;
+    public static final int GAP_ATTACK = 800;   // 공격 시 시간 갭
+    public static final int GAP_HIT = 1000; // Hit 시 시간 갭(맞고 나서 1초동안 무적상태)
 
-    static final int ATT_BULLET = 0;
+    public static final int MAX_HP = 10;    // 최대 체력
+
+    static final int ATT_BULLET = 0;    // 공격 종류
     static final int ATT_BOMB = 1;
 
-    private int m_moveSpeed;
+    private int m_moveSpeed; // 움직이는 속도
+    private int m_hp = 10;
+
+    // 일정시간마다 공격하기 위한 타이머
     private long m_attackTimer = System.currentTimeMillis();
+    // 공격 당한 후(맞은 후) 일정시간동안 공격받지 않기 위한 타이머
+    private long m_hitTimer = System.currentTimeMillis();
 
     boolean m_isMove = false;
     boolean m_isAttack = false;
+    boolean m_isHit = false;
 
     public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
@@ -74,10 +83,18 @@ public class Player extends GameObject {
 
         // 일정 시간마다만 공격되도록 함
         if(m_isAttack) {
-           if(_gameTime > m_attackTimer + GAP_ATTACK) {
+           if(_gameTime - m_attackTimer >  GAP_ATTACK) {    // 시간차가 정한 갭보다 크면 공격
                m_attackTimer = _gameTime;
                m_isAttack = false;
            }
+        }
+
+        // 일정 시간마다만 공격 받을 수 있도록함
+        if (m_isHit) {
+            if(_gameTime - m_hitTimer > GAP_HIT){ // 시간차가 정한 갭보다 크면 맞을 수 있음
+                m_hitTimer = _gameTime;
+                m_isHit = false;
+            }
         }
 
         return super.Update(_gameTime);
@@ -147,6 +164,19 @@ public class Player extends GameObject {
 
         // 이건 단순히 오브젝트 스테이트를 숫자로 쓰는 용도
         m_curState = _state;
+    }
+
+    @Override
+    public void OnCollision(GameObject object, int objID) {
+        if(m_isHit) // 무적 시간(맞은 후 일정 시간(1초)이 지나지 않음) 유지중이면 데미지 X
+            return;
+
+        switch (objID) {
+            case GameState.OBJ_ENEMY:
+            case GameState.OBJ_BULLET_ENEMY:
+
+                break;
+        }
     }
 
     public void Move(Vector2D _vecDir, int iState) {
@@ -254,5 +284,15 @@ public class Player extends GameObject {
         }
 
         m_isAttack = true;
+    }
+
+    private void Hit(){
+        m_isHit = true;
+        --m_hp;
+        if(m_hp <= 1)     // 시연용으로 HP가 1이 되면 더이상 HP가 줄어들지 않도록 바꿈
+            ++m_hp;
+        if(m_hp <= 0)  {  // HP가 0이 되면 죽음
+            m_isDead = true;
+        }
     }
 }

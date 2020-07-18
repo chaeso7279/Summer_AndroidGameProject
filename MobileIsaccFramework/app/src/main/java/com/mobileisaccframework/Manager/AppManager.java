@@ -61,6 +61,11 @@ public class AppManager {
             m_gameView.changeGameState(_state);
     }
 
+    public void PlayerDead(){
+        m_player = null;
+        
+    }
+
     // 싱글톤
     private static AppManager m_instance;
 
