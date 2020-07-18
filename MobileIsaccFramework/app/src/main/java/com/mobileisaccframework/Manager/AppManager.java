@@ -56,6 +56,11 @@ public class AppManager {
         return options.outHeight;
     }
 
+    public void ChangeGameState(GameState _state) {
+        if(m_gameView != null)
+            m_gameView.changeGameState(_state);
+    }
+
     // 싱글톤
     private static AppManager m_instance;
 

@@ -13,6 +13,7 @@ public class IntroState extends GameState {
 
     @Override
     public void Initialize() {
+        m_stageID = STATE_INTRO;
         AddObject();
         m_isInit = true;
     }
@@ -58,7 +59,7 @@ public class IntroState extends GameState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        AppManager.getInstance().getGameView().changeGameState(new StageTestState());
+        AppManager.getInstance().ChangeGameState(new StageTestState());
         return true;
     }
 

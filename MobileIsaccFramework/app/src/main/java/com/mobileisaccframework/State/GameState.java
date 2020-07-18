@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.door.Door;
 import com.mobileisaccframework.GameObject.map.BlockObject;
 import com.mobileisaccframework.GameObject.map.FireObject;
 import com.mobileisaccframework.GameObject.map.MapObject;
@@ -21,16 +22,26 @@ import com.mobileisaccframework.R;
 import java.util.ArrayList;
 
 public abstract class GameState {       // 교수님 코드에서의 IState
+    // State 구분 번호
+    public final static int STATE_INTRO = 0;
+    public final static int STATE_TEST = 1;
+    public final static int STATE_ONE = 2;
+    public final static int STATE_TWO = 3;
+    public final static int STATE_BOSS = 4;
+
+    public int m_stageID;
+
     // 오브젝트 구분 번호
-    public static int OBJ_MAP = 0;
-    public static int OBJ_PLAYER = 1;
-    public static int OBJ_ENEMY = 2;
-    public static int OBJ_BULLET_PLAYER = 3;
-    public static int OBJ_BOMB_PLAYER = 4;
-    public static int OBJ_BULLET_ENEMY = 5;
-    public static int OBJ_EFFECT = 6;
-    public static int OBJ_UI = 7;
-    public static int OBJ_END = 8;
+    public final static int OBJ_MAP = 0;
+    public final static int OBJ_DOOR = 1;
+    public final static int OBJ_PLAYER = 2;
+    public final static int OBJ_ENEMY = 3;
+    public final static int OBJ_BULLET_PLAYER = 4;
+    public final static int OBJ_BOMB_PLAYER = 5;
+    public final static int OBJ_BULLET_ENEMY = 6;
+    public final static int OBJ_EFFECT = 7;
+    public final static int OBJ_UI = 8;
+    public final static int OBJ_END = 9;
 
     // 배경
     protected GameObject m_backGround;
@@ -39,6 +50,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
     // 초기화 실행 여부
     protected boolean m_isInit = false;
+    // 문 열림 여부
+    protected boolean m_isDoorOpen = false;
 
     public ArrayList<GameObject>[] m_lstObject;
 
@@ -48,6 +61,11 @@ public abstract class GameState {       // 교수님 코드에서의 IState
             return null;
 
         return m_lstObject[objectID];
+    }
+
+    // 해당 오브젝트의 리스트가 비었는지 리턴
+    public boolean IsEmpty(int objectID) {
+        return m_lstObject[objectID].isEmpty();
     }
 
     public void Initialize() {
@@ -96,6 +114,16 @@ public abstract class GameState {       // 교수님 코드에서의 IState
                     // 맵 오브젝트가 블럭일때만 맵 오브젝트에 충돌 여부 전달
                     if(((MapObject)dstObj).GetMapObjectType() == MapObject.MAP_BLOCK)
                         dstObj.OnCollision(srcObj, OBJ_BOMB_PLAYER);
+                }
+            }
+        }
+
+
+        // 플레이어 - 문
+        if(m_isDoorOpen) {      // 문 열렸을때만 검사
+            for(GameObject dstObj : m_lstObject[OBJ_DOOR]) {
+                if(CollisionManager.CheckCollision(AppManager.m_player.getBoundBox(), dstObj.getBoundBox())) {
+                    dstObj.OnCollision(AppManager.m_player, OBJ_PLAYER);
                 }
             }
         }
@@ -150,12 +178,9 @@ public abstract class GameState {       // 교수님 코드에서의 IState
     }
 
     //문
-    public GameObject CreateDoor(int _x, int _y, int _rID){
-        GameObject doorObject = new GameObject(AppManager.getInstance().getBitmap(_rID),
-                AppManager.getInstance().getBitmapWidth(_rID),
-                AppManager.getInstance().getBitmapHeight(_rID),
-                _x, _y, 1, 2, false);
-        return doorObject;
+    public void CreateDoor(int iDoorType) {
+       GameObject object = new Door(iDoorType, m_stageID);
+       m_lstObject[OBJ_DOOR].add(object);
     }
     //불꽃
     public GameObject CreateFire(int _x, int _y){
@@ -203,6 +228,19 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
         m_lstObject[OBJ_UI].add(object);
         m_pad.SetAttackUIRect(1, object.getBoundBox());
+    }
+
+    // 문 열기 검사
+    protected void CheckOpenDoor() {
+        if(m_lstObject[OBJ_DOOR].isEmpty()
+                ||  m_lstObject[OBJ_DOOR].get(0) == null)
+            return;
+
+        // 적이 없으면 문 열어줌
+        if(IsEmpty(OBJ_ENEMY)) {
+            ((Door) m_lstObject[OBJ_DOOR].get(0)).SetIsOpen(true);
+            m_isDoorOpen = true;
+        }
     }
 
     public abstract boolean onKeyDown(int _keyCode, KeyEvent _event);

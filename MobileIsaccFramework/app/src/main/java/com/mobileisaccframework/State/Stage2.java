@@ -5,13 +5,13 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.door.Door;
 import com.mobileisaccframework.R;
 
 public class Stage2 extends GameState {
-    GameObject m_door;
-
     @Override
     public void Initialize() {
+        m_stageID = STATE_TWO;
         super.Initialize();
     }
 
@@ -33,6 +33,10 @@ public class Stage2 extends GameState {
             }
         }
 
+        // 문열기 검사
+        CheckOpenDoor();
+
+        // 오브젝트의 업데이트(좌표 등의 변경이 이뤄짐)를 모두 끝낸 후 충돌체크
         CheckCollision();
     }
 
@@ -60,7 +64,7 @@ public class Stage2 extends GameState {
         CreateBackground(166, 26);
 
         // 문
-        m_door = CreateDoor(1520, 82, R.drawable.golddoor_front);
+        CreateDoor(Door.DOOR_RIGHT);
 
         // 플레이어
         CreatePlayer(1200, 700);

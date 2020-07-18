@@ -5,14 +5,14 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.door.Door;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.R;
 
 public class StageTestState extends GameState {
-    GameObject m_door;
-
     @Override
     public void Initialize() {
+        m_stageID = STATE_TEST;
         super.Initialize();
     }
 
@@ -35,6 +35,10 @@ public class StageTestState extends GameState {
             }
         }
 
+        // 문열기 검사
+        CheckOpenDoor();
+
+        // 오브젝트의 업데이트(좌표 등의 변경이 이뤄짐)를 모두 끝낸 후 충돌체크
         CheckCollision();
     }
 
@@ -49,7 +53,6 @@ public class StageTestState extends GameState {
 
         // 배경 출력
         m_backGround.Render(canvas);
-        m_door.Render(canvas);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for(GameObject obj : m_lstObject[i])
@@ -64,22 +67,24 @@ public class StageTestState extends GameState {
     @Override
     public void AddObject() {
         // 백그라운드
-        CreateBackground(166, 26);
+        m_backGround = new GameObject(AppManager.getInstance().getBitmap(R.drawable.stage_test_background),
+                AppManager.getInstance().getBitmapWidth(R.drawable.stage_test_background),
+                AppManager.getInstance().getBitmapHeight(R.drawable.stage_test_background),
+                166, 26);
 
         // 문
-        m_door = CreateDoor(2155, 532, R.drawable.golddoor_right);
-
+        CreateDoor(Door.DOOR_RIGHT);
         // 플레이어
         CreatePlayer(400, 230);
 
-        // 불꽃
-        CreateFire(620, 532);
-        CreateFire(995, 682);
-        CreateFire(1520,457);
-        CreateFire(1595,982);
-
-        // 블록
-        CreateBlock(1970,532);
+//        // 불꽃
+//        CreateFire(620, 532);
+//        CreateFire(995, 682);
+//        CreateFire(1520,457);
+//        CreateFire(1595,982);
+//
+//        // 블록
+//        CreateBlock(1970,532);
 
         CreateUI();
     }

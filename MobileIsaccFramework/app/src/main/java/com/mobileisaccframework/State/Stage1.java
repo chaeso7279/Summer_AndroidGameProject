@@ -5,18 +5,15 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
+import com.mobileisaccframework.GameObject.door.Door;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
 
 public class Stage1 extends GameState {
-    GameObject m_door;
-
-    // 방향키 패드
-    Pad m_pad;
-
     @Override
     public void Initialize() {
+        m_stageID = STATE_ONE;
         super.Initialize();
     }
 
@@ -26,7 +23,6 @@ public class Stage1 extends GameState {
             return;
 
         m_backGround.Update(_gameTime);
-        m_door.Update(_gameTime);
 
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
             for (int j = 0; j < m_lstObject[i].size(); ++j) {
@@ -39,6 +35,10 @@ public class Stage1 extends GameState {
             }
         }
 
+        // 문열기 검사
+        CheckOpenDoor();
+
+        // 오브젝트의 업데이트(좌표 등의 변경이 이뤄짐)를 모두 끝낸 후 충돌체크
         CheckCollision();
     }
 
@@ -53,7 +53,6 @@ public class Stage1 extends GameState {
 
         // 배경 출력
         m_backGround.Render(canvas);
-        m_door.Render(canvas);
 
         //GameObject 출력
         for(int i = 0; i < OBJ_END; ++i) {          // 반복자 하나로 모든 오브젝트 접근 -> iterator 패턴사용
@@ -71,7 +70,7 @@ public class Stage1 extends GameState {
         CreateBackground(166, 26);
 
         // 문
-        m_door = CreateDoor(2045, 532, R.drawable.golddoor_right);
+        CreateDoor(Door.DOOR_FRONT);
 
         // 플레이어
         CreatePlayer(1500, 800);

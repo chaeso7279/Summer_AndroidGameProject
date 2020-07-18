@@ -16,6 +16,7 @@ import com.mobileisaccframework.R;
 public class Stage_Boss extends GameState {
     @Override
     public void Initialize() {
+        m_stageID = STATE_BOSS;
         super.Initialize();
     }
     @Override
