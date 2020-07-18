@@ -308,6 +308,7 @@ public class Player extends GameObject {
         else {
             if(m_hp <= 0)   // HP가 0이 되면 죽음
                 m_isDead = true;
+                AppManager.getInstance().PlayerDead();
         }
 
         // 체력 UI 업데이트
