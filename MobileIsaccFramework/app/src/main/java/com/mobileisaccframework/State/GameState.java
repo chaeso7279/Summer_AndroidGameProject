@@ -89,16 +89,16 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
     public abstract void AddObject();
     public void CheckCollision() {
-        if(AppManager.getInstance().m_player == null) // 플레이어 없으면(죽었으면) 검사 X
-            return;
-
-        // 예시 (플레이어 - 적)
-        for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
-            if(CollisionManager.CheckCollision(AppManager.m_player.getBoundBox(), dstObj.getBoundBox())) {
-                AppManager.m_player.OnCollision(dstObj, OBJ_ENEMY);
-                dstObj.OnCollision(AppManager.m_player, OBJ_PLAYER);
+        // (플레이어 - 적)
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+            for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
+                if(CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_ENEMY);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
             }
         }
+
 
         //플레이어 불릿 - 적
         for(GameObject srcObj : m_lstObject[OBJ_BULLET_PLAYER]){
@@ -121,10 +121,12 @@ public abstract class GameState {       // 교수님 코드에서의 IState
         }
 
         // 플레이어 - 적 불릿
-        for(GameObject dstObj : m_lstObject[OBJ_BULLET_ENEMY]) {
-            if(CollisionManager.CheckCollision(AppManager.m_player.getBoundBox(), dstObj.getBoundBox())) {
-                AppManager.m_player.OnCollision(dstObj, OBJ_BULLET_ENEMY);
-                dstObj.OnCollision(AppManager.m_player, OBJ_PLAYER);
+        for(GameObject srcObj : m_lstObject[OBJ_PLAYER]) {
+            for (GameObject dstObj : m_lstObject[OBJ_BULLET_ENEMY]) {
+                if (CollisionManager.CheckCollision(srcObj.getBoundBox(), dstObj.getBoundBox())) {
+                    srcObj.OnCollision(dstObj, OBJ_BULLET_ENEMY);
+                    dstObj.OnCollision(srcObj, OBJ_PLAYER);
+                }
             }
         }
 
@@ -154,9 +156,11 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
         // 플레이어 - 문
         if(m_isDoorOpen) {      // 문 열렸을때만 검사
-            for(GameObject dstObj : m_lstObject[OBJ_DOOR]) {
-                if(CollisionManager.CheckCollision(AppManager.m_player.getBoundBox(), dstObj.getBoundBox())) {
-                    dstObj.OnCollision(AppManager.m_player, OBJ_PLAYER);
+            for(GameObject srcObj : m_lstObject[OBJ_PLAYER]){
+                for(GameObject dstObj : m_lstObject[OBJ_DOOR]) {
+                    if(CollisionManager.CheckCollision(AppManager.m_player.getBoundBox(), dstObj.getBoundBox())) {
+                        dstObj.OnCollision(AppManager.m_player, OBJ_PLAYER);
+                    }
                 }
             }
         }
