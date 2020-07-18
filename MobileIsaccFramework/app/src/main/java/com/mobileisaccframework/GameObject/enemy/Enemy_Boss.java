@@ -2,6 +2,7 @@ package com.mobileisaccframework.GameObject.enemy;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
@@ -26,11 +27,10 @@ public class Enemy_Boss extends GameObject {
     public static final int ATTACK_JUMP = 1;
     public static final int ATTACK_CIRCLE = 2;
     public static final int ATTACK_PLAYER = 3;
-    public static final int ATTACK_HURRICANE = 4;
 
-    public static final int GAP_ATTACK = 800;
+    public static final int GAP_ATTACK = 4000;
 
-    protected int m_curAttackPattern;
+    protected int m_curAttackPattern = ATTACK_CIRCLE;
 
     protected int m_speedX;
     protected int m_speedY;
@@ -59,7 +59,6 @@ public class Enemy_Boss extends GameObject {
 
         //초기 state 설정
         m_curState = STATE_IDLE;
-        m_curAttackPattern = ATTACK_IDLE;
 
         //프레임 개수 설정
         m_arrFrameCnt = new int[STATE_END];
@@ -76,43 +75,20 @@ public class Enemy_Boss extends GameObject {
     //매 프레임 실행
     @Override
     public int Update(long _gameTime){
-//        // 일정 시간마다만 공격되도록 함
-//        if(m_isAttack) {
-//            if(_gameTime > m_attackTimer + GAP_ATTACK) {
-//                m_attackTimer = _gameTime;
-//                m_isAttack = false;
-//            }
-//        }
-//
-//        Random rand = new Random();
-//        int randInt = rand.nextInt(5);
-//
-//        switch(randInt){
-//            case ATTACK_IDLE:
-//                ChangeState(STATE_IDLE);
-//                break;
-//            case ATTACK_JUMP:
-//                ChangeState(STATE_ATTACK);
-//                m_curAttackPattern = ATTACK_JUMP;
-//                break;
-//            case ATTACK_CIRCLE:
-//                ChangeState(STATE_ATTACK);
-//                m_curAttackPattern = ATTACK_CIRCLE;
-//                break;
-//            case ATTACK_PLAYER:
-//                ChangeState(STATE_ATTACK);
-//                m_curAttackPattern = ATTACK_PLAYER;
-//                break;
-//            case ATTACK_HURRICANE:
-//                ChangeState(STATE_ATTACK);
-//                m_curAttackPattern = ATTACK_HURRICANE;
-//                break;
-//        }
+        Attack();
+
+        // 일정 시간마다만 공격되도록 함
+        if(m_isAttack) {
+            if(_gameTime > m_attackTimer + GAP_ATTACK) {
+                m_attackTimer = _gameTime;
+                m_isAttack = false;
+            }
+        }
+
         //점프 상태일 때만 Move 실행
         if(m_curState == STATE_JUMP ) {
             Move();
         }
-
         return super.Update(_gameTime);
     }
 
@@ -184,16 +160,6 @@ public class Enemy_Boss extends GameObject {
         MoveCheck();
     }
 
-    public void Attack_Circle(){
-
-    }
-    public void Attack_Player(){
-
-    }
-    public void Attack_Hurricane(){
-
-    }
-
     //이동할 수 있는 위치인지 체크하여 이동하는 함수
     private void MoveCheck(){
         //이동하려는 위치
@@ -225,7 +191,54 @@ public class Enemy_Boss extends GameObject {
         }
         //멈춤 조건에 모두 해당하지 않을 때만 좌표 이동
         setPosition(posX, posY);
+    }
 
+    public void Attack(){
+        if(!m_isAttack){
+            Random rand = new Random();
+            int randInt = rand.nextInt(3) + 1;
+
+            switch(randInt){
+                case ATTACK_JUMP:
+                    m_curAttackPattern = ATTACK_JUMP;
+                    break;
+                case ATTACK_CIRCLE:
+                    m_curAttackPattern = ATTACK_CIRCLE;
+                    break;
+                case ATTACK_PLAYER:
+                    m_curAttackPattern = ATTACK_PLAYER;
+                    break;
+            }
+        }
+
+        switch(m_curAttackPattern){
+            case ATTACK_IDLE:
+                break;
+            case ATTACK_JUMP:
+                ChangeState(STATE_JUMP);
+                Log.d("attack:", "jump");
+                break;
+            case ATTACK_CIRCLE:
+                ChangeState(STATE_ATTACK);
+                Attack_Circle();
+                break;
+            case ATTACK_PLAYER:
+                ChangeState(STATE_ATTACK);
+                Attack_Player();
+                break;
+        }
+
+        m_isAttack = true;
+        m_curAttackPattern = ATTACK_IDLE;
+    }
+
+
+    public void Attack_Circle(){
+        Log.d("attack:", "circle");
+
+    }
+    public void Attack_Player(){
+        Log.d("attack:", "player");
     }
 
 }
