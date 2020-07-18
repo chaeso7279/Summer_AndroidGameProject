@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
+import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
@@ -66,6 +67,7 @@ public class Enemy_Boss extends GameObject {
         //모두 3임
         for(int i = STATE_IDLE; i < STATE_END; ++i)
             m_arrFrameCnt[i] = 3;
+        m_arrFrameCnt[STATE_ATTACK] = 18;
 
         //이동 속도 설정
         m_speedX = 20;
@@ -75,6 +77,7 @@ public class Enemy_Boss extends GameObject {
     //매 프레임 실행
     @Override
     public int Update(long _gameTime){
+
         Attack();
 
         // 일정 시간마다만 공격되도록 함
@@ -89,14 +92,12 @@ public class Enemy_Boss extends GameObject {
         if(m_curState == STATE_JUMP ) {
             Move();
         }
+
         return super.Update(_gameTime);
     }
 
     @Override
     public void ChangeState(int _state) {
-        // 이전 state와 변경할 state 같으면 변경 필요X 그래서 return 함
-        if (m_curState == _state)
-            return;
 
         if (m_objectState != null)
             m_objectState.Destroy();
@@ -114,7 +115,7 @@ public class Enemy_Boss extends GameObject {
             case STATE_ATTACK:
                 rID = R.drawable.boss_attack;
                 fps = 5;
-                isLoop = false;
+                isLoop = true;
                 break;
             case STATE_JUMP:
                 rID = R.drawable.boss_jump_start;
@@ -194,51 +195,56 @@ public class Enemy_Boss extends GameObject {
     }
 
     public void Attack(){
+        //공격패턴 1~3 랜덤발생
         if(!m_isAttack){
             Random rand = new Random();
             int randInt = rand.nextInt(3) + 1;
 
-            switch(randInt){
+            switch(3){
                 case ATTACK_JUMP:
-                    m_curAttackPattern = ATTACK_JUMP;
+                    ChangeState(STATE_JUMP);
+                    Log.d("attack:", "jump");
+                    //m_curAttackPattern = ATTACK_JUMP;
                     break;
                 case ATTACK_CIRCLE:
-                    m_curAttackPattern = ATTACK_CIRCLE;
+                    ChangeState(STATE_ATTACK);
+                    Attack_Circle();
+                    //m_curAttackPattern = ATTACK_CIRCLE;
                     break;
                 case ATTACK_PLAYER:
-                    m_curAttackPattern = ATTACK_PLAYER;
+                    ChangeState(STATE_ATTACK);
+                    Attack_Player();
+                   // m_curAttackPattern = ATTACK_PLAYER;
                     break;
             }
         }
 
-        switch(m_curAttackPattern){
-            case ATTACK_IDLE:
-                break;
-            case ATTACK_JUMP:
-                ChangeState(STATE_JUMP);
-                Log.d("attack:", "jump");
-                break;
-            case ATTACK_CIRCLE:
-                ChangeState(STATE_ATTACK);
-                Attack_Circle();
-                break;
-            case ATTACK_PLAYER:
-                ChangeState(STATE_ATTACK);
-                Attack_Player();
-                break;
-        }
-
         m_isAttack = true;
         m_curAttackPattern = ATTACK_IDLE;
+
     }
 
 
     public void Attack_Circle(){
         Log.d("attack:", "circle");
-
     }
     public void Attack_Player(){
         Log.d("attack:", "player");
+
+        //미사일 발사 로직 (enemy이므로 _isPlayer인자는 false)
+        //플레이어 위치에 따라 방향벡터 다르게 처리
+        Vector2D enemyPos = new Vector2D(this.getPosition());
+        Vector2D playerPos = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        Vector2D dir = enemyPos.getDirection(playerPos);       //enemy에서 바라보는 player방향 단위벡터
+
+        GameObject obj = new Bullet(false, m_vecPos.x, m_vecPos.y, dir);
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x-50, m_vecPos.y-50, dir);
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x+50, m_vecPos.y+50, dir);
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
     }
 
 }
