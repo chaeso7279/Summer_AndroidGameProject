@@ -97,7 +97,7 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     // Setter
     public void setPosition(int _x, int _y) { m_vecPos.x = _x; m_vecPos.y = _y; }
     public void setDirection(int _dirX, int _dirY) { m_vecDir.x = _dirX; m_vecDir.y = _dirY; }
-    public void setBondBox(Rect _rect) { m_boundBox = _rect; }
+    public void setBoundBox(Rect _rect) { m_boundBox = _rect; }
 
     // Getter
     public Vector2D getPosition() { return m_vecPos; }
