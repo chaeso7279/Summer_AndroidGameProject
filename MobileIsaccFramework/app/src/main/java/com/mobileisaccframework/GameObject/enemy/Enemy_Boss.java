@@ -8,6 +8,8 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
 import com.mobileisaccframework.GameObject.effect.Effect;
+import com.mobileisaccframework.GameObject.ui.BossHpUI;
+import com.mobileisaccframework.GameObject.ui.PlayerHpUI;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
@@ -35,11 +37,15 @@ public class Enemy_Boss extends GameObject {
     public static final int GAP_ATTACK = 4000;
     public static final int GAP_DIE = 2000;
 
+    public static final int MAX_HP = 15;    // 최대 체력
+
     protected int m_curAttackPattern = ATTACK_CIRCLE;
 
     protected int m_speedX;
     protected int m_speedY;
-    protected int m_hp;
+
+    protected int m_hp = MAX_HP;
+    GameObject m_hpUI = null;
 
     boolean m_isAttack = false;
     private long m_attackTimer = System.currentTimeMillis();
@@ -59,10 +65,17 @@ public class Enemy_Boss extends GameObject {
         super(bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
     }
 
+    public int GetBossHP()  {return m_hp;}
+
+    public void SetHpUI(GameObject object) { m_hpUI = object;}
+
     //초기 데이터 설정
     @Override
     public void Initialize(){
         super.Initialize();
+
+        // 앱 매니저에 넣어줌
+        AppManager.getInstance().m_boss = this;
 
         //초기 state 설정
         m_curState = STATE_IDLE;
@@ -87,6 +100,18 @@ public class Enemy_Boss extends GameObject {
     @Override
     public int Update(long _gameTime){
 
+        if(m_isDead) {
+            AppManager.getInstance().GameClear();
+//            if(_gameTime > m_dieTimer + GAP_DIE) {
+//                AppManager.getInstance().m_boss = null;
+//            }
+            return super.Update(_gameTime);
+        }
+
+        // 체력 UI 업데이트
+        if(m_hpUI != null)
+            ((BossHpUI)m_hpUI).UpdateHP(m_hp);
+
         Attack();
 
         // 일정 시간마다만 공격되도록 함
@@ -103,11 +128,7 @@ public class Enemy_Boss extends GameObject {
         }
 
         // Boss가 죽고 일정 시간이 지나면(이펙트 완료된 후) game clear
-        if(m_isDead) {
-            if(_gameTime > m_dieTimer + GAP_DIE) {
-                AppManager.getInstance().GameClear();
-            }
-        }
+
 
         return super.Update(_gameTime);
     }
