@@ -81,20 +81,17 @@ public class Stage2 extends GameState {
         // 이전 스테이지에서 저장한 체력을 현재 플레이어에 전달
         AppManager.getInstance().LoadPlayerHP();
 
+        // 불꽃
+        CreateFire(545, 682);
+        CreateFire(1220, 382);
+        CreateFire(1370,907);
+
+        // 블록
+        CreateBlock(1940, 402);
+        CreateBlock(1940,652);
+
 //        // 적
 //        CreateEnemy_2(1000,230);
-//
-//        // 불꽃
-//        CreateFire(545, 682);
-//        CreateFire(920, 982);
-//        CreateFire(1220,382);
-//        CreateFire(1670,907);
-//        CreateFire(1745,382);
-//
-//        // 블록
-//        CreateBlock(770,607);
-//        CreateBlock(1370,757);
-//        CreateBlock(1820,532);
 
         // UI
         CreateUI();

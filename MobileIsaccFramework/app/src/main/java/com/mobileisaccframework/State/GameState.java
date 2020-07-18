@@ -14,6 +14,7 @@ import com.mobileisaccframework.GameObject.enemy.Enemy_1;
 import com.mobileisaccframework.GameObject.enemy.Enemy_2;
 import com.mobileisaccframework.GameObject.enemy.Enemy_Boss;
 import com.mobileisaccframework.GameObject.player.Player;
+import com.mobileisaccframework.GameObject.ui.PlayerHpUI;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.Pad;
@@ -258,6 +259,10 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
         m_lstObject[OBJ_UI].add(object);
         m_pad.SetAttackUIRect(1, object.getBoundBox());
+
+        object = new PlayerHpUI(10, ((Player)AppManager.m_player).GetPlayerHP());
+        m_lstObject[GameState.OBJ_UI].add(object);
+        ((Player)AppManager.m_player).SetHpUI(object);
     }
 
     // 문 열기 검사

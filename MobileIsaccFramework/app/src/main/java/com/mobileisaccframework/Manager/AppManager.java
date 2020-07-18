@@ -28,7 +28,7 @@ public class AppManager {
     private Resources m_resources;
     private GameState m_curGameState; // 현재 게임 State
 
-    public int m_playerHP = 0;
+    public int m_savedPlayerHP = 0;
 
     public boolean m_bRenderRect = false; // 충돌 박스 그릴 여부
     public boolean m_isNoDead = false;   // 플레이어 안죽게 할 지 여부
@@ -68,13 +68,13 @@ public class AppManager {
     public void SavePlayerHP() {     // 다음 스테이지의 플레이어에 체력 전달하기 위해 이전 스테이지 체력을 저장
         if(m_player == null)
             return;
-        m_playerHP = ((Player)m_player).GetPlayerHP();
+        m_savedPlayerHP = ((Player)m_player).GetPlayerHP();
     }
 
     public void LoadPlayerHP() { // 이전 스테이지에서 저장한 체력을 현재 플레이어에 전달
         if(m_player == null)
             return;
-        ((Player)m_player).SetPlayerHP(m_playerHP);
+        ((Player)m_player).SetPlayerHP(m_savedPlayerHP);
     }
 
     public void PlayerDead(){

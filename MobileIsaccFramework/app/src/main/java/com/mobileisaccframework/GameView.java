@@ -77,8 +77,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void changeGameState(GameState _state) {
         if(m_state != null)
             m_state.Destroy();
-        _state.Initialize();
+
         m_state = _state;
+        _state.Initialize();
 
         AppManager.getInstance().setCurGameState(m_state);
     }

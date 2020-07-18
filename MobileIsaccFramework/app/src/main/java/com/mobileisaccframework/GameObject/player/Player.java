@@ -8,6 +8,7 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameObject.bullet.Bomb;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
+import com.mobileisaccframework.GameObject.ui.PlayerHpUI;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
@@ -47,12 +48,20 @@ public class Player extends GameObject {
     boolean m_isAttack = false;
     boolean m_isHit = false;
 
+    GameObject m_hpUI = null;
+
     public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
     }
 
     public int GetPlayerHP() { return m_hp; }
-    public void SetPlayerHP(int _hp) { m_hp = _hp; }
+    public void SetPlayerHP(int _hp) {
+        m_hp = _hp;
+        if(m_hpUI != null)  // 체력 UI 업데이트
+            ((PlayerHpUI)m_hpUI).UpdateHP(m_hp);
+    }
+
+    public void SetHpUI(GameObject object) { m_hpUI = object;}
 
     // 초기 데이터 설정
     @Override
@@ -177,7 +186,7 @@ public class Player extends GameObject {
         switch (objID) {
             case GameState.OBJ_ENEMY:
             case GameState.OBJ_BULLET_ENEMY:
-
+                Hit();
                 break;
         }
     }
@@ -300,5 +309,9 @@ public class Player extends GameObject {
             if(m_hp <= 0)   // HP가 0이 되면 죽음
                 m_isDead = true;
         }
+
+        // 체력 UI 업데이트
+        if(m_hpUI != null)
+            ((PlayerHpUI)m_hpUI).UpdateHP(m_hp);
     }
 }
