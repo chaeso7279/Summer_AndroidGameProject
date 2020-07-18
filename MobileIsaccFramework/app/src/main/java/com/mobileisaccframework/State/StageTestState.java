@@ -72,30 +72,10 @@ public class StageTestState extends GameState {
                 AppManager.getInstance().getBitmapHeight(R.drawable.stage_test_background),
                 166, 26);
 
-
-
         // 문
         CreateDoor(Door.DOOR_RIGHT);
         // 플레이어
         CreatePlayer(AppManager.WIDTH / 2, AppManager.HEIGHT / 2 + 20);
-
-//        // 불꽃
-//        CreateFire(620, 532);
-//        CreateFire(995, 682);
-//        CreateFire(1520,457);
-//        CreateFire(1595,982);
-//
-//        // 블록
-//        CreateBlock(1970,532);
-
-        //몬스터
-        //Enemy_1
-        CreateEnemy_1(400,500);
-        CreateEnemy_1(1900,900);
-
-        //Enemy_2
-        CreateEnemy_2(395,307);
-        CreateEnemy_2(1900,1000);
 
         CreateUI();
     }

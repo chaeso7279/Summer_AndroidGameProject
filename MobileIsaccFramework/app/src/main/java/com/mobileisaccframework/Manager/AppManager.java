@@ -83,6 +83,10 @@ public class AppManager {
         ChangeGameState(new CreditState(false));
     }
 
+    public void GameClear() {
+        ChangeGameState(new CreditState(true));
+    }
+
     public void ReStartGame() {
         ChangeGameState(new IntroState());
     }

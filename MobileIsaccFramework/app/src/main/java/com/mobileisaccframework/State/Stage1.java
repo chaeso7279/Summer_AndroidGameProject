@@ -84,6 +84,16 @@ public class Stage1 extends GameState {
         // 이전 스테이지에서 저장한 체력을 현재 플레이어에 전달
         AppManager.getInstance().LoadPlayerHP();
 
+        //몬스터
+        //Enemy_1
+        CreateEnemy_1(400,500);
+        CreateEnemy_1(1900,900);
+
+        //Enemy_2
+        CreateEnemy_2(395,307);
+        CreateEnemy_2(1900,1000);
+
+
 //        //몬스터
 //        //Enemy_1
 //        CreateEnemy_1(400,500);
@@ -92,15 +102,6 @@ public class Stage1 extends GameState {
 //        //Enemy_2
 //        CreateEnemy_2(395,307);
 //        CreateEnemy_2(1900,1000);
-
-        // 불꽃
-//        CreateFire(620, 532);
-//        CreateFire(995, 682);
-//        CreateFire(1520,457);
-//        CreateFire(1595,982);
-//
-//        // 블록
-//        CreateBlock(1970,532);
 
         // UI
         CreateUI();

@@ -1,8 +1,6 @@
 package com.mobileisaccframework.State;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -61,13 +59,6 @@ public class CreditState extends GameState {
 
         m_backGround.Render(canvas);
         m_buttonUI.Render(canvas);
-
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.GREEN);
-
-        for(int i = 0; i < BUTTON_END; ++i)
-            canvas.drawRect(m_rectButton[i], paint);
 
     }
 
