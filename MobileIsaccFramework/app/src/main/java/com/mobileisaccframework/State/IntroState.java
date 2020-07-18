@@ -19,7 +19,7 @@ public class IntroState extends GameState {
         m_isInit = true;
 
         // 배경음악 재생
-        SoundManager.getInstance().AddSound(0, R.raw.intro_back);
+        //SoundManager.getInstance().AddSound(0, R.raw.intro_back);
     }
 
     @Override

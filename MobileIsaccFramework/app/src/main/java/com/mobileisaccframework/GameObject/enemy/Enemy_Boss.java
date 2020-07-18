@@ -14,6 +14,7 @@ import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
 import com.mobileisaccframework.State.GameState;
+import com.mobileisaccframework.State.Stage_Boss;
 import com.mobileisaccframework.Vector2D;
 
 import java.util.ArrayList;
@@ -98,16 +99,7 @@ public class Enemy_Boss extends GameObject {
 
     //매 프레임 실행
     @Override
-    public int Update(long _gameTime){
-
-        if(m_isDead) {
-            AppManager.getInstance().GameClear();
-//            if(_gameTime > m_dieTimer + GAP_DIE) {
-//                AppManager.getInstance().m_boss = null;
-//            }
-            return super.Update(_gameTime);
-        }
-
+    public int Update(long _gameTime) {
         // 체력 UI 업데이트
         if(m_hpUI != null)
             ((BossHpUI)m_hpUI).UpdateHP(m_hp);
@@ -126,9 +118,6 @@ public class Enemy_Boss extends GameObject {
         if(m_curState == STATE_JUMP ) {
             Move();
         }
-
-        // Boss가 죽고 일정 시간이 지나면(이펙트 완료된 후) game clear
-
 
         return super.Update(_gameTime);
     }
@@ -357,8 +346,11 @@ public class Enemy_Boss extends GameObject {
         }
         if(m_hp <=0){
             m_isDead = true;
-            m_dieTimer = System.currentTimeMillis();
             CreateDieEffect();
+
+            // 보스가 죽어도 바로 크레딧으로 넘어가지 않도록 할 것임 -> 죽으면 타이머 스타트
+            AppManager.m_boss = null;
+            ((Stage_Boss)AppManager.getInstance().getCurGameState()).StartTimer();
         }
         Log.d("Boss HP:",m_hp+"");
     }

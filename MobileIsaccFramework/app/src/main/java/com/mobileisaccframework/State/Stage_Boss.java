@@ -5,15 +5,13 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
-import com.mobileisaccframework.GameObject.enemy.Enemy_2;
-import com.mobileisaccframework.GameObject.enemy.Enemy_Boss;
-import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
-import com.mobileisaccframework.Manager.CollisionManager;
-import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
 
 public class Stage_Boss extends GameState {
+    // 보스가 죽어도 바로 크레딧으로 넘어가지 않도록 할 것임
+    private static final int GAP_CREDIT = 2000;
+    private long m_creditTimer = 0;
 
     @Override
     public void Initialize() {
@@ -39,6 +37,14 @@ public class Stage_Boss extends GameState {
         }
 
         CheckCollision();
+
+        // 보스가 죽어도 바로 크레딧으로 넘어가지 않도록 할 것임
+        if(AppManager.m_boss == null){
+            if(_gameTime - m_creditTimer > GAP_CREDIT){
+                m_creditTimer = _gameTime;
+                AppManager.getInstance().GameClear();
+            }
+        }
     }
 
     @Override
@@ -107,5 +113,9 @@ public class Stage_Boss extends GameState {
     @Override
     public void Destroy() {
 
+    }
+
+    public void StartTimer() {
+        m_creditTimer = System.currentTimeMillis();
     }
 }
