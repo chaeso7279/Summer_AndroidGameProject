@@ -89,6 +89,8 @@ public abstract class GameState {       // 교수님 코드에서의 IState
 
     public abstract void AddObject();
     public void CheckCollision() {
+        if(AppManager.getInstance().m_player == null) // 플레이어 없으면(죽었으면) 검사 X
+            return;
 
         // 예시 (플레이어 - 적)
         for(GameObject dstObj : m_lstObject[OBJ_ENEMY]) {
