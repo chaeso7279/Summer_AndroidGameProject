@@ -37,14 +37,14 @@ public class Enemy_Boss extends GameObject {
 
     protected int m_speedX;
     protected int m_speedY;
-    protected int hp;
+    protected int m_hp;
 
     boolean m_isAttack = false;
     private long m_attackTimer = System.currentTimeMillis();
 
     protected boolean m_isJump = false;
-    protected Vector2D jumpDest;
-    Vector2D jumpDir;
+    protected Vector2D m_jumpDest;
+    Vector2D m_jumpDir;
 
 
     public Enemy_Boss(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
@@ -150,9 +150,9 @@ public class Enemy_Boss extends GameObject {
     public void SetJump(){
         m_isJump = true;
         //점프할 떄 플레이어의 위치
-        jumpDest = new Vector2D(AppManager.getInstance().m_player.getPosition());
+        m_jumpDest = new Vector2D(AppManager.getInstance().m_player.getPosition());
         //점프할 방향
-        jumpDir = m_vecPos.getDirection(jumpDest);
+        m_jumpDir = m_vecPos.getDirection(m_jumpDest);
     }
 
     public void Move(){
@@ -174,7 +174,7 @@ public class Enemy_Boss extends GameObject {
             m_speedY = 0;
         }
 
-        posX += m_speedX * jumpDir.x;
+        posX += m_speedX * m_jumpDir.x;
         posY += m_speedY;
         ++m_speedY;
 
@@ -189,7 +189,7 @@ public class Enemy_Boss extends GameObject {
         }
 
         //boss가 내려오는 상태고, 점프 목적지의 y좌표와 50이하로 차이나면 멈춤
-        if( m_speedY > 0 && Math.abs(m_vecPos.y - jumpDest.y) < 50){
+        if( m_speedY > 0 && Math.abs(m_vecPos.y - m_jumpDest.y) < 50){
             ChangeState(STATE_IDLE);
             m_isJump = false;
             CreateJumpEffect();
@@ -205,7 +205,7 @@ public class Enemy_Boss extends GameObject {
             Random rand = new Random();
             int randInt = rand.nextInt(3) + 1;
 
-            switch(randInt){
+            switch(3){
                 case ATTACK_JUMP:
                     ChangeState(STATE_JUMP);
                     Log.d("attack:", "jump");
@@ -278,6 +278,12 @@ public class Enemy_Boss extends GameObject {
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
 
         obj = new Bullet(false, m_vecPos.x+50, m_vecPos.y+50, dir);
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x+50, m_vecPos.y+50, new Vector2D(dir.x, 0));
+        AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
+
+        obj = new Bullet(false, m_vecPos.x+50, m_vecPos.y+50, new Vector2D(0, dir.y));
         AppManager.getInstance().getCurGameState().m_lstObject[GameState.OBJ_BULLET_ENEMY].add(obj);
     }
 
