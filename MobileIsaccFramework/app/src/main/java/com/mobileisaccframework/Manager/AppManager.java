@@ -9,6 +9,7 @@ import android.view.View;
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.GameView;
+import com.mobileisaccframework.State.CreditState;
 import com.mobileisaccframework.State.GameState;
 
 public class AppManager {
@@ -27,7 +28,10 @@ public class AppManager {
     private Resources m_resources;
     private GameState m_curGameState; // 현재 게임 State
 
+    public int m_savedPlayerHP = 0;
+
     public boolean m_bRenderRect = false; // 충돌 박스 그릴 여부
+    public boolean m_isNoDead = false;   // 플레이어 안죽게 할 지 여부
 
     public void setGameView(GameView _gameView) { m_gameView = _gameView; }
     public void setResources(Resources _resources) { m_resources = _resources; }
@@ -61,9 +65,25 @@ public class AppManager {
             m_gameView.changeGameState(_state);
     }
 
+    public void SavePlayerHP() {     // 다음 스테이지의 플레이어에 체력 전달하기 위해 이전 스테이지 체력을 저장
+        if(m_player == null)
+            return;
+        m_savedPlayerHP = ((Player)m_player).GetPlayerHP();
+    }
+
+    public void LoadPlayerHP() { // 이전 스테이지에서 저장한 체력을 현재 플레이어에 전달
+        if(m_player == null)
+            return;
+        ((Player)m_player).SetPlayerHP(m_savedPlayerHP);
+    }
+
     public void PlayerDead(){
         m_player = null;
-        
+        ChangeGameState(new CreditState());
+    }
+
+    public void ReStartGame() {
+
     }
 
     // 싱글톤

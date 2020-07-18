@@ -8,6 +8,7 @@ import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.GameObjectState;
 import com.mobileisaccframework.GameObject.bullet.Bomb;
 import com.mobileisaccframework.GameObject.bullet.Bullet;
+import com.mobileisaccframework.GameObject.ui.PlayerHpUI;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Manager.CollisionManager;
 import com.mobileisaccframework.R;
@@ -36,7 +37,7 @@ public class Player extends GameObject {
     static final int ATT_BOMB = 1;
 
     private int m_moveSpeed; // 움직이는 속도
-    private int m_hp = 10;
+    private int m_hp = MAX_HP;
 
     // 일정시간마다 공격하기 위한 타이머
     private long m_attackTimer = System.currentTimeMillis();
@@ -47,9 +48,20 @@ public class Player extends GameObject {
     boolean m_isAttack = false;
     boolean m_isHit = false;
 
+    GameObject m_hpUI = null;
+
     public Player(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
     }
+
+    public int GetPlayerHP() { return m_hp; }
+    public void SetPlayerHP(int _hp) {
+        m_hp = _hp;
+        if(m_hpUI != null)  // 체력 UI 업데이트
+            ((PlayerHpUI)m_hpUI).UpdateHP(m_hp);
+    }
+
+    public void SetHpUI(GameObject object) { m_hpUI = object;}
 
     // 초기 데이터 설정
     @Override
@@ -174,7 +186,7 @@ public class Player extends GameObject {
         switch (objID) {
             case GameState.OBJ_ENEMY:
             case GameState.OBJ_BULLET_ENEMY:
-
+                Hit();
                 break;
         }
     }
@@ -289,10 +301,20 @@ public class Player extends GameObject {
     private void Hit(){
         m_isHit = true;
         --m_hp;
-        if(m_hp <= 1)     // 시연용으로 HP가 1이 되면 더이상 HP가 줄어들지 않도록 바꿈
-            ++m_hp;
-        if(m_hp <= 0)  {  // HP가 0이 되면 죽음
-            m_isDead = true;
+
+        if(AppManager.getInstance().m_isNoDead){
+            if(m_hp <= 1)     // 시연용으로 HP가 1이 되면 더이상 HP가 줄어들지 않도록 바꿈
+                ++m_hp;
         }
+        else {
+            if(m_hp <= 0)  {    // HP가 0이 되면 죽음
+                m_isDead = true;
+                AppManager.getInstance().PlayerDead();
+            }
+        }
+
+        // 체력 UI 업데이트
+        if(m_hpUI != null)
+            ((PlayerHpUI)m_hpUI).UpdateHP(m_hp);
     }
 }

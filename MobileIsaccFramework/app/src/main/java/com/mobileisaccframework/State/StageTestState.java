@@ -102,12 +102,6 @@ public class StageTestState extends GameState {
 
     @Override
     public boolean onKeyDown(int _keyCode, KeyEvent _event) {
-        if(_event.getAction() != KeyEvent.ACTION_DOWN)
-            return true;
-
-        if(_keyCode == KeyEvent.KEYCODE_SPACE)
-            AppManager.getInstance().m_bRenderRect = !AppManager.getInstance().m_bRenderRect;
-
         return true;
     }
 

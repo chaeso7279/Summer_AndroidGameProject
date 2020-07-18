@@ -60,8 +60,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // 충돌 박스 출력 끄고 킬 수 있게
-        if(keyCode == KeyEvent.KEYCODE_F1)
+        if(event.getAction() != KeyEvent.ACTION_DOWN)
+            return true;
+
+        if(keyCode == KeyEvent.KEYCODE_SPACE)
             AppManager.getInstance().m_bRenderRect = !AppManager.getInstance().m_bRenderRect;
 
         return m_state.onKeyDown(keyCode, event);
@@ -75,8 +77,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void changeGameState(GameState _state) {
         if(m_state != null)
             m_state.Destroy();
-        _state.Initialize();
+
         m_state = _state;
+        _state.Initialize();
 
         AppManager.getInstance().setCurGameState(m_state);
     }

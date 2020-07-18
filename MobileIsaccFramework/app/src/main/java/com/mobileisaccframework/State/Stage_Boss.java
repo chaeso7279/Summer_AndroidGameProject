@@ -76,6 +76,8 @@ public class Stage_Boss extends GameState {
 
         // 플레이어
         CreatePlayer(400, 580);
+        // 이전 스테이지에서 저장한 체력을 현재 플레이어에 전달
+        AppManager.getInstance().LoadPlayerHP();
 
         // 보스
         CreateBoss(1100,500);

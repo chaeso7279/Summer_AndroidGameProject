@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.mobileisaccframework.GameObject.GameObject;
 import com.mobileisaccframework.GameObject.door.Door;
+import com.mobileisaccframework.GameObject.player.Player;
 import com.mobileisaccframework.Manager.AppManager;
 import com.mobileisaccframework.Pad;
 import com.mobileisaccframework.R;
@@ -80,6 +81,8 @@ public class Stage1 extends GameState {
 
         // 플레이어
         CreatePlayer(400, 580);
+        // 이전 스테이지에서 저장한 체력을 현재 플레이어에 전달
+        AppManager.getInstance().LoadPlayerHP();
 
 //        //몬스터
 //        //Enemy_1
