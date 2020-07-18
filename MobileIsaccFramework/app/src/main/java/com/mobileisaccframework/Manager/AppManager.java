@@ -24,6 +24,7 @@ public class AppManager {
     public static int MAX_Y = 1020;
 
     public static GameObject m_player;
+    public static GameObject m_boss;
 
     private GameView m_gameView;
     private Resources m_resources;
