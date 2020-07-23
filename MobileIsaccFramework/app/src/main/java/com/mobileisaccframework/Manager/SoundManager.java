@@ -66,7 +66,7 @@ public class SoundManager {
     // 배경음악 재생
     public void PlayBGM(int bgmID){
         if(m_curBGM != null) // 현재 재생중인 배경음악이 있으면 꺼줌
-            m_curBGM.stop();
+            m_curBGM.pause();
 
         m_bgm[bgmID].start();
         m_curBGM =  m_bgm[bgmID];

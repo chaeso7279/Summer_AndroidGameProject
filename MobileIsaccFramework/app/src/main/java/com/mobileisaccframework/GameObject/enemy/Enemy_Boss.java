@@ -331,7 +331,7 @@ public class Enemy_Boss extends GameObject {
                 AppManager.getInstance().getBitmapHeight(R.drawable.effect_boss_die),
                 m_vecPos.x - 20, m_vecPos.y - 70, 20, 16, false);
 
-        // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
+
         AppManager.getInstance().getCurGameState().m_lstObject[OBJ_EFFECT].add(object);
 
     }

@@ -64,7 +64,8 @@ public class IntroState extends GameState {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        AppManager.getInstance().ChangeGameState(new StageTestState());
+        if(event.getActionMasked() == MotionEvent.ACTION_DOWN)
+            AppManager.getInstance().ChangeGameState(new StageTestState());
         return true;
     }
 

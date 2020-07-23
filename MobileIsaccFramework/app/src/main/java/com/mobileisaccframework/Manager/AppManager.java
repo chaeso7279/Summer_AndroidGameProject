@@ -33,7 +33,7 @@ public class AppManager {
     public int m_savedPlayerHP = 0;
 
     public boolean m_bRenderRect = false; // 충돌 박스 그릴 여부
-    public boolean m_isNoDead = true;   // 플레이어 안죽게 할 지 여부
+    public boolean m_isNoDead = false;   // 플레이어 안죽게 할 지 여부
 
     public void setGameView(GameView _gameView) { m_gameView = _gameView; }
     public void setResources(Resources _resources) { m_resources = _resources; }

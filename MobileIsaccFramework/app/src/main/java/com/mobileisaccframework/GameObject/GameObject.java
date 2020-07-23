@@ -13,9 +13,11 @@ import com.mobileisaccframework.Vector2D;
 import java.io.File;
 import java.util.ArrayList;
 
-public class GameObject {       // 교수님 코드에서의 GraphicObject (조금 차이 있음)
+public class GameObject {
     public static final int DEAD_OBJ = 0;
-    public static final int NO_EVENT = 1;
+    protected static final int NO_EVENT = 1;
+
+    protected GameObjectState m_objectState;
 
     // 위치 좌표
     protected Vector2D m_vecPos;
@@ -29,8 +31,6 @@ public class GameObject {       // 교수님 코드에서의 GraphicObject (조�
     protected int m_imgHeight;
 
     protected boolean m_isDead = false;
-
-    protected GameObjectState m_objectState;
 
     protected int[] m_arrFrameCnt; // 각 State마다의 이미지 프레임 개수
     protected int m_curState = 0; // 각 오브젝트 상태 (Idle, Attack, ... )

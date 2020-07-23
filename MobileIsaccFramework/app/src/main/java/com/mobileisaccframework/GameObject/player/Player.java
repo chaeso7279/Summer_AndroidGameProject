@@ -30,7 +30,7 @@ public class Player extends GameObject {
     public static final int WALK_RIGHT = 7;
     public static final int STATE_END = 8;
 
-    public static final int GAP_ATTACK = 800;   // 공격 시 시간 갭
+    public static final int GAP_ATTACK = 500;   // 공격 시 시간 갭
     public static final int GAP_HIT = 1000; // Hit 시 시간 갭(맞고 나서 1초동안 무적상태)
 
     public static final int MAX_HP = 10;    // 최대 체력
@@ -301,6 +301,7 @@ public class Player extends GameObject {
         }
 
         m_isAttack = true;
+        m_attackTimer = System.currentTimeMillis();
     }
 
     private void Hit(){
