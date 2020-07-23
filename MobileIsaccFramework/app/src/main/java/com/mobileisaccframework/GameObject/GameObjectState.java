@@ -41,6 +41,7 @@ public class GameObjectState {
         m_fps = 1000/_fps;
         m_frameCnt = _frameCnt;
 
+        // 프레임 개수가 1개 이하면 애니메이션 재생 X
         if(m_frameCnt <= 1)
             m_isPlay = false;
 
@@ -59,7 +60,7 @@ public class GameObjectState {
         if(m_targetObject == null)
             return;
 
-        if(m_isPlay){       // 애니메이션 재생 중
+        if(m_isPlay){       // 애니메이션 재생 중일 때
             if(_gameTime > m_frameTime + m_fps) {
                 m_frameTime = _gameTime;
                 ++m_curFrame;

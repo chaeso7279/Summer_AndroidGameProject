@@ -20,15 +20,19 @@ public class Vector2D {
         int unitX;
         int unitY;
 
-        if(tempX>0) unitX =
+        if(tempX>0)
+            unitX = 1;
+        else if(tempX<0)
+            unitX = -1;
+        else
+            unitX = 0;
 
-                1;
-        else if(tempX<0) unitX = -1;
-        else    unitX = 0;
-
-        if(tempY>0) unitY = 1;
-        else if(tempY<0) unitY = -1;
-        else    unitY = 0;
+        if(tempY>0)
+            unitY = 1;
+        else if(tempY<0)
+            unitY = -1;
+        else
+            unitY = 0;
 
         return new Vector2D(unitX, unitY);
     }

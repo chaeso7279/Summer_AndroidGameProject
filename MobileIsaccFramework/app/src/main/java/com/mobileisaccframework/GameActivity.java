@@ -17,11 +17,12 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 사운드 매니저 초기화
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         SoundManager.getInstance().Initialize(this);
+        // 가로 모드 고정
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(new GameView(this));
 
+        // 스테이터스 바 삭제
         deleteStatusBar();
     }
 

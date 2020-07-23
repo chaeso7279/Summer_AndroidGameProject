@@ -26,7 +26,7 @@ import static com.mobileisaccframework.State.GameState.OBJ_BACK_EFFECT;
 import static com.mobileisaccframework.State.GameState.OBJ_BOMB_PLAYER;
 import static com.mobileisaccframework.State.GameState.OBJ_EFFECT;
 
-public class Enemy_Boss extends GameObject {
+public class Enemy_Boss extends Enemy {
     public static final int STATE_IDLE = 0;
     public static final int STATE_ATTACK = 1;
     public static final int STATE_JUMP = 2;
@@ -47,7 +47,6 @@ public class Enemy_Boss extends GameObject {
     protected int m_speedX;
     protected int m_speedY;
 
-    protected int m_hp = MAX_HP;
     GameObject m_hpUI = null;
 
     boolean m_isAttack = false;
@@ -56,13 +55,6 @@ public class Enemy_Boss extends GameObject {
     protected boolean m_isJump = false;
     protected Vector2D m_jumpDest;
     Vector2D m_jumpDir;
-
-    private long m_dieTimer = System.currentTimeMillis();
-
-
-    public Enemy_Boss(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
-        super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
-    }
 
     public Enemy_Boss(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
@@ -96,7 +88,7 @@ public class Enemy_Boss extends GameObject {
         m_speedY = -100;
 
         //hp 설정
-        m_hp = 15;
+        m_hp = MAX_HP;
     }
 
     //매 프레임 실행
@@ -324,7 +316,8 @@ public class Enemy_Boss extends GameObject {
         // Object 뒤에 렌더링 되도록 OBJ_BACK_EFFECT 에 추가함(OBJ_EFFECT 렌더링 순서가 다름)
         AppManager.getInstance().getCurGameState().m_lstObject[OBJ_BACK_EFFECT].add(object);
     }
-    private void CreateDieEffect(){
+
+    protected void CreateDieEffect(){
         //hp<=0이 되어 죽을 경우 이펙트 출력
         GameObject object = new Effect(AppManager.getInstance().getBitmap(R.drawable.effect_boss_die),
                 AppManager.getInstance().getBitmapWidth(R.drawable.effect_boss_die),

@@ -32,7 +32,7 @@ public class GameObject {
 
     protected boolean m_isDead = false;
 
-    protected int[] m_arrFrameCnt; // 각 State마다의 이미지 프레임 개수
+    protected int[] m_arrFrameCnt; // 각 State 마다의 이미지 프레임 개수
     protected int m_curState = 0; // 각 오브젝트 상태 (Idle, Attack, ... )
 
     // 디폴트 생성자
@@ -122,7 +122,7 @@ public class GameObject {
         if(m_objectState != null)
          m_objectState.Update(_gameTime);
 
-        // bondBox 위치 업데이트
+        // boundBox 위치 업데이트
         m_boundBox.set(m_vecPos.x, m_vecPos.y, m_vecPos.x + m_imgWidth, m_vecPos.y + m_imgHeight);
 
         return NO_EVENT;

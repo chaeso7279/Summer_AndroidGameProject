@@ -18,7 +18,7 @@ import java.util.Random;
 
 import static com.mobileisaccframework.State.GameState.OBJ_EFFECT;
 
-public class Enemy_2 extends GameObject {
+public class Enemy_2 extends Enemy {
 
     public static final int IDLE_FRONT = 0;
     public static final int IDLE_LEFT = 1;
@@ -26,13 +26,7 @@ public class Enemy_2 extends GameObject {
     public static final int IDLE_BACK = 3;
     public static final int STATE_END = 4;
 
-    protected int m_hp;
-
     private long m_lastShoot = System.currentTimeMillis();
-
-    public Enemy_2(Bitmap bitmap, int _imgWidth, int _imgHeight, int _fps, int _frameCnt, boolean _isLoop) {
-        super(bitmap, _imgWidth, _imgHeight, _fps, _frameCnt, _isLoop);
-    }
 
     public Enemy_2(Bitmap bitmap, int _imgWidth, int _imgHeight, int _posX, int _posY, int _fps, int _frameCnt, boolean _isLoop) {
         super(bitmap, _imgWidth, _imgHeight, _posX, _posY, _fps, _frameCnt, _isLoop);
@@ -173,7 +167,7 @@ public class Enemy_2 extends GameObject {
         }
     }
 
-    private void CreateDieEffect(){
+    protected void CreateDieEffect(){
         //hp<=0이 되어 죽을 경우 이펙트 출력
         GameObject object = new Effect(AppManager.getInstance().getBitmap(R.drawable.effect_enemy_die),
                 AppManager.getInstance().getBitmapWidth(R.drawable.effect_enemy_die),

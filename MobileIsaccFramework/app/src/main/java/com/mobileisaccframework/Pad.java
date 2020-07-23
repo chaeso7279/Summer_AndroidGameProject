@@ -57,6 +57,7 @@ public class Pad {
         m_iWidth = AppManager.getInstance().getBitmapWidth(R.drawable.ui_direction);
         m_iHeight = AppManager.getInstance().getBitmapHeight(R.drawable.ui_direction);
 
+        // 각 Rect의 영역 설정
         m_rectArrow[DIR_UP].set(m_vecPos.x + (25 * 4), m_vecPos.y - (20 * 4),
                 m_vecPos.x + (75 * 4), m_vecPos.y + (33 * 4));
 
@@ -76,13 +77,7 @@ public class Pad {
     public void Render(Canvas canvas) {
         if(canvas == null)
             return;
-//
-//       Paint paint = new Paint();
-//       paint.setStyle(Paint.Style.STROKE);
-//       paint.setColor(Color.GREEN);
-//
-//       for(int i = 0; i < DIR_END; ++i)
-//           canvas.drawRect(m_rectArrow[i], paint);
+
         canvas.drawBitmap(m_bitmap, m_vecPos.x, m_vecPos.y, null);
     }
 
